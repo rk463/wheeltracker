@@ -1,0 +1,22 @@
+PWA Structure:
+- index.html (single file PWA, all inline CSS+JS)
+- manifest.json (for installability)  
+- sw.js (service worker for offline)
+- icon-192.png + icon-512.png (generated as SVG→canvas)
+
+Design direction: Dark financial terminal aesthetic
+- Deep navy/black backgrounds
+- Gold/amber accents (premium feel)  
+- Monospace numerics with proportional UI text
+- Crisp data tables, smooth transitions
+- Bottom tab navigation (mobile-first)
+
+Tabs:
+1. ➕ Add Trade (form)
+2. 📊 Dashboard (KPIs + charts)
+3. 📈 Covered Calls (filtered view)
+4. 🛡 Cash-Secured Puts (filtered view)  
+5. ⚙ Wheel (filtered view)
+6. ⋮ More (import/export/settings)
+
+Data: localStorage, JSON export/import, Google Drive OAuth

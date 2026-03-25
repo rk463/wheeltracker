@@ -6,1218 +6,861 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="WheelTracker">
-<meta name="theme-color" content="#0a0e1a">
-<title>Wheel Tracker</title>
+<meta name="theme-color" content="#050810">
+<title>WheelTracker</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ── Reset & Tokens ─────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   DESIGN: Glassmorphic Dark Finance
+   Bloomberg Terminal meets iOS 18 spatial design
+═══════════════════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:       #080c18;
-  --bg1:      #0d1220;
-  --bg2:      #121828;
-  --bg3:      #1a2235;
-  --border:   #1e2d45;
-  --border2:  #253550;
-  --gold:     #f5a623;
-  --gold2:    #fbbf24;
-  --gold-dim: #8a6015;
-  --green:    #10b981;
-  --green-bg: #052e1c;
-  --red:      #ef4444;
-  --red-bg:   #2d0b0b;
-  --blue:     #3b82f6;
-  --blue-bg:  #0c1e3e;
-  --purple:   #a78bfa;
-  --purple-bg:#1e1035;
-  --amber:    #f59e0b;
-  --text:     #e2e8f0;
-  --text2:    #94a3b8;
-  --text3:    #4a5568;
-  --font-ui:  'Syne', sans-serif;
-  --font-num: 'DM Mono', monospace;
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bot: env(safe-area-inset-bottom, 0px);
-  --tab-h:    64px;
-  --header-h: 60px;
+  --bg:       #050810;
+  --bg1:      #080c18;
+  --sur:      rgba(255,255,255,0.04);
+  --sur2:     rgba(255,255,255,0.07);
+  --sur3:     rgba(255,255,255,0.10);
+  --gl:       rgba(12,18,35,0.85);
+  --gb:       rgba(255,255,255,0.08);
+  --gb2:      rgba(255,255,255,0.13);
+  --gold:     #F7B731;
+  --gold2:    #F59E0B;
+  --goldglow: rgba(247,183,49,0.15);
+  --golddim:  rgba(247,183,49,0.30);
+  --green:    #00D4AA;
+  --gbg:      rgba(0,212,170,0.08);
+  --gglow:    rgba(0,212,170,0.20);
+  --red:      #FF5C5C;
+  --rbg:      rgba(255,92,92,0.08);
+  --rglow:    rgba(255,92,92,0.20);
+  --blue:     #4D9EFF;
+  --bbg:      rgba(77,158,255,0.08);
+  --purple:   #B97FFF;
+  --pbg:      rgba(185,127,255,0.08);
+  --amber:    #FFB347;
+  --abg:      rgba(255,179,71,0.08);
+  --teal:     #2DD4BF;
+  --tbg:      rgba(45,212,191,0.08);
+  --t1: rgba(255,255,255,0.95);
+  --t2: rgba(255,255,255,0.60);
+  --t3: rgba(255,255,255,0.30);
+  --t4: rgba(255,255,255,0.12);
+  --font:     'Outfit', sans-serif;
+  --mono:     'JetBrains Mono', monospace;
+  --safe-t:   env(safe-area-inset-top,0px);
+  --safe-b:   env(safe-area-inset-bottom,0px);
+  --tab-h:    68px;
+  --hdr-h:    64px;
+  --r:        18px;
+  --r2:       12px;
+  --r3:       8px;
 }
-html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font-ui)}
-input,select,textarea,button{font-family:inherit;color:inherit}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 50% at 15% 8%,rgba(77,158,255,0.055) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 85% 85%,rgba(247,183,49,0.045) 0%,transparent 60%),radial-gradient(ellipse 50% 70% at 55% 25%,rgba(0,212,170,0.03) 0%,transparent 60%);pointer-events:none}
+input,select,button{font-family:inherit;color:inherit}
 button{cursor:pointer;border:none;background:none}
-/* ── Layout Shell ───────────────────────────────────────────────────────── */
-#app{
-  display:flex;flex-direction:column;
-  height:100vh;height:100dvh;
-  padding-top:var(--safe-top);
-}
-#header{
-  height:var(--header-h);flex-shrink:0;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 20px;
-  background:var(--bg1);
-  border-bottom:1px solid var(--border);
-  position:relative;z-index:10;
-}
-#header-title{
-  font-size:18px;font-weight:800;letter-spacing:-0.5px;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-#header-subtitle{font-size:10px;color:var(--text3);font-family:var(--font-num);margin-top:1px}
-#header-actions{display:flex;gap:8px}
-.icon-btn{
-  width:36px;height:36px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--bg2);border:1px solid var(--border);
-  font-size:16px;transition:all .15s;
-}
-.icon-btn:active{transform:scale(.92);background:var(--border)}
 
-#content{
-  flex:1;overflow-y:auto;overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  padding-bottom:calc(var(--tab-h) + var(--safe-bot) + 12px);
-}
-#tab-bar{
-  height:calc(var(--tab-h) + var(--safe-bot));
-  padding-bottom:var(--safe-bot);
-  flex-shrink:0;
-  display:flex;align-items:stretch;
-  background:var(--bg1);
-  border-top:1px solid var(--border);
-  position:relative;z-index:10;
-}
-.tab{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:3px;font-size:9.5px;font-weight:600;letter-spacing:.3px;
-  color:var(--text3);transition:all .2s;
-  padding-top:6px;
-}
-.tab .tab-icon{font-size:20px;line-height:1;transition:transform .2s}
-.tab.active{color:var(--gold)}
-.tab.active .tab-icon{transform:translateY(-2px)}
-/* ── Panels ─────────────────────────────────────────────────────────────── */
-.panel{display:none;padding:16px}
-.panel.active{display:block;animation:fadeIn .2s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-/* ── Section headings ───────────────────────────────────────────────────── */
-.section-head{
-  display:flex;align-items:center;gap:8px;margin-bottom:14px;
-}
-.section-head h2{font-size:15px;font-weight:700;letter-spacing:-.3px}
-.section-tag{
-  font-size:9px;font-family:var(--font-num);font-weight:500;
-  padding:2px 7px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase;
-}
-/* ── Cards ──────────────────────────────────────────────────────────────── */
-.card{
-  background:var(--bg1);border:1px solid var(--border);
-  border-radius:14px;padding:16px;margin-bottom:12px;
-}
-.card-sm{padding:12px}
-/* ── Form ───────────────────────────────────────────────────────────────── */
-.form-group{margin-bottom:14px}
-.form-label{
-  display:block;font-size:10px;font-weight:700;letter-spacing:.8px;
-  text-transform:uppercase;color:var(--text2);margin-bottom:6px;
-}
-.form-input,.form-select{
-  width:100%;padding:12px 14px;
-  background:var(--bg2);border:1px solid var(--border2);
-  border-radius:10px;font-size:14px;color:var(--text);
-  outline:none;transition:border-color .15s;
-  -webkit-appearance:none;appearance:none;
-}
-.form-input:focus,.form-select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,166,35,.1)}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-/* Strategy color themes */
-.strat-cc   {--sc:var(--green);--sb:var(--green-bg)}
-.strat-csp  {--sc:var(--purple);--sb:var(--purple-bg)}
-.strat-wheel{--sc:var(--amber);--sb:#2a1a05}
-/* ── Buttons ────────────────────────────────────────────────────────────── */
-.btn{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  padding:14px 20px;border-radius:12px;
-  font-size:14px;font-weight:700;letter-spacing:.2px;
-  transition:all .15s;width:100%;
-}
+/* ── Layout ─────────────────────────────────────────────────── */
+#app{position:relative;z-index:1;display:flex;flex-direction:column;height:100vh;height:100dvh;padding-top:var(--safe-t)}
+#hdr{height:var(--hdr-h);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--gl);border-bottom:1px solid var(--gb);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;z-index:20}
+.hdr-logo{display:flex;align-items:center;gap:10px}
+.hdr-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(247,183,49,0.18),rgba(247,183,49,0.04));border:1px solid var(--golddim);display:flex;align-items:center;justify-content:center;font-size:18px}
+.hdr-name{font-size:17px;font-weight:800;letter-spacing:-0.3px;background:linear-gradient(135deg,#fff 0%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hdr-sub{font-size:8px;color:var(--t3);font-family:var(--mono);letter-spacing:1.2px;text-transform:uppercase;margin-top:1px}
+.hdr-btns{display:flex;gap:8px}
+.hbtn{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--sur);border:1px solid var(--gb2);font-size:18px;transition:all .15s;color:var(--t1)}
+.hbtn:active{transform:scale(.9);background:var(--sur3)}
+#content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--tab-h) + var(--safe-b) + 16px)}
+#tabbar{height:calc(var(--tab-h) + var(--safe-b));padding-bottom:var(--safe-b);flex-shrink:0;display:flex;align-items:stretch;background:var(--gl);border-top:1px solid var(--gb);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;z-index:20}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding-top:8px;font-size:10px;font-weight:600;letter-spacing:.2px;color:var(--t3);transition:color .2s;position:relative}
+.tab-ico{font-size:22px;line-height:1;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.tab.on{color:var(--gold)}
+.tab.on .tab-ico{transform:translateY(-3px) scale(1.1)}
+.tab.on::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:24px;height:2.5px;border-radius:2px;background:var(--gold);box-shadow:0 0 10px var(--gold2)}
+
+/* ── Panels ─────────────────────────────────────────────────── */
+.panel{display:none;padding:16px 16px 0;animation:panelIn .25s cubic-bezier(.16,1,.3,1)}
+.panel.on{display:block}
+@keyframes panelIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Cards ──────────────────────────────────────────────────── */
+.card{background:var(--sur);border:1px solid var(--gb);border-radius:var(--r);padding:18px;margin-bottom:12px;position:relative;overflow:hidden;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.card::before{content:'';position:absolute;inset:0;border-radius:var(--r);background:linear-gradient(135deg,rgba(255,255,255,0.025) 0%,transparent 60%);pointer-events:none}
+.card-sm{padding:14px}
+.card-flush{padding:0;overflow:hidden}
+
+/* ── Section header ─────────────────────────────────────────── */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sh-title{font-size:15px;font-weight:700;letter-spacing:-0.2px}
+.badge{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:3px 9px;border-radius:20px}
+
+/* ── Hero card ──────────────────────────────────────────────── */
+.hero{border-radius:var(--r);padding:22px 20px 20px;margin-bottom:12px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(247,183,49,0.10) 0%,rgba(247,183,49,0.02) 100%);border:1px solid rgba(247,183,49,0.16);border-radius:var(--r)}
+.hero-lbl{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t2);margin-bottom:8px;position:relative}
+.hero-val{font-family:var(--mono);font-size:38px;font-weight:600;letter-spacing:-1px;line-height:1;position:relative}
+.hero-val.pos{color:var(--green);text-shadow:0 0 32px var(--gglow)}
+.hero-val.neg{color:var(--red);text-shadow:0 0 32px var(--rglow)}
+.hero-val.neu{color:var(--gold);text-shadow:0 0 32px var(--goldglow)}
+.hero-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;position:relative}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px}
+.chip-g{background:var(--gbg);color:var(--green);border:1px solid rgba(0,212,170,0.2)}
+.chip-r{background:var(--rbg);color:var(--red);border:1px solid rgba(255,92,92,0.2)}
+.chip-a{background:var(--abg);color:var(--amber);border:1px solid rgba(255,179,71,0.2)}
+.chip-t{background:var(--tbg);color:var(--teal);border:1px solid rgba(45,212,191,0.2)}
+
+/* ── KPI Grid ───────────────────────────────────────────────── */
+.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.kgrid4{grid-template-columns:1fr 1fr 1fr 1fr}
+.kpi{background:var(--sur);border:1px solid var(--gb);border-radius:var(--r2);padding:14px 13px;position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;background:var(--kc,var(--gold));box-shadow:0 0 10px var(--kc,var(--gold))}
+.kpi-lbl{font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);margin-bottom:7px}
+.kpi-val{font-family:var(--mono);font-size:19px;font-weight:500;color:var(--kc,var(--gold));line-height:1}
+.kpi-sub{font-size:9.5px;color:var(--t3);margin-top:5px;font-family:var(--mono)}
+.kg{--kc:var(--green)}.kr{--kc:var(--red)}.kb{--kc:var(--blue)}.kp{--kc:var(--purple)}.ka{--kc:var(--amber)}.kt{--kc:var(--teal)}
+
+/* ── Bar chart ──────────────────────────────────────────────── */
+.bars{display:flex;align-items:flex-end;gap:5px;height:72px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px}
+.bar-fill{width:100%;border-radius:5px 5px 0 0;min-height:3px;transition:height .5s cubic-bezier(.34,1.2,.64,1)}
+.bar-fill.pos{background:linear-gradient(180deg,var(--green) 0%,rgba(0,212,170,.35) 100%)}
+.bar-fill.neg{background:linear-gradient(180deg,var(--red) 0%,rgba(255,92,92,.35) 100%)}
+.bar-fill.z{background:var(--t4)}
+.bar-lbl{font-size:8.5px;color:var(--t3);font-family:var(--mono)}
+
+/* ── Data table ─────────────────────────────────────────────── */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{text-align:left;padding:8px 10px 6px;font-size:8.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--gb)}
+.tbl th:not(:first-child){text-align:right}
+.tbl td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.03);font-size:12px;font-family:var(--mono)}
+.tbl td:first-child{font-family:var(--font);font-weight:600;font-size:13px;color:var(--t1)}
+.tbl td:not(:first-child){text-align:right;color:var(--t2)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl .tot td{font-weight:700;color:var(--gold)!important;border-top:1px solid var(--gb2);background:rgba(247,183,49,0.04);padding-top:12px}
+.tbl .cy td{color:var(--green)!important;font-weight:700}
+.pos-c{color:var(--green)!important}
+.neg-c{color:var(--red)!important}
+.roi-c{color:var(--teal)!important}
+.inv-c{color:var(--blue)!important}
+
+/* ── Trade row ──────────────────────────────────────────────── */
+.trow{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;transition:background .12s}
+.trow:last-child{border-bottom:none}
+.trow:active{background:var(--sur3)}
+.tbadge{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.tmain{flex:1;min-width:0}
+.tticker{font-size:15px;font-weight:700;letter-spacing:.2px}
+.tstrat{font-size:10.5px;color:var(--t3);margin-top:2px;font-weight:500}
+.tmeta{font-size:10px;color:var(--t3);margin-top:2px;font-family:var(--mono)}
+.tright{text-align:right;flex-shrink:0}
+.tpnl{font-family:var(--mono);font-size:15px;font-weight:600}
+.troi{font-size:10px;font-family:var(--mono);margin-top:3px}
+
+/* Ticker badges */
+.tk-AAPL{background:linear-gradient(135deg,rgba(52,211,153,.15),rgba(52,211,153,.04));border:1px solid rgba(52,211,153,.2)}
+.tk-NVDA{background:linear-gradient(135deg,rgba(129,140,248,.15),rgba(129,140,248,.04));border:1px solid rgba(129,140,248,.2)}
+.tk-TSLA{background:linear-gradient(135deg,rgba(248,113,113,.15),rgba(248,113,113,.04));border:1px solid rgba(248,113,113,.2)}
+.tk-AMZN{background:linear-gradient(135deg,rgba(45,212,191,.15),rgba(45,212,191,.04));border:1px solid rgba(45,212,191,.2)}
+.tk-MSFT{background:linear-gradient(135deg,rgba(96,165,250,.15),rgba(96,165,250,.04));border:1px solid rgba(96,165,250,.2)}
+.tk-SPY{background:linear-gradient(135deg,rgba(192,132,252,.15),rgba(192,132,252,.04));border:1px solid rgba(192,132,252,.2)}
+.tk-QQQ{background:linear-gradient(135deg,rgba(251,146,60,.15),rgba(251,146,60,.04));border:1px solid rgba(251,146,60,.2)}
+.tk-def{background:var(--sur);border:1px solid var(--gb)}
+
+/* ── Pills ──────────────────────────────────────────────────── */
+.pill{display:inline-block;font-size:8.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2.5px 8px;border-radius:20px}
+.p-g{background:var(--gbg);color:var(--green);border:1px solid rgba(0,212,170,.25)}
+.p-r{background:var(--rbg);color:var(--red);border:1px solid rgba(255,92,92,.25)}
+.p-a{background:var(--abg);color:var(--amber);border:1px solid rgba(255,179,71,.25)}
+.p-b{background:var(--bbg);color:var(--blue);border:1px solid rgba(77,158,255,.25)}
+.p-p{background:var(--pbg);color:var(--purple);border:1px solid rgba(185,127,255,.25)}
+
+/* ── Form ───────────────────────────────────────────────────── */
+.fg{margin-bottom:14px}
+.fl{display:block;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t2);margin-bottom:7px}
+.fi,.fs{width:100%;padding:13px 15px;background:rgba(255,255,255,0.05);border:1px solid var(--gb2);border-radius:var(--r2);font-size:15px;color:var(--t1);outline:none;transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
+.fi::placeholder{color:var(--t3)}
+.fi:focus,.fs:focus{border-color:rgba(247,183,49,.5);box-shadow:0 0 0 3px rgba(247,183,49,.08);background:rgba(255,255,255,.07)}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sw{position:relative}
+.sw::after{content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none;font-size:13px}
+.sw .fs{padding-right:36px}
+
+/* ── Buttons ────────────────────────────────────────────────── */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:15px 20px;border-radius:var(--r2);font-size:15px;font-weight:700;transition:all .15s;width:100%}
 .btn:active{transform:scale(.97)}
-.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000}
-.btn-outline{background:transparent;border:1px solid var(--border2);color:var(--text2)}
-.btn-danger{background:var(--red-bg);border:1px solid var(--red);color:var(--red)}
-.btn-green{background:var(--green-bg);border:1px solid var(--green);color:var(--green)}
-/* ── KPI Grid ───────────────────────────────────────────────────────────── */
-.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.kpi-card{
-  background:var(--bg1);border:1px solid var(--border);
-  border-radius:14px;padding:14px 14px 12px;
-  position:relative;overflow:hidden;
-}
-.kpi-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:var(--kc,var(--gold));
-}
-.kpi-label{font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
-.kpi-value{font-family:var(--font-num);font-size:22px;font-weight:500;color:var(--kc,var(--gold));line-height:1}
-.kpi-sub{font-size:9px;color:var(--text3);margin-top:4px;font-family:var(--font-num)}
-.kpi-pos{--kc:var(--green)}
-.kpi-neg{--kc:var(--red)}
-.kpi-blue{--kc:var(--blue)}
-.kpi-purple{--kc:var(--purple)}
-.kpi-amber{--kc:var(--amber)}
-/* ── Trade rows ─────────────────────────────────────────────────────────── */
-.trade-row{
-  background:var(--bg1);border:1px solid var(--border);
-  border-radius:12px;padding:12px 14px;margin-bottom:8px;
-  display:flex;align-items:center;gap:12px;
-  transition:border-color .15s;
-}
-.trade-row:active{border-color:var(--border2)}
-.trade-badge{
-  width:38px;height:38px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;flex-shrink:0;
-}
-.trade-main{flex:1;min-width:0}
-.trade-ticker{font-size:14px;font-weight:700;letter-spacing:.3px}
-.trade-meta{font-size:11px;color:var(--text2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.trade-right{text-align:right;flex-shrink:0}
-.trade-pnl{font-family:var(--font-num);font-size:14px;font-weight:500}
-.trade-status{font-size:9px;font-weight:700;letter-spacing:.5px;margin-top:3px;text-transform:uppercase}
-.pnl-pos{color:var(--green)}
-.pnl-neg{color:var(--red)}
-.pnl-open{color:var(--amber)}
-/* Status pills */
-.pill{
-  display:inline-block;font-size:8.5px;font-weight:700;
-  letter-spacing:.6px;text-transform:uppercase;
-  padding:2px 7px;border-radius:20px;
-}
-.pill-green{background:var(--green-bg);color:var(--green);border:1px solid var(--green)}
-.pill-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red)}
-.pill-amber{background:#2a1a05;color:var(--amber);border:1px solid var(--amber)}
-.pill-blue{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue)}
-.pill-purple{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple)}
-/* ── Monthly table ──────────────────────────────────────────────────────── */
-.month-table{width:100%;border-collapse:collapse;font-size:11px}
-.month-table th{
-  text-align:left;padding:6px 8px;
-  font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
-  color:var(--text3);border-bottom:1px solid var(--border);
-}
-.month-table th:not(:first-child){text-align:right}
-.month-table td{
-  padding:9px 8px;border-bottom:1px solid var(--border);
-  font-family:var(--font-num);
-}
-.month-table td:not(:first-child){text-align:right}
-.month-table td:first-child{font-family:var(--font-ui);font-weight:600;font-size:12px;color:var(--text)}
-.month-table tr:last-child td{border-bottom:none}
-.month-table .total-row td{font-weight:700;color:var(--gold);border-top:2px solid var(--border2);background:var(--bg2)}
-/* ── Chart bar ──────────────────────────────────────────────────────────── */
-.mini-chart{display:flex;align-items:flex-end;gap:4px;height:60px;padding:0 4px}
-.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
-.bar{width:100%;border-radius:4px 4px 0 0;min-height:2px;transition:height .4s ease}
-.bar-label{font-size:8px;color:var(--text3);font-family:var(--font-num);white-space:nowrap}
-/* ── Empty state ────────────────────────────────────────────────────────── */
-.empty{
-  text-align:center;padding:48px 24px;
-}
-.empty-icon{font-size:48px;margin-bottom:12px;opacity:.4}
-.empty-title{font-size:14px;font-weight:700;color:var(--text2);margin-bottom:6px}
-.empty-sub{font-size:12px;color:var(--text3);line-height:1.5}
-/* ── Modal / Sheet ──────────────────────────────────────────────────────── */
-#modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;
-  display:none;align-items:flex-end;justify-content:center;
-  backdrop-filter:blur(4px);
-}
-#modal-overlay.open{display:flex}
-#modal{
-  width:100%;max-height:90vh;overflow-y:auto;
-  background:var(--bg1);border-radius:24px 24px 0 0;
-  padding:24px 20px;padding-bottom:calc(24px + var(--safe-bot));
-  animation:slideUp .3s cubic-bezier(.16,1,.3,1);
-}
+.btn-p{background:linear-gradient(135deg,var(--gold) 0%,#F09820 100%);color:#0a0a0a;box-shadow:0 4px 20px rgba(247,183,49,.25)}
+.btn-g{background:var(--sur);border:1px solid var(--gb2);color:var(--t2)}
+.btn-d{background:var(--rbg);border:1px solid rgba(255,92,92,.3);color:var(--red)}
+.btn-s{background:var(--gbg);border:1px solid rgba(0,212,170,.3);color:var(--green)}
+.btn-sm{padding:10px 16px;font-size:13px;border-radius:var(--r3)}
+.div-lbl{display:flex;align-items:center;gap:10px;margin:16px 0;font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--t3)}
+.div-lbl::before,.div-lbl::after{content:'';flex:1;height:1px;background:var(--gb)}
+
+/* ── Modal ──────────────────────────────────────────────────── */
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:100;display:none;align-items:flex-end}
+#ov.on{display:flex}
+#modal{width:100%;max-height:92vh;overflow-y:auto;background:#0d1424;border:1px solid var(--gb2);border-bottom:none;border-radius:24px 24px 0 0;padding:8px 20px 24px;padding-bottom:calc(24px + var(--safe-b));animation:slideUp .32s cubic-bezier(.16,1,.3,1)}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.modal-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 20px}
-.modal-title{font-size:18px;font-weight:800;margin-bottom:20px}
-/* ── Toast ──────────────────────────────────────────────────────────────── */
-#toast{
-  position:fixed;top:calc(var(--safe-top) + var(--header-h) + 12px);
-  left:16px;right:16px;z-index:200;
-  background:var(--bg3);border:1px solid var(--border2);
-  border-radius:12px;padding:12px 16px;
-  font-size:13px;font-weight:600;
-  display:none;align-items:center;gap:8px;
-  box-shadow:0 8px 32px rgba(0,0,0,.6);
-  animation:toastIn .3s cubic-bezier(.16,1,.3,1);
-}
-#toast.show{display:flex}
+.mpip{width:36px;height:4px;border-radius:2px;background:var(--gb2);margin:12px auto 20px}
+.mt{font-size:20px;font-weight:800;margin-bottom:4px}
+.ms{font-size:12px;color:var(--t3);margin-bottom:20px}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.di{background:var(--sur);border:1px solid var(--gb);border-radius:var(--r3);padding:10px 12px}
+.dl{font-size:8.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+.dv{font-family:var(--mono);font-size:14px;color:var(--t1)}
+
+/* ── Toast ──────────────────────────────────────────────────── */
+#toast{position:fixed;top:calc(var(--safe-t) + var(--hdr-h) + 12px);left:16px;right:16px;z-index:300;background:rgba(13,20,36,.96);border:1px solid var(--gb2);border-radius:var(--r2);padding:13px 16px;font-size:13.5px;font-weight:600;display:none;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,.5);backdrop-filter:blur(20px)}
+#toast.on{display:flex;animation:toastIn .3s cubic-bezier(.16,1,.3,1)}
 @keyframes toastIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-/* ── Divider ────────────────────────────────────────────────────────────── */
-.divider{height:1px;background:var(--border);margin:16px 0}
-/* ── Install banner ─────────────────────────────────────────────────────── */
-#install-banner{
-  margin:0 16px 12px;padding:12px 16px;
-  background:linear-gradient(135deg,#1a1200,#251a00);
-  border:1px solid var(--gold-dim);border-radius:14px;
-  display:flex;align-items:center;gap:12px;
-}
-#install-banner.hidden{display:none}
-.install-text{flex:1;font-size:12px;line-height:1.5;color:var(--text2)}
-.install-text strong{color:var(--gold);display:block;font-size:13px;margin-bottom:2px}
-/* ── Scrollbar ──────────────────────────────────────────────────────────── */
-::-webkit-scrollbar{width:3px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-/* ── Select arrow ───────────────────────────────────────────────────────── */
-.select-wrap{position:relative}
-.select-wrap::after{
-  content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);
-  color:var(--text2);pointer-events:none;font-size:12px;
-}
-.select-wrap .form-select{padding-right:32px}
-/* ── Trade detail ───────────────────────────────────────────────────────── */
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.detail-item{background:var(--bg2);border-radius:10px;padding:10px 12px}
-.detail-item-label{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);margin-bottom:4px}
-.detail-item-value{font-family:var(--font-num);font-size:13px;color:var(--text)}
-/* ── Settings row ───────────────────────────────────────────────────────── */
-.settings-row{
-  display:flex;align-items:center;padding:14px 0;
-  border-bottom:1px solid var(--border);gap:12px;
-}
-.settings-row:last-child{border-bottom:none}
-.settings-icon{font-size:20px;width:36px;text-align:center}
-.settings-info{flex:1}
-.settings-title{font-size:14px;font-weight:600}
-.settings-sub{font-size:11px;color:var(--text3);margin-top:2px}
-.settings-action{color:var(--text3);font-size:16px}
-/* ── Ticker badge colors ─────────────────────────────────────────────────── */
-.ticker-AAPL{background:#1a2a1a;color:#4ade80}
-.ticker-NVDA{background:#1a1a2a;color:#818cf8}
-.ticker-TSLA{background:#2a1a1a;color:#f87171}
-.ticker-AMZN{background:#1a2020;color:#34d399}
-.ticker-MSFT{background:#1a1a2a;color:#60a5fa}
-.ticker-SPY{background:#1a1520;color:#c084fc}
-.ticker-QQQ{background:#201510;color:#fb923c}
-.ticker-default{background:var(--bg3);color:var(--text2)}
+
+/* ── Install bar ────────────────────────────────────────────── */
+#ibar{margin:0 16px 10px;padding:12px 16px;background:linear-gradient(135deg,rgba(247,183,49,.08),rgba(247,183,49,.02));border:1px solid var(--golddim);border-radius:var(--r2);display:flex;align-items:center;gap:12px}
+#ibar.h{display:none}
+.ib-t{flex:1}
+.ib-t strong{display:block;font-size:13px;color:var(--gold);margin-bottom:2px}
+.ib-t span{font-size:11px;color:var(--t2);line-height:1.4}
+
+/* ── Settings rows ──────────────────────────────────────────── */
+.sr{display:flex;align-items:center;padding:15px 0;border-bottom:1px solid var(--gb);gap:14px}
+.sr:last-child{border-bottom:none}
+.si{font-size:22px;width:38px;text-align:center}
+.sinfo{flex:1}
+.st{font-size:14px;font-weight:600}
+.ss{font-size:11px;color:var(--t3);margin-top:2px}
+
+/* ── Empty state ────────────────────────────────────────────── */
+.empty{text-align:center;padding:52px 24px}
+.ei{font-size:52px;margin-bottom:14px;opacity:.3;filter:grayscale(1)}
+.et{font-size:15px;font-weight:700;color:var(--t2);margin-bottom:6px}
+.es{font-size:12px;color:var(--t3);line-height:1.6}
+
+/* ── Progress ───────────────────────────────────────────────── */
+.pgbar{height:4px;border-radius:2px;background:var(--gb);margin-top:8px;overflow:hidden}
+.pgfill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--green),var(--teal));transition:width .6s cubic-bezier(.34,1.2,.64,1)}
+
+/* ── Stagger ────────────────────────────────────────────────── */
+.sg>*{animation:sgIn .3s both}
+.sg>*:nth-child(1){animation-delay:.04s}.sg>*:nth-child(2){animation-delay:.08s}
+.sg>*:nth-child(3){animation-delay:.12s}.sg>*:nth-child(4){animation-delay:.16s}
+.sg>*:nth-child(5){animation-delay:.20s}.sg>*:nth-child(6){animation-delay:.24s}
+@keyframes sgIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+::-webkit-scrollbar{width:2px}
+::-webkit-scrollbar-thumb{background:var(--gb2);border-radius:1px}
 </style>
 </head>
 <body>
 <div id="app">
-  <!-- Header -->
-  <div id="header">
-    <div>
-      <div id="header-title">⚙ WheelTracker</div>
-      <div id="header-subtitle">OPTIONS INCOME TRACKER</div>
+
+  <div id="hdr">
+    <div class="hdr-logo">
+      <div class="hdr-icon">⚙</div>
+      <div>
+        <div class="hdr-name">WheelTracker</div>
+        <div class="hdr-sub">Options Income</div>
+      </div>
     </div>
-    <div id="header-actions">
-      <button class="icon-btn" onclick="openAddTrade()" title="Add Trade">＋</button>
-      <button class="icon-btn" onclick="showTab('settings')" title="Settings">⋮</button>
+    <div class="hdr-btns">
+      <button class="hbtn" onclick="goAdd()">＋</button>
+      <button class="hbtn" onclick="nav('settings')">≡</button>
     </div>
   </div>
 
-  <!-- Install Banner -->
-  <div id="install-banner" class="hidden">
-    <div style="font-size:24px">📲</div>
-    <div class="install-text">
-      <strong>Add to Home Screen</strong>
-      Tap Share → "Add to Home Screen" for app experience
-    </div>
-    <button class="icon-btn" onclick="dismissInstall()" style="flex-shrink:0">✕</button>
+  <div id="ibar" class="h">
+    <div style="font-size:26px">📲</div>
+    <div class="ib-t"><strong>Add to Home Screen</strong><span>Safari → Share → "Add to Home Screen"</span></div>
+    <button class="hbtn" onclick="dismissInstall()" style="width:32px;height:32px;font-size:14px;flex-shrink:0">✕</button>
   </div>
 
-  <!-- Toast -->
   <div id="toast"></div>
 
-  <!-- Content -->
   <div id="content">
+
     <!-- DASHBOARD -->
-    <div id="panel-dashboard" class="panel active">
-      <div id="dashboard-content"></div>
-    </div>
+    <div id="p-dashboard" class="panel on"><div id="db"></div></div>
 
     <!-- ADD TRADE -->
-    <div id="panel-add" class="panel">
-      <div class="section-head">
-        <h2>New Trade</h2>
-        <span class="section-tag" style="background:var(--bg2);color:var(--gold)">ENTRY</span>
-      </div>
+    <div id="p-add" class="panel">
+      <div class="sh"><span class="sh-title">Log a Trade</span><span class="badge" style="background:var(--goldglow);color:var(--gold);border:1px solid var(--golddim)">NEW</span></div>
       <div class="card">
-        <div class="form-group">
-          <label class="form-label">Strategy Type</label>
-          <div class="select-wrap">
-            <select class="form-select" id="f-strategy" onchange="onStrategyChange()">
-              <option value="">Select strategy...</option>
-              <option value="Covered Call">📈 Covered Call</option>
-              <option value="Cash-Secured Put">🛡 Cash-Secured Put</option>
-              <option value="Wheel - CSP Phase">⚙ Wheel — CSP Phase</option>
-              <option value="Wheel - CC Phase">⚙ Wheel — CC Phase</option>
-              <option value="Wheel - Assigned">⚙ Wheel — Assigned</option>
-            </select>
+        <div class="fg">
+          <label class="fl">Strategy</label>
+          <div class="sw"><select class="fs" id="f-strat" onchange="onSC()">
+            <option value="">Choose strategy…</option>
+            <option value="Covered Call">📈  Covered Call</option>
+            <option value="Cash-Secured Put">🛡  Cash-Secured Put</option>
+            <option value="Wheel - CSP Phase">⚙  Wheel — CSP Phase</option>
+            <option value="Wheel - CC Phase">⚙  Wheel — CC Phase</option>
+            <option value="Wheel - Assigned">⚙  Wheel — Assigned</option>
+          </select></div>
+        </div>
+        <div class="fr">
+          <div class="fg"><label class="fl">Ticker</label><input class="fi" id="f-ticker" placeholder="AAPL" oninput="this.value=this.value.toUpperCase()"></div>
+          <div class="fg"><label class="fl">Trade Date</label><input class="fi" type="date" id="f-date"></div>
+        </div>
+        <div class="fr">
+          <div class="fg"><label class="fl">Strike ($)</label><input class="fi" type="number" id="f-strike" placeholder="190.00" step="0.50"></div>
+          <div class="fg"><label class="fl">Premium ($)</label><input class="fi" type="number" id="f-prem" placeholder="2.80" step="0.01"></div>
+        </div>
+        <div class="fr">
+          <div class="fg"><label class="fl">Contracts</label><input class="fi" type="number" id="f-contracts" value="1" min="1"></div>
+          <div class="fg">
+            <label class="fl">Amount Invested ($) <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">auto if blank</span></label>
+            <input class="fi" type="number" id="f-invested" placeholder="Auto-calc" step="0.01">
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Ticker</label>
-            <input class="form-input" id="f-ticker" placeholder="AAPL" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Trade Date</label>
-            <input class="form-input" type="date" id="f-date">
-          </div>
+        <div class="fg"><label class="fl">Expiration Date</label><input class="fi" type="date" id="f-expdate"></div>
+        <div id="g-cb" class="fg" style="display:none"><label class="fl">Cost Basis / Share ($)</label><input class="fi" type="number" id="f-cb" placeholder="175.00" step="0.01"></div>
+        <div class="div-lbl">Close Info <span style="color:var(--t4);font-weight:400;text-transform:none;letter-spacing:0">optional</span></div>
+        <div class="fr">
+          <div class="fg"><label class="fl">Close Date</label><input class="fi" type="date" id="f-cd"></div>
+          <div class="fg"><label class="fl">Close Premium ($)</label><input class="fi" type="number" id="f-cp" placeholder="0.00" step="0.01"></div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Strike ($)</label>
-            <input class="form-input" type="number" id="f-strike" placeholder="190.00" step="0.50">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Premium ($)</label>
-            <input class="form-input" type="number" id="f-premium" placeholder="2.80" step="0.01">
-          </div>
+        <div class="fg">
+          <label class="fl">Status</label>
+          <div class="sw"><select class="fs" id="f-status">
+            <option value="Open">🟡  Open</option>
+            <option value="Closed - Expired">🟢  Closed — Expired Worthless</option>
+            <option value="Closed - Called Away">🟢  Closed — Called Away</option>
+            <option value="Closed - Bought Back">🟢  Closed — Bought Back</option>
+            <option value="Assigned">🔴  Assigned</option>
+            <option value="Rolled">🔵  Rolled</option>
+          </select></div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Contracts</label>
-            <input class="form-input" type="number" id="f-contracts" placeholder="1" min="1" value="1">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Expiration Date</label>
-            <input class="form-input" type="date" id="f-expdate">
-          </div>
-        </div>
-        <div id="costbasis-group" class="form-group" style="display:none">
-          <label class="form-label">Cost Basis / Share ($)</label>
-          <input class="form-input" type="number" id="f-costbasis" placeholder="175.00" step="0.01">
-        </div>
-        <div class="divider"></div>
-        <div class="section-head" style="margin-bottom:10px">
-          <h2 style="font-size:13px;color:var(--text2)">Close Info</h2>
-          <span class="section-tag" style="background:var(--bg3);color:var(--text3)">OPTIONAL</span>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Close Date</label>
-            <input class="form-input" type="date" id="f-closedate">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Close Premium ($)</label>
-            <input class="form-input" type="number" id="f-closeprem" placeholder="0.00" step="0.01">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Status</label>
-          <div class="select-wrap">
-            <select class="form-select" id="f-status">
-              <option value="Open">🟡 Open</option>
-              <option value="Closed - Expired">🟢 Closed — Expired Worthless</option>
-              <option value="Closed - Called Away">🟢 Closed — Called Away</option>
-              <option value="Closed - Bought Back">🟢 Closed — Bought Back</option>
-              <option value="Assigned">🔴 Assigned</option>
-              <option value="Rolled">🔵 Rolled</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Notes</label>
-          <input class="form-input" id="f-notes" placeholder="Optional notes...">
-        </div>
-        <button class="btn btn-gold" onclick="saveTrade()" style="margin-top:4px">
-          <span>＋</span> Add Trade
-        </button>
+        <div class="fg"><label class="fl">Notes</label><input class="fi" id="f-notes" placeholder="Optional…"></div>
+        <button class="btn btn-p" onclick="saveTrade()" style="margin-top:4px">＋ &nbsp;Save Trade</button>
       </div>
     </div>
 
     <!-- COVERED CALLS -->
-    <div id="panel-cc" class="panel">
-      <div class="section-head">
-        <h2>Covered Calls</h2>
-        <span class="section-tag" style="background:var(--green-bg);color:var(--green)">AUTO</span>
-      </div>
-      <div id="cc-summary" class="kpi-grid" style="margin-bottom:12px"></div>
-      <div id="cc-list"></div>
+    <div id="p-cc" class="panel">
+      <div class="sh"><span class="sh-title">Covered Calls</span><span class="badge" style="background:var(--gbg);color:var(--green);border:1px solid rgba(0,212,170,.2)">AUTO</span></div>
+      <div id="cc-kpis" class="kgrid"></div>
+      <div class="card card-flush" id="cc-list"></div>
     </div>
 
     <!-- CASH-SECURED PUTS -->
-    <div id="panel-csp" class="panel">
-      <div class="section-head">
-        <h2>Cash-Secured Puts</h2>
-        <span class="section-tag" style="background:var(--purple-bg);color:var(--purple)">AUTO</span>
-      </div>
-      <div id="csp-summary" class="kpi-grid" style="margin-bottom:12px"></div>
-      <div id="csp-list"></div>
+    <div id="p-csp" class="panel">
+      <div class="sh"><span class="sh-title">Cash-Secured Puts</span><span class="badge" style="background:var(--pbg);color:var(--purple);border:1px solid rgba(185,127,255,.2)">AUTO</span></div>
+      <div id="csp-kpis" class="kgrid"></div>
+      <div class="card card-flush" id="csp-list"></div>
     </div>
 
     <!-- WHEEL -->
-    <div id="panel-wheel" class="panel">
-      <div class="section-head">
-        <h2>Wheel Strategy</h2>
-        <span class="section-tag" style="background:#2a1a05;color:var(--amber)">AUTO</span>
-      </div>
-      <div id="wheel-summary" class="kpi-grid" style="margin-bottom:12px"></div>
-      <div id="wheel-list"></div>
+    <div id="p-wheel" class="panel">
+      <div class="sh"><span class="sh-title">Wheel Strategy</span><span class="badge" style="background:var(--abg);color:var(--amber);border:1px solid rgba(255,179,71,.2)">AUTO</span></div>
+      <div id="wh-kpis" class="kgrid"></div>
+      <div class="card card-flush" id="wh-list"></div>
     </div>
 
     <!-- SETTINGS -->
-    <div id="panel-settings" class="panel">
-      <div class="section-head"><h2>Settings & Data</h2></div>
-
+    <div id="p-settings" class="panel">
+      <div class="sh"><span class="sh-title">Settings & Data</span></div>
       <div class="card">
-        <div class="section-head" style="margin-bottom:8px">
-          <h2 style="font-size:13px">Export Data</h2>
-        </div>
+        <div class="sh" style="margin-bottom:10px"><span class="sh-title" style="font-size:13px">Export</span></div>
         <div style="display:flex;flex-direction:column;gap:8px">
-          <button class="btn btn-green" onclick="exportJSON()">📤 Export as JSON (Full Backup)</button>
-          <button class="btn btn-outline" onclick="exportCSV()">📊 Export as CSV (Spreadsheet)</button>
+          <button class="btn btn-s btn-sm" onclick="exportJSON()">📤  Export JSON — Full Backup</button>
+          <button class="btn btn-g btn-sm" onclick="exportCSV()">📊  Export CSV — Spreadsheet</button>
         </div>
       </div>
-
       <div class="card">
-        <div class="section-head" style="margin-bottom:8px">
-          <h2 style="font-size:13px">Import Data</h2>
-        </div>
-        <p style="font-size:12px;color:var(--text3);margin-bottom:12px;line-height:1.6">
-          Import a previously exported JSON backup. This will <strong style="color:var(--amber)">merge</strong> with existing trades (no duplicates).
-        </p>
-        <label class="btn btn-outline" style="cursor:pointer">
-          📥 Import JSON Backup
-          <input type="file" accept=".json" id="import-file" style="display:none" onchange="importJSON(this)">
-        </label>
+        <div class="sh" style="margin-bottom:8px"><span class="sh-title" style="font-size:13px">Import</span></div>
+        <p style="font-size:12px;color:var(--t3);margin-bottom:12px;line-height:1.7">Restore from a JSON backup. Merges with existing trades — no duplicates.</p>
+        <label class="btn btn-g btn-sm" style="cursor:pointer">📥  Import JSON Backup<input type="file" accept=".json" id="f-import" style="display:none" onchange="importJSON(this)"></label>
       </div>
-
       <div class="card">
-        <div class="section-head" style="margin-bottom:8px">
-          <h2 style="font-size:13px">Prior Year Data</h2>
-        </div>
-        <p style="font-size:12px;color:var(--text3);margin-bottom:12px;line-height:1.6">
-          Enter totals from previous years for year-over-year tracking.
-        </p>
-        <div id="prior-years"></div>
-        <button class="btn btn-outline" onclick="addPriorYear()" style="margin-top:8px">＋ Add Year</button>
+        <div class="sh" style="margin-bottom:8px"><span class="sh-title" style="font-size:13px">Prior Year Totals</span></div>
+        <p style="font-size:12px;color:var(--t3);margin-bottom:12px;line-height:1.7">Add previous year P&L + capital for year-over-year ROI comparison.</p>
+        <div id="prior-rows"></div>
+        <button class="btn btn-g btn-sm" onclick="addPrior()" style="margin-top:8px">＋  Add Year</button>
       </div>
-
       <div class="card">
-        <div class="settings-row">
-          <div class="settings-icon">📲</div>
-          <div class="settings-info">
-            <div class="settings-title">Install as App</div>
-            <div class="settings-sub">Tap Share → Add to Home Screen in Safari</div>
-          </div>
-          <div class="settings-action">›</div>
-        </div>
-        <div class="settings-row">
-          <div class="settings-icon">☁️</div>
-          <div class="settings-info">
-            <div class="settings-title">iCloud / Google Drive</div>
-            <div class="settings-sub">Export JSON → save to Drive → import on any device</div>
-          </div>
-          <div class="settings-action">›</div>
-        </div>
-        <div class="settings-row">
-          <div class="settings-icon">🔒</div>
-          <div class="settings-info">
-            <div class="settings-title">Privacy</div>
-            <div class="settings-sub">All data stored locally on your device only</div>
-          </div>
-        </div>
+        <div class="sr"><div class="si">📲</div><div class="sinfo"><div class="st">Install as App</div><div class="ss">Safari → Share → Add to Home Screen</div></div><div style="color:var(--t3)">›</div></div>
+        <div class="sr"><div class="si">☁️</div><div class="sinfo"><div class="st">Cloud Sync</div><div class="ss">Export JSON → iCloud Drive / Google Drive</div></div><div style="color:var(--t3)">›</div></div>
+        <div class="sr"><div class="si">🔒</div><div class="sinfo"><div class="st">Privacy</div><div class="ss">All data stored locally on your device only</div></div></div>
       </div>
+      <div class="card"><button class="btn btn-d btn-sm" onclick="confirmClear()">🗑  Clear All Trades</button></div>
+      <div style="text-align:center;padding:16px 0 4px;font-size:11px;color:var(--t3);font-family:var(--mono)">WheelTracker v2.0 · localStorage</div>
+    </div>
 
-      <div class="card">
-        <button class="btn btn-danger" onclick="confirmClear()">🗑 Clear All Trades</button>
-      </div>
+  </div><!-- /content -->
 
-      <div style="text-align:center;padding:20px 0;font-size:11px;color:var(--text3)">
-        WheelTracker PWA · v1.0<br>
-        Data stored in browser localStorage
-      </div>
-    </div>
-  </div>
-
-  <!-- Tab Bar -->
-  <div id="tab-bar">
-    <div class="tab active" onclick="showTab('dashboard')" id="tab-dashboard">
-      <div class="tab-icon">📊</div>
-      <div>Dashboard</div>
-    </div>
-    <div class="tab" onclick="showTab('cc')" id="tab-cc">
-      <div class="tab-icon">📈</div>
-      <div>Calls</div>
-    </div>
-    <div class="tab" onclick="showTab('csp')" id="tab-csp">
-      <div class="tab-icon">🛡</div>
-      <div>Puts</div>
-    </div>
-    <div class="tab" onclick="showTab('wheel')" id="tab-wheel">
-      <div class="tab-icon">⚙</div>
-      <div>Wheel</div>
-    </div>
-    <div class="tab" onclick="showTab('settings')" id="tab-settings">
-      <div class="tab-icon">⋮</div>
-      <div>More</div>
-    </div>
+  <div id="tabbar">
+    <div class="tab on" id="tab-dashboard" onclick="nav('dashboard')"><div class="tab-ico">📊</div><div>Dashboard</div></div>
+    <div class="tab" id="tab-cc"        onclick="nav('cc')">         <div class="tab-ico">📈</div><div>Calls</div></div>
+    <div class="tab" id="tab-csp"       onclick="nav('csp')">        <div class="tab-ico">🛡</div><div>Puts</div></div>
+    <div class="tab" id="tab-wheel"     onclick="nav('wheel')">      <div class="tab-ico">⚙</div><div>Wheel</div></div>
+    <div class="tab" id="tab-settings"  onclick="nav('settings')">   <div class="tab-ico">⋮</div><div>More</div></div>
   </div>
 </div>
 
-<!-- Trade Detail Modal -->
-<div id="modal-overlay" onclick="closeModal(event)">
-  <div id="modal">
-    <div class="modal-handle"></div>
-    <div id="modal-content"></div>
-  </div>
-</div>
+<!-- Modal -->
+<div id="ov" onclick="closeModal(event)"><div id="modal"><div id="mbody"></div></div></div>
 
 <script>
-// ══════════════════════════════════════════════════════════════════
-// DATA LAYER
-// ══════════════════════════════════════════════════════════════════
-const STORE_KEY = 'wheeltracker_trades';
-const PRIOR_KEY = 'wheeltracker_prior';
+/* ═══════════════════════════════════════════
+   DATA LAYER
+═══════════════════════════════════════════ */
+const SK='wt_v2_trades', PK='wt_v2_prior';
+const load  = () => { try{return JSON.parse(localStorage.getItem(SK)||'[]')}catch(e){return[]} };
+const save  = a  => localStorage.setItem(SK,JSON.stringify(a));
+const loadP = () => { try{return JSON.parse(localStorage.getItem(PK)||'[]')}catch(e){return[]} };
+const saveP = a  => localStorage.setItem(PK,JSON.stringify(a));
 
-function loadTrades(){ try{ return JSON.parse(localStorage.getItem(STORE_KEY)||'[]') }catch(e){ return [] } }
-function saveTrades(arr){ localStorage.setItem(STORE_KEY, JSON.stringify(arr)) }
-function loadPrior(){ try{ return JSON.parse(localStorage.getItem(PRIOR_KEY)||'[]') }catch(e){ return [] } }
-function savePrior(arr){ localStorage.setItem(PRIOR_KEY, JSON.stringify(arr)) }
-
-// ── Computed fields ───────────────────────────────────────────────
-function computeTrade(t){
-  const prem    = parseFloat(t.premium)||0;
-  const closePrem = parseFloat(t.closePrem)||0;
-  const contracts = parseInt(t.contracts)||1;
-  const netPnl  = (prem - closePrem) * contracts * 100;
-  const costBasis = parseFloat(t.costBasis)||0;
-  const strike  = parseFloat(t.strike)||0;
-  const pnlPct  = costBasis > 0 ? netPnl/costBasis
-                : strike > 0    ? netPnl/(strike*contracts*100)
-                : 0;
-  let daysHeld = '';
-  if(t.tradeDate){
-    const start = new Date(t.tradeDate);
-    const end   = t.closeDate ? new Date(t.closeDate) : new Date();
-    daysHeld = Math.round((end-start)/(1000*60*60*24));
+function calc(t){
+  const prem=+t.premium||0, close=+t.closePrem||0;
+  const cnt=+t.contracts||1, strike=+t.strike||0, cb=+t.costBasis||0;
+  let inv=+t.invested||0;
+  if(!inv){
+    if(t.strategy==='Cash-Secured Put'||t.strategy==='Wheel - CSP Phase') inv=strike*cnt*100;
+    else if(t.strategy==='Covered Call'||t.strategy==='Wheel - CC Phase') inv=cb>0?cb:strike*cnt*100;
+    else inv=strike*cnt*100;
   }
-  const month = t.tradeDate ? new Date(t.tradeDate).toLocaleString('en-US',{month:'long'}) : '';
-  const year  = t.tradeDate ? new Date(t.tradeDate).getFullYear() : '';
-  const stratGroup = getStratGroup(t.strategy);
-  return {...t, netPnl, pnlPct, daysHeld, month, year, stratGroup};
+  const netPnl=(prem-close)*cnt*100;
+  const roi=inv>0?netPnl/inv:0;
+  const premInc=prem*cnt*100;
+  let daysHeld=null;
+  if(t.tradeDate){const s=new Date(t.tradeDate),e=t.closeDate?new Date(t.closeDate):new Date();daysHeld=Math.round((e-s)/86400000)}
+  const d=t.tradeDate?new Date(t.tradeDate):null;
+  const month=d?d.toLocaleString('en-US',{month:'long'}):'';
+  const year=d?d.getFullYear():null;
+  const sg=t.strategy==='Covered Call'||t.strategy==='Wheel - CC Phase'?'CC':
+           t.strategy==='Cash-Secured Put'||t.strategy==='Wheel - CSP Phase'||t.strategy==='Wheel - Assigned'?'CSP':'Wheel';
+  return{...t,netPnl,roi,inv,premInc,daysHeld,month,year,sg};
+}
+const all=()=>load().map(calc);
+
+/* ═══════════════════════════════════════════
+   FORMAT HELPERS
+═══════════════════════════════════════════ */
+const $f=v=>{const n=+v||0;return(n<0?'−$':'$')+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})};
+const $k=v=>{const n=+v||0,a=Math.abs(n),s=a>=1000?(a/1000).toFixed(1)+'k':a.toFixed(0);return(n<0?'−$':'$')+s};
+const pct =v=>((+v||0)*100).toFixed(1)+'%';
+const psgn=v=>{const p=(+v||0)*100;return(p>=0?'+':'')+p.toFixed(1)+'%'};
+const dt  =d=>d?new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'2-digit'}):'—';
+
+function pill(s){
+  if(!s)return'';
+  if(s.startsWith('Closed'))return`<span class="pill p-g">${s.replace('Closed - ','')}</span>`;
+  if(s==='Assigned')return`<span class="pill p-r">Assigned</span>`;
+  if(s==='Open')return`<span class="pill p-a">Open</span>`;
+  if(s==='Rolled')return`<span class="pill p-b">Rolled</span>`;
+  return`<span class="pill p-p">${s}</span>`;
+}
+function sico(s){if(!s)return'📋';if(s.includes('Covered Call'))return'📈';if(s.includes('Wheel'))return'⚙';return'🛡'}
+function tkc(t){return['AAPL','NVDA','TSLA','AMZN','MSFT','SPY','QQQ'].includes(t)?`tk-${t}`:'tk-def'}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+let cur='dashboard';
+function nav(t){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(tb=>tb.classList.remove('on'));
+  document.getElementById('p-'+t).classList.add('on');
+  document.getElementById('tab-'+t)?.classList.add('on');
+  cur=t; render(t);
+}
+function render(t){
+  if(t==='dashboard')renderDash();
+  else if(t==='cc')  renderStrat('cc');
+  else if(t==='csp') renderStrat('csp');
+  else if(t==='wheel')renderStrat('wheel');
+  else if(t==='settings')renderSettings();
+}
+function goAdd(){
+  if(!document.getElementById('f-date').value)
+    document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
+  nav('add');
+  document.getElementById('content').scrollTo({top:0,behavior:'smooth'});
 }
 
-function getStratGroup(s){
-  if(!s) return '';
-  if(s==='Covered Call'||s==='Wheel - CC Phase') return 'Covered Call';
-  if(s==='Cash-Secured Put'||s==='Wheel - CSP Phase'||s==='Wheel - Assigned') return 'Cash-Secured Put';
-  if(s.startsWith('Wheel')) return 'Wheel';
-  return s;
-}
+/* ═══════════════════════════════════════════
+   DASHBOARD
+═══════════════════════════════════════════ */
+function renderDash(){
+  const trades=all(), yr=new Date().getFullYear();
+  const ytd=trades.filter(t=>t.year===yr);
+  const closed=trades.filter(t=>t.status?.startsWith('Closed'));
+  const wr=closed.length?closed.filter(t=>t.netPnl>=0).length/closed.length:0;
+  const ytdPnl=ytd.reduce((s,t)=>s+t.netPnl,0);
+  const ytdInv=ytd.reduce((s,t)=>s+t.inv,0);
+  const ytdROI=ytdInv>0?ytdPnl/ytdInv:0;
+  const ccPnl=ytd.filter(t=>t.sg==='CC').reduce((s,t)=>s+t.netPnl,0);
+  const cspPnl=ytd.filter(t=>t.sg==='CSP').reduce((s,t)=>s+t.netPnl,0);
+  const openN=trades.filter(t=>t.status==='Open').length;
+  const openInv=trades.filter(t=>t.status==='Open').reduce((s,t)=>s+t.inv,0);
 
-function getAllComputed(){
-  return loadTrades().map(computeTrade);
-}
-
-// ── Formatting helpers ────────────────────────────────────────────
-function fmt$(v){ 
-  const n=parseFloat(v)||0;
-  return (n<0?'-$':'$')+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-}
-function fmt$0(v){ 
-  const n=parseFloat(v)||0;
-  return (n<0?'-$':'$')+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
-}
-function fmtPct(v){ return ((parseFloat(v)||0)*100).toFixed(1)+'%'; }
-function fmtDate(d){ if(!d) return '—'; const dt=new Date(d); return dt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'2-digit'}); }
-function pnlClass(v){ return parseFloat(v)>=0?'pnl-pos':'pnl-neg'; }
-function statusPill(s){
-  if(!s) return '';
-  if(s.startsWith('Closed')) return `<span class="pill pill-green">${s.replace('Closed - ','')}</span>`;
-  if(s==='Assigned') return `<span class="pill pill-red">Assigned</span>`;
-  if(s==='Open') return `<span class="pill pill-amber">Open</span>`;
-  if(s==='Rolled') return `<span class="pill pill-blue">Rolled</span>`;
-  return `<span class="pill pill-blue">${s}</span>`;
-}
-function stratIcon(s){
-  if(!s) return '📋';
-  if(s.includes('Covered Call')) return '📈';
-  if(s.includes('Cash-Secured Put')) return '🛡';
-  if(s.includes('Wheel')) return '⚙';
-  return '📋';
-}
-function tickerBg(tkr){
-  const classes={'AAPL':'ticker-AAPL','NVDA':'ticker-NVDA','TSLA':'ticker-TSLA',
-    'AMZN':'ticker-AMZN','MSFT':'ticker-MSFT','SPY':'ticker-SPY','QQQ':'ticker-QQQ'};
-  return classes[tkr]||'ticker-default';
-}
-
-// ══════════════════════════════════════════════════════════════════
-// TAB NAVIGATION
-// ══════════════════════════════════════════════════════════════════
-let currentTab = 'dashboard';
-function showTab(tab){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('panel-'+tab).classList.add('active');
-  document.getElementById('tab-'+tab)?.classList.add('active');
-  currentTab = tab;
-  renderTab(tab);
-}
-function renderTab(tab){
-  if(tab==='dashboard') renderDashboard();
-  else if(tab==='cc')   renderStratView('cc');
-  else if(tab==='csp')  renderStratView('csp');
-  else if(tab==='wheel')renderStratView('wheel');
-  else if(tab==='settings') renderSettings();
-}
-
-// ══════════════════════════════════════════════════════════════════
-// DASHBOARD
-// ══════════════════════════════════════════════════════════════════
-function renderDashboard(){
-  const trades = getAllComputed();
-  const thisYear = new Date().getFullYear();
-  const ytd = trades.filter(t=>t.year===thisYear);
-
-  const ytdPnl   = ytd.reduce((s,t)=>s+t.netPnl,0);
-  const totalT   = trades.length;
-  const openT    = trades.filter(t=>t.status==='Open').length;
-  const assigned = trades.filter(t=>t.status==='Assigned').length;
-  const closed   = trades.filter(t=>t.status&&t.status.startsWith('Closed'));
-  const winRate  = closed.length ? closed.filter(t=>t.netPnl>=0).length/closed.length : 0;
-  const ccPnl    = ytd.filter(t=>t.stratGroup==='Covered Call').reduce((s,t)=>s+t.netPnl,0);
-  const cspPnl   = ytd.filter(t=>t.stratGroup==='Cash-Secured Put').reduce((s,t)=>s+t.netPnl,0);
-
-  // Monthly data for bar chart
-  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const monthlyPnl = MONTHS.map((_,i)=>{
-    return ytd.filter(t=>{
-      if(!t.tradeDate) return false;
-      return new Date(t.tradeDate).getMonth()===i;
-    }).reduce((s,t)=>s+t.netPnl,0);
+  const MOS=['J','F','M','A','M','J','J','A','S','O','N','D'];
+  const MOF=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const mo=MOF.map((m,i)=>{
+    const mt=ytd.filter(t=>t.month===m);
+    const pnl=mt.reduce((s,t)=>s+t.netPnl,0);
+    const inv=mt.reduce((s,t)=>s+t.inv,0);
+    return{m,sh:MOS[i],pnl,inv,roi:inv>0?pnl/inv:0,cnt:mt.length};
   });
-  const maxBar = Math.max(...monthlyPnl.map(Math.abs),1);
+  const maxB=Math.max(...mo.map(m=>Math.abs(m.pnl)),1);
 
-  // Monthly table
-  const MONTHS_FULL = ['January','February','March','April','May','June',
-    'July','August','September','October','November','December'];
-  let cumulative = 0;
-  let monthRows = '';
-  let hasMonthData = false;
-  MONTHS_FULL.forEach((m,i)=>{
-    const mTrades = ytd.filter(t=>{
-      if(!t.tradeDate) return false;
-      return new Date(t.tradeDate).getMonth()===i;
-    });
-    if(mTrades.length===0) return;
-    hasMonthData = true;
-    const mPnl = mTrades.reduce((s,t)=>s+t.netPnl,0);
-    cumulative += mPnl;
-    const cls = mPnl>=0?'pnl-pos':'pnl-neg';
-    monthRows += `<tr>
-      <td>${m}</td>
-      <td>${mTrades.length}</td>
-      <td class="${cls}">${fmt$0(mPnl)}</td>
-      <td class="pnl-pos">${fmt$0(cumulative)}</td>
+  // Monthly table with ROI
+  let cumPnl=0,cumInv=0,moRows='';
+  mo.forEach(m=>{
+    if(!m.cnt)return;
+    cumPnl+=m.pnl; cumInv+=m.inv;
+    const cROI=cumInv>0?cumPnl/cumInv:0;
+    moRows+=`<tr>
+      <td>${m.m.substring(0,3)}</td>
+      <td style="color:var(--t2)">${m.cnt}</td>
+      <td class="${m.pnl>=0?'pos-c':'neg-c'}">${$k(m.pnl)}</td>
+      <td class="inv-c">${$k(m.inv)}</td>
+      <td class="roi-c">${psgn(m.roi)}</td>
+      <td class="${cumPnl>=0?'pos-c':'neg-c'}">${$k(cumPnl)}</td>
+      <td class="roi-c">${psgn(cROI)}</td>
     </tr>`;
   });
 
-  // Prior years
-  const prior = loadPrior().sort((a,b)=>b.year-a.year);
-  let priorRows = '';
+  // YoY table
+  const prior=loadP().sort((a,b)=>b.year-a.year);
+  let yoyRows=`<tr class="cy">
+    <td>${yr} ◀</td><td>${ytd.length}</td>
+    <td class="${ytdPnl>=0?'pos-c':'neg-c'}">${$k(ytdPnl)}</td>
+    <td class="inv-c">${$k(ytdInv)}</td>
+    <td class="roi-c">${psgn(ytdROI)}</td>
+    <td>${closed.length?pct(wr):'—'}</td>
+  </tr>`;
   prior.forEach(p=>{
-    priorRows += `<tr>
-      <td>${p.year}</td>
-      <td>${p.trades||'—'}</td>
-      <td class="pnl-pos">${fmt$0(p.pnl||0)}</td>
-      <td>${p.winRate?fmtPct(p.winRate):'—'}</td>
+    const roi=p.invested>0?p.pnl/p.invested:0;
+    yoyRows+=`<tr>
+      <td>${p.year}</td><td>${p.trades||'—'}</td>
+      <td class="pos-c">${$k(p.pnl||0)}</td>
+      <td class="inv-c">${p.invested?$k(p.invested):'—'}</td>
+      <td class="roi-c">${p.invested?psgn(roi):'—'}</td>
+      <td>${p.winRate?pct(p.winRate):'—'}</td>
     </tr>`;
   });
-  // Current year row
-  priorRows = `<tr style="color:var(--gold);font-weight:700">
-    <td>${thisYear} ◀</td>
-    <td>${ytd.length}</td>
-    <td class="${ytdPnl>=0?'pnl-pos':'pnl-neg'}">${fmt$0(ytdPnl)}</td>
-    <td>${closed.length?fmtPct(winRate):'—'}</td>
-  </tr>` + priorRows;
 
-  document.getElementById('dashboard-content').innerHTML = `
-    <!-- KPIs -->
-    <div class="kpi-grid">
-      <div class="kpi-card ${ytdPnl>=0?'kpi-pos':'kpi-neg'}">
-        <div class="kpi-label">YTD Net P&L</div>
-        <div class="kpi-value">${fmt$(ytdPnl)}</div>
-        <div class="kpi-sub">${thisYear} total</div>
-      </div>
-      <div class="kpi-card kpi-amber">
-        <div class="kpi-label">Win Rate</div>
-        <div class="kpi-value">${closed.length?fmtPct(winRate):'—'}</div>
-        <div class="kpi-sub">${closed.length} closed trades</div>
-      </div>
-      <div class="kpi-card kpi-blue">
-        <div class="kpi-label">Open Positions</div>
-        <div class="kpi-value">${openT}</div>
-        <div class="kpi-sub">${assigned} assigned</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Total Trades</div>
-        <div class="kpi-value">${totalT}</div>
-        <div class="kpi-sub">all time</div>
+  if(!trades.length){
+    document.getElementById('db').innerHTML=`<div class="empty sg"><div class="ei">📭</div><div class="et">No trades yet</div><div class="es">Tap ＋ to log your first trade<br>and start tracking your income</div></div><button class="btn btn-p" onclick="goAdd()">＋  Add First Trade</button>`;
+    return;
+  }
+
+  document.getElementById('db').innerHTML=`
+    <div class="hero sg"><div class="hero-bg"></div>
+      <div class="hero-lbl">YTD Net P&L — ${yr}</div>
+      <div class="hero-val ${ytdPnl>=0?'pos':'neg'}">${$f(ytdPnl)}</div>
+      <div class="hero-chips">
+        <span class="chip ${ytdROI>=0?'chip-g':'chip-r'}">${psgn(ytdROI)} ROI</span>
+        <span class="chip chip-t">${$k(ytdInv)} invested</span>
+        <span class="chip ${wr>=0.7?'chip-g':'chip-a'}">${closed.length?pct(wr):'—'} win rate</span>
       </div>
     </div>
 
-    <!-- Strategy breakdown -->
-    <div class="kpi-grid">
-      <div class="kpi-card kpi-pos">
-        <div class="kpi-label">📈 Covered Calls</div>
-        <div class="kpi-value">${fmt$(ccPnl)}</div>
-        <div class="kpi-sub">YTD</div>
-      </div>
-      <div class="kpi-card kpi-purple">
-        <div class="kpi-label">🛡 Cash-Secured Puts</div>
-        <div class="kpi-value">${fmt$(cspPnl)}</div>
-        <div class="kpi-sub">YTD</div>
-      </div>
+    <div class="kgrid sg">
+      <div class="kpi kg"><div class="kpi-lbl">📈 Covered Calls</div><div class="kpi-val">${$k(ccPnl)}</div><div class="kpi-sub">YTD income</div></div>
+      <div class="kpi kp"><div class="kpi-lbl">🛡 Cash-Sec Puts</div><div class="kpi-val">${$k(cspPnl)}</div><div class="kpi-sub">YTD income</div></div>
+      <div class="kpi ka"><div class="kpi-lbl">Open Positions</div><div class="kpi-val">${openN}</div><div class="kpi-sub">${$k(openInv)} at risk</div></div>
+      <div class="kpi kb"><div class="kpi-lbl">Total Trades</div><div class="kpi-val">${trades.length}</div><div class="kpi-sub">${closed.length} closed</div></div>
     </div>
 
-    ${trades.length===0?`<div class="empty">
-      <div class="empty-icon">📭</div>
-      <div class="empty-title">No trades yet</div>
-      <div class="empty-sub">Tap ＋ in the top right<br>to log your first trade</div>
-    </div>`:`
-    <!-- Mini bar chart -->
     <div class="card card-sm">
-      <div class="section-head" style="margin-bottom:12px">
-        <h2 style="font-size:13px">Monthly P&L — ${thisYear}</h2>
-      </div>
-      <div class="mini-chart">
-        ${MONTHS.map((m,i)=>{
-          const v=monthlyPnl[i];
-          const h=Math.max(Math.abs(v)/maxBar*52,v!==0?3:0);
-          const color=v>=0?'var(--green)':'var(--red)';
-          return `<div class="bar-wrap">
-            <div class="bar" style="height:${h}px;background:${color};opacity:${v!==0?.8:.2}"></div>
-            <div class="bar-label">${m}</div>
-          </div>`;
-        }).join('')}
+      <div class="sh" style="margin-bottom:10px"><span class="sh-title" style="font-size:13px">Monthly P&L — ${yr}</span></div>
+      <div class="bars">
+        ${mo.map(m=>{const h=Math.max(Math.abs(m.pnl)/maxB*64,m.pnl!==0?4:0);const c=m.pnl>0?'pos':m.pnl<0?'neg':'z';return`<div class="bar-col"><div class="bar-fill ${c}" style="height:${h}px"></div><div class="bar-lbl">${m.sh}</div></div>`}).join('')}
       </div>
     </div>
 
-    <!-- Monthly table -->
-    ${hasMonthData?`<div class="card card-sm">
-      <div class="section-head" style="margin-bottom:10px">
-        <h2 style="font-size:13px">Monthly Breakdown</h2>
+    ${moRows?`<div class="card card-flush">
+      <div style="padding:14px 16px 10px" class="sh">
+        <span class="sh-title" style="font-size:13px">Monthly Breakdown</span>
+        <span style="font-size:9px;color:var(--teal);font-family:var(--mono);font-weight:700">+ROI%</span>
       </div>
-      <table class="month-table">
-        <thead><tr>
-          <th>Month</th><th>Trades</th><th>P&L</th><th>Cumul.</th>
-        </tr></thead>
-        <tbody>${monthRows}</tbody>
+      <table class="tbl">
+        <thead><tr><th>Month</th><th>Trades</th><th>P&L</th><th>Invested</th><th>ROI%</th><th>Cumul P&L</th><th>Cum ROI</th></tr></thead>
+        <tbody>${moRows}</tbody>
       </table>
     </div>`:''}
 
-    <!-- Year over year -->
-    <div class="card card-sm">
-      <div class="section-head" style="margin-bottom:10px">
-        <h2 style="font-size:13px">Year-over-Year</h2>
+    <div class="card card-flush">
+      <div style="padding:14px 16px 10px" class="sh">
+        <span class="sh-title" style="font-size:13px">Year-over-Year</span>
+        <button onclick="nav('settings')" style="font-size:11px;color:var(--t3);font-weight:600">Edit ›</button>
       </div>
-      <table class="month-table">
-        <thead><tr>
-          <th>Year</th><th>Trades</th><th>P&L</th><th>Win %</th>
-        </tr></thead>
-        <tbody>${priorRows}</tbody>
+      <table class="tbl">
+        <thead><tr><th>Year</th><th>Trades</th><th>P&L</th><th>Invested</th><th>ROI%</th><th>Win%</th></tr></thead>
+        <tbody>${yoyRows}</tbody>
       </table>
-      <button class="btn btn-outline" onclick="showTab('settings')" style="margin-top:10px;font-size:12px;padding:10px">
-        ＋ Add prior year data
-      </button>
     </div>
 
-    <!-- Recent trades -->
-    <div class="section-head" style="margin-top:4px">
-      <h2>Recent Trades</h2>
+    <div class="sh" style="margin-top:4px"><span class="sh-title">Recent Trades</span><span style="font-size:12px;color:var(--t3)">${trades.length} total</span></div>
+    <div class="card card-flush sg">
+      ${all().slice().reverse().slice(0,10).map(t=>trow(t)).join('')}
     </div>
-    ${getAllComputed().slice().reverse().slice(0,8).map(t=>tradeRow(t)).join('')}
-    `}
   `;
 }
 
-// ══════════════════════════════════════════════════════════════════
-// STRATEGY VIEWS
-// ══════════════════════════════════════════════════════════════════
-const STRAT_FILTER = {
-  cc:    t => t.strategy==='Covered Call' || t.strategy==='Wheel - CC Phase',
-  csp:   t => t.strategy==='Cash-Secured Put' || t.strategy==='Wheel - CSP Phase' || t.strategy==='Wheel - Assigned',
-  wheel: t => t.strategy && t.strategy.startsWith('Wheel'),
+/* ═══════════════════════════════════════════
+   STRATEGY VIEWS
+═══════════════════════════════════════════ */
+const FILT={
+  cc:   t=>t.strategy==='Covered Call'||t.strategy==='Wheel - CC Phase',
+  csp:  t=>t.strategy==='Cash-Secured Put'||t.strategy==='Wheel - CSP Phase'||t.strategy==='Wheel - Assigned',
+  wheel:t=>t.strategy?.startsWith('Wheel'),
 };
-const STRAT_META = {
-  cc:    {label:'Covered Calls',  color:'var(--green)',  bg:'var(--green-bg)'},
-  csp:   {label:'Cash-Sec. Puts', color:'var(--purple)', bg:'var(--purple-bg)'},
-  wheel: {label:'Wheel',          color:'var(--amber)',  bg:'#2a1a05'},
+const META={
+  cc:   {label:'Covered Calls',   kc:'kg',empty:'📈'},
+  csp:  {label:'Cash-Sec. Puts',  kc:'kp',empty:'🛡'},
+  wheel:{label:'Wheel Strategy',  kc:'ka',empty:'⚙'},
 };
 
-function renderStratView(key){
-  const trades = getAllComputed().filter(STRAT_FILTER[key]);
-  const meta   = STRAT_META[key];
-  const pnlSum = trades.reduce((s,t)=>s+t.netPnl,0);
-  const closed = trades.filter(t=>t.status&&t.status.startsWith('Closed'));
-  const winRate = closed.length ? closed.filter(t=>t.netPnl>=0).length/closed.length : 0;
+function renderStrat(key){
+  const ts=all().filter(FILT[key]),m=META[key];
+  const pnl=ts.reduce((s,t)=>s+t.netPnl,0);
+  const inv=ts.reduce((s,t)=>s+t.inv,0);
+  const roi=inv>0?pnl/inv:0;
+  const cl=ts.filter(t=>t.status?.startsWith('Closed'));
+  const wr=cl.length?cl.filter(t=>t.netPnl>=0).length/cl.length:0;
+  const open=ts.filter(t=>t.status==='Open').length;
 
-  document.getElementById(key+'-summary').innerHTML = `
-    <div class="kpi-card" style="--kc:${meta.color}">
-      <div class="kpi-label">Total P&L</div>
-      <div class="kpi-value">${fmt$(pnlSum)}</div>
-      <div class="kpi-sub">${trades.length} trades</div>
-    </div>
-    <div class="kpi-card kpi-amber">
-      <div class="kpi-label">Win Rate</div>
-      <div class="kpi-value">${closed.length?fmtPct(winRate):'—'}</div>
-      <div class="kpi-sub">${trades.filter(t=>t.status==='Open').length} open</div>
-    </div>
+  document.getElementById(key+'-kpis').innerHTML=`
+    <div class="kpi ${m.kc}"><div class="kpi-lbl">Total P&L</div><div class="kpi-val">${$f(pnl)}</div><div class="kpi-sub">${ts.length} trades</div></div>
+    <div class="kpi kt"><div class="kpi-lbl">ROI on Capital</div><div class="kpi-val">${psgn(roi)}</div><div class="kpi-sub">${$k(inv)} deployed</div></div>
+    <div class="kpi ka"><div class="kpi-lbl">Win Rate</div><div class="kpi-val">${cl.length?pct(wr):'—'}</div><div class="kpi-sub">${open} open</div></div>
+    <div class="kpi kb"><div class="kpi-lbl">Avg ROI</div><div class="kpi-val">${ts.length?psgn(roi/ts.length):'—'}</div><div class="kpi-sub">per position</div></div>
   `;
-
-  const list = document.getElementById(key+'-list');
-  if(trades.length===0){
-    list.innerHTML = `<div class="empty">
-      <div class="empty-icon">${stratIcon(meta.label)}</div>
-      <div class="empty-title">No ${meta.label} trades yet</div>
-      <div class="empty-sub">Log a trade with this strategy<br>and it will appear here automatically</div>
-    </div>`;
+  const list=document.getElementById(key+'-list');
+  if(!ts.length){
+    list.className='';
+    list.innerHTML=`<div class="empty"><div class="ei">${m.empty}</div><div class="et">No ${m.label} yet</div><div class="es">Log a trade with this strategy<br>and it appears here automatically</div></div>`;
     return;
   }
-  list.innerHTML = trades.slice().reverse().map(t=>tradeRow(t)).join('');
+  list.className='card card-flush';
+  list.innerHTML=ts.slice().reverse().map(t=>trow(t)).join('');
 }
 
-// ── Trade row card ────────────────────────────────────────────────
-function tradeRow(t){
-  const pnlC = t.status==='Open'?'pnl-open':pnlClass(t.netPnl);
-  const pnlStr = t.status==='Open'?`${fmt$(t.premium*t.contracts*100)} coll.`:fmt$(t.netPnl);
-  return `<div class="trade-row" onclick="openDetail('${t.id}')">
-    <div class="trade-badge ${tickerBg(t.ticker)}">${stratIcon(t.strategy)}</div>
-    <div class="trade-main">
-      <div class="trade-ticker">${t.ticker||'—'} <span style="font-size:11px;color:var(--text3);font-weight:400">$${t.strike}</span></div>
-      <div class="trade-meta">${t.strategy} · ${fmtDate(t.tradeDate)} · ${t.contracts}x · $${t.premium}/sh</div>
+/* ═══════════════════════════════════════════
+   TRADE ROW
+═══════════════════════════════════════════ */
+function trow(t){
+  const isOpen=t.status==='Open';
+  const pC=isOpen?'color:var(--amber)':t.netPnl>=0?'color:var(--green)':'color:var(--red)';
+  const rC=isOpen?'color:var(--t3)':t.roi>=0?'color:var(--teal)':'color:var(--red)';
+  const pVal=isOpen?`${$f(t.premInc)} coll.`:$f(t.netPnl);
+  const rVal=isOpen?`${$k(t.inv)} at risk`:`ROI ${psgn(t.roi)}`;
+  return`<div class="trow" onclick="openDetail('${t.id}')">
+    <div class="tbadge ${tkc(t.ticker)}">${sico(t.strategy)}</div>
+    <div class="tmain">
+      <div class="tticker">${t.ticker||'—'} <span style="font-size:11px;color:var(--t3);font-weight:400">$${t.strike}</span></div>
+      <div class="tstrat">${t.strategy}</div>
+      <div class="tmeta">${dt(t.tradeDate)} · ${t.contracts}× · $${t.premium}/sh</div>
     </div>
-    <div class="trade-right">
-      <div class="trade-pnl ${pnlC}">${pnlStr}</div>
-      <div class="trade-status">${statusPill(t.status)}</div>
+    <div class="tright">
+      <div class="tpnl" style="${pC}">${pVal}</div>
+      <div class="troi" style="${rC}">${rVal}</div>
+      <div style="margin-top:4px">${pill(t.status)}</div>
     </div>
   </div>`;
 }
 
-// ══════════════════════════════════════════════════════════════════
-// ADD TRADE FORM
-// ══════════════════════════════════════════════════════════════════
-function openAddTrade(prefillId){
-  // Set today's date
-  if(!document.getElementById('f-date').value){
-    document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
-  }
-  showTab('add');
-  // scroll to top
-  document.getElementById('content').scrollTo({top:0,behavior:'smooth'});
+/* ═══════════════════════════════════════════
+   FORM
+═══════════════════════════════════════════ */
+function onSC(){
+  const s=document.getElementById('f-strat').value;
+  document.getElementById('g-cb').style.display=(s==='Covered Call'||s==='Wheel - CC Phase'||s==='Wheel - Assigned')?'block':'none';
 }
-
-function onStrategyChange(){
-  const strat = document.getElementById('f-strategy').value;
-  const showCost = strat==='Covered Call'||strat==='Wheel - CC Phase'||strat==='Wheel - Assigned';
-  document.getElementById('costbasis-group').style.display = showCost?'block':'none';
-}
-
 function saveTrade(){
-  const strat    = document.getElementById('f-strategy').value;
-  const ticker   = document.getElementById('f-ticker').value.trim().toUpperCase();
-  const date     = document.getElementById('f-date').value;
-  const strike   = document.getElementById('f-strike').value;
-  const premium  = document.getElementById('f-premium').value;
-  const contracts= document.getElementById('f-contracts').value||'1';
-  const expdate  = document.getElementById('f-expdate').value;
-  const closedate= document.getElementById('f-closedate').value;
-  const closeprem= document.getElementById('f-closeprem').value;
-  const costbasis= document.getElementById('f-costbasis').value;
-  const status   = document.getElementById('f-status').value;
-  const notes    = document.getElementById('f-notes').value.trim();
-
-  if(!strat)   { toast('⚠ Please select a strategy','var(--amber)'); return; }
-  if(!ticker)  { toast('⚠ Please enter a ticker','var(--amber)'); return; }
-  if(!strike)  { toast('⚠ Please enter a strike price','var(--amber)'); return; }
-  if(!premium) { toast('⚠ Please enter a premium','var(--amber)'); return; }
-  if(!date)    { toast('⚠ Please enter a trade date','var(--amber)'); return; }
-
-  const trades = loadTrades();
-  const trade = {
-    id: Date.now().toString(),
-    strategy: strat, ticker, tradeDate: date,
-    strike, premium, contracts, expDate: expdate,
-    closeDate: closedate, closePrem: closeprem,
-    costBasis: costbasis, status, notes,
-    createdAt: new Date().toISOString()
-  };
-  trades.push(trade);
-  saveTrades(trades);
-
-  // Reset form
-  ['f-strategy','f-ticker','f-strike','f-premium','f-expdate',
-   'f-closedate','f-closeprem','f-costbasis','f-notes'].forEach(id=>{
-    document.getElementById(id).value='';
-  });
+  const strat=document.getElementById('f-strat').value;
+  const ticker=document.getElementById('f-ticker').value.trim().toUpperCase();
+  const date=document.getElementById('f-date').value;
+  const strike=document.getElementById('f-strike').value;
+  const prem=document.getElementById('f-prem').value;
+  const contracts=document.getElementById('f-contracts').value||'1';
+  const invested=document.getElementById('f-invested').value;
+  const expdate=document.getElementById('f-expdate').value;
+  const closedate=document.getElementById('f-cd').value;
+  const closeprem=document.getElementById('f-cp').value;
+  const cb=document.getElementById('f-cb').value;
+  const status=document.getElementById('f-status').value;
+  const notes=document.getElementById('f-notes').value.trim();
+  if(!strat){toast('⚠ Select a strategy','var(--amber)');return}
+  if(!ticker){toast('⚠ Enter a ticker','var(--amber)');return}
+  if(!strike){toast('⚠ Enter strike price','var(--amber)');return}
+  if(!prem)  {toast('⚠ Enter premium','var(--amber)');return}
+  if(!date)  {toast('⚠ Enter trade date','var(--amber)');return}
+  const trades=load();
+  trades.push({id:Date.now().toString(),strategy:strat,ticker,tradeDate:date,strike,premium:prem,contracts,invested,expDate:expdate,closeDate:closedate,closePrem:closeprem,costBasis:cb,status,notes,createdAt:new Date().toISOString()});
+  save(trades);
+  ['f-strat','f-ticker','f-strike','f-prem','f-expdate','f-cd','f-cp','f-cb','f-notes','f-invested'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-contracts').value='1';
-  document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
-  document.getElementById('costbasis-group').style.display='none';
-
+  document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
+  document.getElementById('g-cb').style.display='none';
   toast('✅ Trade saved!','var(--green)');
-  showTab('dashboard');
+  nav('dashboard');
 }
 
-// ══════════════════════════════════════════════════════════════════
-// TRADE DETAIL MODAL
-// ══════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
+   DETAIL MODAL
+═══════════════════════════════════════════ */
 function openDetail(id){
-  const trade = getAllComputed().find(t=>t.id===id);
-  if(!trade) return;
-  const pnlC = trade.status==='Open'?'pnl-open':pnlClass(trade.netPnl);
-
-  document.getElementById('modal-content').innerHTML = `
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-      <div class="trade-badge ${tickerBg(trade.ticker)}" style="width:48px;height:48px;font-size:22px">${stratIcon(trade.strategy)}</div>
-      <div>
-        <div style="font-size:22px;font-weight:800">${trade.ticker}</div>
-        <div style="font-size:12px;color:var(--text2)">${trade.strategy}</div>
-      </div>
-      <div style="margin-left:auto;text-align:right">
-        <div class="trade-pnl ${pnlC}" style="font-size:20px">${fmt$(trade.netPnl)}</div>
-        <div style="margin-top:4px">${statusPill(trade.status)}</div>
+  const t=all().find(x=>x.id===id);if(!t)return;
+  const isOpen=t.status==='Open';
+  const pC=isOpen?'color:var(--amber)':t.netPnl>=0?'color:var(--green)':'color:var(--red)';
+  const rC=t.roi>=0?'color:var(--teal)':'color:var(--red)';
+  document.getElementById('mbody').innerHTML=`
+    <div class="mpip"></div>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+      <div class="tbadge ${tkc(t.ticker)}" style="width:50px;height:50px;font-size:22px;border-radius:16px">${sico(t.strategy)}</div>
+      <div style="flex:1"><div class="mt">${t.ticker}</div><div class="ms">${t.strategy}</div></div>
+      <div style="text-align:right">
+        <div style="font-family:var(--mono);font-size:22px;font-weight:600;${pC}">${$f(t.netPnl)}</div>
+        <div style="font-size:11px;margin-top:3px;font-family:var(--mono);${rC}">ROI ${psgn(t.roi)}</div>
+        <div style="margin-top:6px">${pill(t.status)}</div>
       </div>
     </div>
-    <div class="detail-grid">
-      <div class="detail-item"><div class="detail-item-label">Strike</div><div class="detail-item-value">$${trade.strike}</div></div>
-      <div class="detail-item"><div class="detail-item-label">Premium</div><div class="detail-item-value">$${trade.premium}/sh</div></div>
-      <div class="detail-item"><div class="detail-item-label">Contracts</div><div class="detail-item-value">${trade.contracts}x</div></div>
-      <div class="detail-item"><div class="detail-item-label">Total Income</div><div class="detail-item-value">${fmt$(parseFloat(trade.premium)*parseInt(trade.contracts)*100)}</div></div>
-      <div class="detail-item"><div class="detail-item-label">Trade Date</div><div class="detail-item-value">${fmtDate(trade.tradeDate)}</div></div>
-      <div class="detail-item"><div class="detail-item-label">Exp Date</div><div class="detail-item-value">${fmtDate(trade.expDate)}</div></div>
-      <div class="detail-item"><div class="detail-item-label">Close Date</div><div class="detail-item-value">${fmtDate(trade.closeDate)}</div></div>
-      <div class="detail-item"><div class="detail-item-label">Days Held</div><div class="detail-item-value">${trade.daysHeld||'—'} d</div></div>
-      <div class="detail-item"><div class="detail-item-label">Close Prem</div><div class="detail-item-value">${trade.closePrem?'$'+trade.closePrem:'—'}</div></div>
-      <div class="detail-item"><div class="detail-item-label">P&L %</div><div class="detail-item-value ${pnlC}">${fmtPct(trade.pnlPct)}</div></div>
+    <!-- ROI highlight panel -->
+    <div class="card card-sm" style="margin-bottom:12px;background:rgba(45,212,191,.05);border-color:rgba(45,212,191,.15)">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center">
+        <div><div style="font-size:9px;color:var(--t3);letter-spacing:.7px;text-transform:uppercase;margin-bottom:5px">Invested</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--blue)">${$f(t.inv)}</div></div>
+        <div><div style="font-size:9px;color:var(--t3);letter-spacing:.7px;text-transform:uppercase;margin-bottom:5px">Net P&L</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;${pC}">${$f(t.netPnl)}</div></div>
+        <div><div style="font-size:9px;color:var(--teal);letter-spacing:.7px;text-transform:uppercase;margin-bottom:5px">ROI</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;${rC}">${psgn(t.roi)}</div></div>
+      </div>
+      ${!isOpen?`<div class="pgbar"><div class="pgfill" style="width:${Math.min(Math.abs(t.roi)*100*8,100)}%"></div></div>`:''}
     </div>
-    ${trade.notes?`<div class="card card-sm" style="margin-top:12px"><div class="detail-item-label" style="margin-bottom:4px">Notes</div><div style="font-size:13px;color:var(--text2)">${trade.notes}</div></div>`:''}
+    <div class="dgrid">
+      <div class="di"><div class="dl">Strike</div><div class="dv">$${t.strike}</div></div>
+      <div class="di"><div class="dl">Premium</div><div class="dv">$${t.premium}/sh</div></div>
+      <div class="di"><div class="dl">Contracts</div><div class="dv">${t.contracts}×</div></div>
+      <div class="di"><div class="dl">Total Income</div><div class="dv">${$f(t.premInc)}</div></div>
+      <div class="di"><div class="dl">Trade Date</div><div class="dv">${dt(t.tradeDate)}</div></div>
+      <div class="di"><div class="dl">Exp Date</div><div class="dv">${dt(t.expDate)}</div></div>
+      <div class="di"><div class="dl">Close Date</div><div class="dv">${dt(t.closeDate)}</div></div>
+      <div class="di"><div class="dl">Days Held</div><div class="dv">${t.daysHeld!=null?t.daysHeld+' d':'—'}</div></div>
+      <div class="di"><div class="dl">Close Prem</div><div class="dv">${t.closePrem?'$'+t.closePrem:'—'}</div></div>
+      <div class="di"><div class="dl">Cost Basis</div><div class="dv">${t.costBasis?'$'+t.costBasis:'—'}</div></div>
+    </div>
+    ${t.notes?`<div class="di" style="margin-top:8px;border-radius:var(--r3);display:block"><div class="dl">Notes</div><div style="font-size:13px;color:var(--t2);margin-top:4px">${t.notes}</div></div>`:''}
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
-      <button class="btn btn-outline" onclick="editTrade('${trade.id}')">✏ Edit Trade</button>
-      <button class="btn btn-danger" onclick="deleteTrade('${trade.id}')">🗑 Delete Trade</button>
-    </div>
-  `;
-  document.getElementById('modal-overlay').classList.add('open');
+      <button class="btn btn-g btn-sm" onclick="editTrade('${t.id}')">✏  Edit Trade</button>
+      <button class="btn btn-d btn-sm" onclick="delTrade('${t.id}')">🗑  Delete Trade</button>
+    </div>`;
+  document.getElementById('ov').classList.add('on');
 }
-
-function closeModal(e){
-  if(e.target===document.getElementById('modal-overlay') || !e){
-    document.getElementById('modal-overlay').classList.remove('open');
-  }
-}
-
-function deleteTrade(id){
-  const trades = loadTrades().filter(t=>t.id!==id);
-  saveTrades(trades);
-  document.getElementById('modal-overlay').classList.remove('open');
-  toast('🗑 Trade deleted','var(--red)');
-  renderTab(currentTab);
-}
-
+function closeModal(e){if(e.target===document.getElementById('ov')||!e)document.getElementById('ov').classList.remove('on')}
+function delTrade(id){save(load().filter(t=>t.id!==id));document.getElementById('ov').classList.remove('on');toast('🗑 Trade deleted','var(--red)');render(cur)}
 function editTrade(id){
-  const t = loadTrades().find(t=>t.id===id);
-  if(!t) return;
-  document.getElementById('modal-overlay').classList.remove('open');
-  // Prefill form
-  document.getElementById('f-strategy').value  = t.strategy||'';
-  document.getElementById('f-ticker').value    = t.ticker||'';
-  document.getElementById('f-date').value      = t.tradeDate||'';
-  document.getElementById('f-strike').value    = t.strike||'';
-  document.getElementById('f-premium').value   = t.premium||'';
-  document.getElementById('f-contracts').value = t.contracts||'1';
-  document.getElementById('f-expdate').value   = t.expDate||'';
-  document.getElementById('f-closedate').value = t.closeDate||'';
-  document.getElementById('f-closeprem').value = t.closePrem||'';
-  document.getElementById('f-costbasis').value = t.costBasis||'';
-  document.getElementById('f-status').value    = t.status||'Open';
-  document.getElementById('f-notes').value     = t.notes||'';
-  onStrategyChange();
-  // Remove old, re-save on submit
-  const trades = loadTrades().filter(tr=>tr.id!==id);
-  saveTrades(trades);
-  showTab('add');
+  const t=load().find(x=>x.id===id);if(!t)return;
+  document.getElementById('ov').classList.remove('on');
+  document.getElementById('f-strat').value=t.strategy||'';
+  document.getElementById('f-ticker').value=t.ticker||'';
+  document.getElementById('f-date').value=t.tradeDate||'';
+  document.getElementById('f-strike').value=t.strike||'';
+  document.getElementById('f-prem').value=t.premium||'';
+  document.getElementById('f-contracts').value=t.contracts||'1';
+  document.getElementById('f-invested').value=t.invested||'';
+  document.getElementById('f-expdate').value=t.expDate||'';
+  document.getElementById('f-cd').value=t.closeDate||'';
+  document.getElementById('f-cp').value=t.closePrem||'';
+  document.getElementById('f-cb').value=t.costBasis||'';
+  document.getElementById('f-status').value=t.status||'Open';
+  document.getElementById('f-notes').value=t.notes||'';
+  onSC();
+  save(load().filter(x=>x.id!==id));
+  nav('add');
   toast('✏ Edit mode — update and re-save','var(--blue)');
 }
 
-// ══════════════════════════════════════════════════════════════════
-// SETTINGS
-// ══════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
+   SETTINGS
+═══════════════════════════════════════════ */
 function renderSettings(){
-  const prior = loadPrior().sort((a,b)=>a.year-b.year);
-  let rows = '';
+  const prior=loadP().sort((a,b)=>a.year-b.year);
+  let rows='';
   prior.forEach((p,i)=>{
-    rows += `<div class="form-row" style="margin-bottom:8px;align-items:center">
-      <div class="form-group" style="margin:0">
-        <input class="form-input" type="number" value="${p.year}" placeholder="Year"
-          onchange="updatePrior(${i},'year',this.value)" style="font-family:var(--font-num)">
-      </div>
-      <div class="form-group" style="margin:0">
-        <input class="form-input" type="number" value="${p.pnl||''}" placeholder="Total P&L ($)"
-          onchange="updatePrior(${i},'pnl',this.value)" style="font-family:var(--font-num)">
-      </div>
+    rows+=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+      <input class="fi" type="number" value="${p.year}" placeholder="Year" onchange="updP(${i},'year',this.value)" style="font-family:var(--mono);font-size:13px">
+      <input class="fi" type="number" value="${p.pnl||''}" placeholder="P&L ($)" onchange="updP(${i},'pnl',this.value)" style="font-family:var(--mono);font-size:13px">
+      <input class="fi" type="number" value="${p.invested||''}" placeholder="Invested ($)" onchange="updP(${i},'invested',this.value)" style="font-family:var(--mono);font-size:13px">
     </div>`;
   });
-  document.getElementById('prior-years').innerHTML = rows;
+  document.getElementById('prior-rows').innerHTML=rows;
 }
+function addPrior(){const p=loadP(),l=p.length?Math.min(...p.map(x=>x.year))-1:new Date().getFullYear()-1;p.push({year:l,pnl:0,invested:0,trades:0,winRate:0});saveP(p);renderSettings()}
+function updP(i,f,v){const p=loadP();if(p[i])p[i][f]=f==='year'?parseInt(v):parseFloat(v);saveP(p)}
 
-function addPriorYear(){
-  const prior = loadPrior();
-  const lastYear = prior.length?Math.min(...prior.map(p=>p.year))-1:new Date().getFullYear()-1;
-  prior.push({year:lastYear,pnl:0,trades:0,winRate:0});
-  savePrior(prior);
-  renderSettings();
-}
-function updatePrior(i,field,val){
-  const prior = loadPrior();
-  if(prior[i]) prior[i][field]=field==='year'?parseInt(val):parseFloat(val);
-  savePrior(prior);
-}
-
-// ══════════════════════════════════════════════════════════════════
-// IMPORT / EXPORT
-// ══════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
+   IMPORT / EXPORT
+═══════════════════════════════════════════ */
 function exportJSON(){
-  const data = { trades: loadTrades(), prior: loadPrior(), exportedAt: new Date().toISOString() };
-  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href=url; a.download=`wheeltracker-backup-${new Date().toISOString().split('T')[0]}.json`;
-  a.click(); URL.revokeObjectURL(url);
-  toast('📤 JSON exported!','var(--green)');
+  const d={version:2,trades:load(),prior:loadP(),exportedAt:new Date().toISOString()};
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:'application/json'})),download:`wheeltracker-${new Date().toISOString().split('T')[0]}.json`});
+  a.click();URL.revokeObjectURL(a.href);toast('📤 JSON exported!','var(--green)');
 }
-
 function exportCSV(){
-  const trades = getAllComputed();
-  const headers = ['Date','Ticker','Strategy','Strike','Premium','Contracts','ExpDate','CloseDate','ClosePrem','CostBasis','Status','NetPnL','PnLPct','DaysHeld','Month','Year','Notes'];
-  const rows = trades.map(t=>[
-    t.tradeDate,t.ticker,t.strategy,t.strike,t.premium,t.contracts,
-    t.expDate,t.closeDate,t.closePrem,t.costBasis,t.status,
-    t.netPnl.toFixed(2),(t.pnlPct*100).toFixed(2),t.daysHeld,t.month,t.year,
-    `"${(t.notes||'').replace(/"/g,'""')}"`
-  ]);
-  const csv = [headers,...rows].map(r=>r.join(',')).join('\n');
-  const blob = new Blob([csv],{type:'text/csv'});
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href=url; a.download=`wheeltracker-${new Date().toISOString().split('T')[0]}.csv`;
-  a.click(); URL.revokeObjectURL(url);
-  toast('📊 CSV exported!','var(--green)');
+  const rows=all();
+  const hdr=['Date','Ticker','Strategy','Strike','Premium','Contracts','Invested','NetPnL','ROI_pct','ExpDate','CloseDate','ClosePrem','CostBasis','Status','DaysHeld','Month','Year','Notes'];
+  const csv=[hdr,...rows.map(t=>[t.tradeDate,t.ticker,t.strategy,t.strike,t.premium,t.contracts,t.inv.toFixed(2),t.netPnl.toFixed(2),(t.roi*100).toFixed(2),t.expDate,t.closeDate,t.closePrem,t.costBasis,t.status,t.daysHeld,t.month,t.year,`"${(t.notes||'').replace(/"/g,'""')}"`])].map(r=>r.join(',')).join('\n');
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),download:`wheeltracker-${new Date().toISOString().split('T')[0]}.csv`});
+  a.click();toast('📊 CSV exported!','var(--green)');
 }
-
 function importJSON(input){
-  const file = input.files[0]; if(!file) return;
-  const reader = new FileReader();
-  reader.onload = e=>{
-    try{
-      const data = JSON.parse(e.target.result);
-      const incoming = data.trades||data; // support both formats
-      const existing = loadTrades();
-      const existingIds = new Set(existing.map(t=>t.id));
-      const merged = [...existing,...incoming.filter(t=>!existingIds.has(t.id))];
-      saveTrades(merged);
-      if(data.prior) savePrior(data.prior);
-      toast(`✅ Imported ${incoming.length} trades`,'var(--green)');
-      renderTab(currentTab);
-    }catch(err){
-      toast('❌ Invalid JSON file','var(--red)');
-    }
-  };
-  reader.readAsText(file);
-  input.value='';
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{try{const d=JSON.parse(e.target.result),inc=d.trades||d,ex=load(),ids=new Set(ex.map(t=>t.id));save([...ex,...inc.filter(t=>!ids.has(t.id))]);if(d.prior)saveP(d.prior);toast(`✅ Imported ${inc.length} trades`,'var(--green)');render(cur)}catch(err){toast('❌ Invalid JSON','var(--red)')}};
+  r.readAsText(file);input.value='';
 }
-
 function confirmClear(){
-  document.getElementById('modal-content').innerHTML = `
-    <div class="modal-title">⚠ Clear All Trades?</div>
-    <p style="color:var(--text2);font-size:14px;line-height:1.6;margin-bottom:24px">
-      This will permanently delete all ${loadTrades().length} trades from this device. 
-      Export a backup first!
-    </p>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <button class="btn btn-danger" onclick="clearAll()">Yes, Delete Everything</button>
-      <button class="btn btn-outline" onclick="closeModal({target:null})">Cancel</button>
-    </div>
-  `;
-  document.getElementById('modal-overlay').classList.add('open');
+  document.getElementById('mbody').innerHTML=`<div class="mpip"></div><div class="mt">⚠ Clear All Data?</div><div class="ms">Permanently deletes ${load().length} trades. Export first!</div><div style="display:flex;flex-direction:column;gap:8px"><button class="btn btn-d" onclick="clearAll()">Yes, Delete Everything</button><button class="btn btn-g" onclick="closeModal({})">Cancel</button></div>`;
+  document.getElementById('ov').classList.add('on');
+}
+function clearAll(){save([]);document.getElementById('ov').classList.remove('on');toast('🗑 All trades cleared','var(--red)');render(cur)}
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+let _tt;
+function toast(msg,color='var(--green)'){
+  const el=document.getElementById('toast');
+  el.innerHTML=`<span style="color:${color}">${msg}</span>`;
+  el.classList.add('on');
+  clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('on'),2800);
 }
 
-function clearAll(){
-  saveTrades([]);
-  document.getElementById('modal-overlay').classList.remove('open');
-  toast('🗑 All trades cleared','var(--red)');
-  renderTab(currentTab);
+/* ═══════════════════════════════════════════
+   INSTALL BANNER
+═══════════════════════════════════════════ */
+function dismissInstall(){document.getElementById('ibar').classList.add('h');localStorage.setItem('ib2','1')}
+if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.navigator.standalone&&!localStorage.getItem('ib2'))
+  document.getElementById('ibar').classList.remove('h');
+
+/* ═══════════════════════════════════════════
+   SEED DATA (first run)
+═══════════════════════════════════════════ */
+if(!load().length){
+  save([
+    {id:'s1',strategy:'Covered Call',ticker:'AAPL',tradeDate:'2026-01-06',strike:'190',premium:'2.80',contracts:'1',invested:'17500',expDate:'2026-01-31',closeDate:'2026-01-31',closePrem:'0',costBasis:'17500',status:'Closed - Expired',notes:'Expired OTM, full premium kept'},
+    {id:'s2',strategy:'Cash-Secured Put',ticker:'AAPL',tradeDate:'2026-01-08',strike:'175',premium:'2.50',contracts:'1',invested:'17500',expDate:'2026-01-31',closeDate:'2026-01-31',closePrem:'0',costBasis:'',status:'Closed - Expired',notes:'CSP expired worthless'},
+    {id:'s3',strategy:'Covered Call',ticker:'NVDA',tradeDate:'2026-01-10',strike:'620',premium:'9.50',contracts:'1',invested:'62000',expDate:'2026-01-31',closeDate:'2026-01-31',closePrem:'0',costBasis:'60000',status:'Closed - Expired',notes:'NVDA CC expired'},
+    {id:'s4',strategy:'Cash-Secured Put',ticker:'TSLA',tradeDate:'2026-01-15',strike:'350',premium:'6.00',contracts:'2',invested:'70000',expDate:'2026-01-31',closeDate:'2026-01-31',closePrem:'0',costBasis:'',status:'Closed - Expired',notes:'2 contracts, expired'},
+    {id:'s5',strategy:'Wheel - CSP Phase',ticker:'AAPL',tradeDate:'2026-01-20',strike:'180',premium:'3.20',contracts:'1',invested:'18000',expDate:'2026-02-21',closeDate:'2026-02-21',closePrem:'',costBasis:'',status:'Assigned',notes:'Assigned — fell below $180'},
+    {id:'s6',strategy:'Covered Call',ticker:'AAPL',tradeDate:'2026-02-03',strike:'192',premium:'3.10',contracts:'1',invested:'17500',expDate:'2026-02-28',closeDate:'2026-02-28',closePrem:'0',costBasis:'17500',status:'Closed - Called Away',notes:'Called away at $192'},
+    {id:'s7',strategy:'Cash-Secured Put',ticker:'AMZN',tradeDate:'2026-02-05',strike:'205',premium:'3.80',contracts:'1',invested:'20500',expDate:'2026-02-28',closeDate:'2026-02-17',closePrem:'1.90',costBasis:'',status:'Closed - Bought Back',notes:'Closed at 50% profit'},
+    {id:'s8',strategy:'Covered Call',ticker:'MSFT',tradeDate:'2026-02-12',strike:'420',premium:'5.20',contracts:'1',invested:'42000',expDate:'2026-02-28',closeDate:'2026-02-28',closePrem:'0',costBasis:'40000',status:'Closed - Expired',notes:'MSFT flat, kept premium'},
+    {id:'s9',strategy:'Wheel - CC Phase',ticker:'AAPL',tradeDate:'2026-02-24',strike:'185',premium:'2.60',contracts:'1',invested:'18500',expDate:'2026-02-28',closeDate:'2026-02-28',closePrem:'0',costBasis:'18000',status:'Closed - Called Away',notes:'Wheel CC after assignment'},
+    {id:'s10',strategy:'Cash-Secured Put',ticker:'AAPL',tradeDate:'2026-03-01',strike:'210',premium:'3.50',contracts:'1',invested:'21000',expDate:'2026-03-28',closeDate:'',closePrem:'',costBasis:'',status:'Open',notes:'At key support level'},
+    {id:'s11',strategy:'Covered Call',ticker:'NVDA',tradeDate:'2026-03-04',strike:'650',premium:'11.00',contracts:'1',invested:'65000',expDate:'2026-03-28',closeDate:'',closePrem:'',costBasis:'62000',status:'Open',notes:'Monitoring'},
+    {id:'s12',strategy:'Cash-Secured Put',ticker:'TSLA',tradeDate:'2026-03-08',strike:'335',premium:'5.50',contracts:'1',invested:'33500',expDate:'2026-03-28',closeDate:'',closePrem:'',costBasis:'',status:'Open',notes:'$335 support level'},
+  ].map(t=>({...t,createdAt:new Date().toISOString()})));
+  saveP([{year:2024,pnl:10100,invested:185000,trades:28,winRate:0.85},{year:2025,pnl:16600,invested:220000,trades:42,winRate:0.88}]);
 }
 
-// ══════════════════════════════════════════════════════════════════
-// TOAST
-// ══════════════════════════════════════════════════════════════════
-let toastTimer;
-function toast(msg, color='var(--green)'){
-  const el = document.getElementById('toast');
-  el.innerHTML = `<span style="color:${color}">${msg}</span>`;
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>el.classList.remove('show'),2800);
-}
-
-// ══════════════════════════════════════════════════════════════════
-// INSTALL BANNER (PWA)
-// ══════════════════════════════════════════════════════════════════
-function dismissInstall(){
-  document.getElementById('install-banner').classList.add('hidden');
-  localStorage.setItem('installDismissed','1');
-}
-
-// Show install banner on iOS if not installed and not dismissed
-const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-const isStandalone = window.navigator.standalone===true;
-const dismissed = localStorage.getItem('installDismissed');
-if(isIOS && !isStandalone && !dismissed){
-  document.getElementById('install-banner').classList.remove('hidden');
-}
-
-// ══════════════════════════════════════════════════════════════════
-// SEED SAMPLE DATA (first run only)
-// ══════════════════════════════════════════════════════════════════
-if(loadTrades().length===0){
-  const samples=[
-    {id:'s1',strategy:'Covered Call',ticker:'AAPL',tradeDate:'2026-01-06',strike:'190',premium:'2.80',contracts:'1',expDate:'2026-01-31',closeDate:'2026-01-31',closePrem:'0',costBasis:'17500',status:'Closed - Expired',notes:'Expired OTM, kept full premium'},
-    {id:'s2',strategy:'Cash-Secured Put',ticker:'AAPL',tradeDate:'2026-01-08',strike:'175',premium:'2.50',contracts:'1',expDate:'2026-01-31',closeDate:'2026-01-31',closePrem:'0',costBasis:'',status:'Closed - Expired',notes:'CSP expired worthless'},
-    {id:'s3',strategy:'Covered Call',ticker:'NVDA',tradeDate:'2026-01-10',strike:'620',premium:'9.50',contracts:'1',expDate:'2026-01-31',closeDate:'2026-01-31',closePrem:'0',costBasis:'60000',status:'Closed - Expired',notes:'NVDA CC expired'},
-    {id:'s4',strategy:'Cash-Secured Put',ticker:'TSLA',tradeDate:'2026-01-15',strike:'350',premium:'6.00',contracts:'2',expDate:'2026-01-31',closeDate:'2026-01-31',closePrem:'0',costBasis:'',status:'Closed - Expired',notes:'2 contracts, both expired'},
-    {id:'s5',strategy:'Wheel - CSP Phase',ticker:'AAPL',tradeDate:'2026-01-20',strike:'180',premium:'3.20',contracts:'1',expDate:'2026-02-21',closeDate:'2026-02-21',closePrem:'',costBasis:'',status:'Assigned',notes:'Assigned — stock fell below $180'},
-    {id:'s6',strategy:'Covered Call',ticker:'AAPL',tradeDate:'2026-02-03',strike:'192',premium:'3.10',contracts:'1',expDate:'2026-02-28',closeDate:'2026-02-28',closePrem:'0',costBasis:'17500',status:'Closed - Called Away',notes:'Called away at $192'},
-    {id:'s7',strategy:'Cash-Secured Put',ticker:'AMZN',tradeDate:'2026-02-05',strike:'205',premium:'3.80',contracts:'1',expDate:'2026-02-28',closeDate:'2026-02-17',closePrem:'1.90',costBasis:'',status:'Closed - Bought Back',notes:'Closed at 50% profit'},
-    {id:'s8',strategy:'Covered Call',ticker:'MSFT',tradeDate:'2026-02-12',strike:'420',premium:'5.20',contracts:'1',expDate:'2026-02-28',closeDate:'2026-02-28',closePrem:'0',costBasis:'40000',status:'Closed - Expired',notes:'MSFT flat, kept premium'},
-    {id:'s9',strategy:'Wheel - CC Phase',ticker:'AAPL',tradeDate:'2026-02-24',strike:'185',premium:'2.60',contracts:'1',expDate:'2026-02-28',closeDate:'2026-02-28',closePrem:'0',costBasis:'18000',status:'Closed - Called Away',notes:'Wheel CC after assignment'},
-    {id:'s10',strategy:'Cash-Secured Put',ticker:'AAPL',tradeDate:'2026-03-01',strike:'210',premium:'3.50',contracts:'1',expDate:'2026-03-28',closeDate:'',closePrem:'',costBasis:'',status:'Open',notes:'At key support level'},
-    {id:'s11',strategy:'Covered Call',ticker:'NVDA',tradeDate:'2026-03-04',strike:'650',premium:'11.00',contracts:'1',expDate:'2026-03-28',closeDate:'',closePrem:'',costBasis:'62000',status:'Open',notes:'Monitoring'},
-    {id:'s12',strategy:'Cash-Secured Put',ticker:'TSLA',tradeDate:'2026-03-08',strike:'335',premium:'5.50',contracts:'1',expDate:'2026-03-28',closeDate:'',closePrem:'',costBasis:'',status:'Open',notes:'$335 support level'},
-  ].map(t=>({...t,createdAt:new Date().toISOString()}));
-  saveTrades(samples);
-  savePrior([{year:2024,pnl:10100,trades:28,winRate:0.85},{year:2025,pnl:16600,trades:42,winRate:0.88}]);
-}
-
-// ══════════════════════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════════════════════
-renderDashboard();
-
-// Register service worker
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
-}
+/* ═══════════════════════════════════════════
+   BOOT
+═══════════════════════════════════════════ */
+renderDash();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
 </html>

@@ -13,58 +13,34 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════════
-   DESIGN: Glassmorphic Dark Finance
-   Bloomberg Terminal meets iOS 18 spatial design
-═══════════════════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:       #050810;
-  --bg1:      #080c18;
-  --sur:      rgba(255,255,255,0.04);
-  --sur2:     rgba(255,255,255,0.07);
-  --sur3:     rgba(255,255,255,0.10);
-  --gl:       rgba(12,18,35,0.85);
-  --gb:       rgba(255,255,255,0.08);
-  --gb2:      rgba(255,255,255,0.13);
-  --gold:     #F7B731;
-  --gold2:    #F59E0B;
-  --goldglow: rgba(247,183,49,0.15);
-  --golddim:  rgba(247,183,49,0.30);
-  --green:    #00D4AA;
-  --gbg:      rgba(0,212,170,0.08);
-  --gglow:    rgba(0,212,170,0.20);
-  --red:      #FF5C5C;
-  --rbg:      rgba(255,92,92,0.08);
-  --rglow:    rgba(255,92,92,0.20);
-  --blue:     #4D9EFF;
-  --bbg:      rgba(77,158,255,0.08);
-  --purple:   #B97FFF;
-  --pbg:      rgba(185,127,255,0.08);
-  --amber:    #FFB347;
-  --abg:      rgba(255,179,71,0.08);
-  --teal:     #2DD4BF;
-  --tbg:      rgba(45,212,191,0.08);
-  --t1: rgba(255,255,255,0.95);
-  --t2: rgba(255,255,255,0.60);
-  --t3: rgba(255,255,255,0.30);
-  --t4: rgba(255,255,255,0.12);
-  --font:     'Outfit', sans-serif;
-  --mono:     'JetBrains Mono', monospace;
-  --safe-t:   env(safe-area-inset-top,0px);
-  --safe-b:   env(safe-area-inset-bottom,0px);
-  --tab-h:    68px;
-  --hdr-h:    64px;
-  --r:        18px;
-  --r2:       12px;
-  --r3:       8px;
+  --bg:#050810;--bg1:#080c18;
+  --sur:rgba(255,255,255,0.04);--sur2:rgba(255,255,255,0.07);--sur3:rgba(255,255,255,0.10);
+  --gl:rgba(12,18,35,0.88);--gb:rgba(255,255,255,0.08);--gb2:rgba(255,255,255,0.13);
+  --gold:#F7B731;--gold2:#F59E0B;--goldglow:rgba(247,183,49,0.15);--golddim:rgba(247,183,49,0.30);
+  --green:#00D4AA;--gbg:rgba(0,212,170,0.08);--gglow:rgba(0,212,170,0.20);
+  --red:#FF5C5C;--rbg:rgba(255,92,92,0.08);--rglow:rgba(255,92,92,0.20);
+  --blue:#4D9EFF;--bbg:rgba(77,158,255,0.08);
+  --purple:#B97FFF;--pbg:rgba(185,127,255,0.08);
+  --amber:#FFB347;--abg:rgba(255,179,71,0.08);
+  --teal:#2DD4BF;--tbg:rgba(45,212,191,0.08);
+  --cyan:#22D3EE;--cbg:rgba(34,211,238,0.08);
+  --t1:rgba(255,255,255,0.95);--t2:rgba(255,255,255,0.60);--t3:rgba(255,255,255,0.30);--t4:rgba(255,255,255,0.12);
+  --font:'Outfit',sans-serif;--mono:'JetBrains Mono',monospace;
+  --safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px);
+  --tab-h:68px;--hdr-h:64px;--r:18px;--r2:12px;--r3:8px;
 }
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-family:var(--font);-webkit-font-smoothing:antialiased}
-body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 50% at 15% 8%,rgba(77,158,255,0.055) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 85% 85%,rgba(247,183,49,0.045) 0%,transparent 60%),radial-gradient(ellipse 50% 70% at 55% 25%,rgba(0,212,170,0.03) 0%,transparent 60%);pointer-events:none}
-input,select,button{font-family:inherit;color:inherit}
+body::before{content:'';position:fixed;inset:0;z-index:0;
+  background:radial-gradient(ellipse 80% 50% at 15% 8%,rgba(77,158,255,0.055) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 50% at 85% 85%,rgba(247,183,49,0.045) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 70% at 55% 25%,rgba(0,212,170,0.03) 0%,transparent 60%);
+  pointer-events:none}
+input,select,button,textarea{font-family:inherit;color:inherit}
 button{cursor:pointer;border:none;background:none}
 
-/* ── Layout ─────────────────────────────────────────────────── */
+/* ── Shell ── */
 #app{position:relative;z-index:1;display:flex;flex-direction:column;height:100vh;height:100dvh;padding-top:var(--safe-t)}
 #hdr{height:var(--hdr-h);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--gl);border-bottom:1px solid var(--gb);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;z-index:20}
 .hdr-logo{display:flex;align-items:center;gap:10px}
@@ -82,23 +58,20 @@ button{cursor:pointer;border:none;background:none}
 .tab.on .tab-ico{transform:translateY(-3px) scale(1.1)}
 .tab.on::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:24px;height:2.5px;border-radius:2px;background:var(--gold);box-shadow:0 0 10px var(--gold2)}
 
-/* ── Panels ─────────────────────────────────────────────────── */
+/* ── Panels ── */
 .panel{display:none;padding:16px 16px 0;animation:panelIn .25s cubic-bezier(.16,1,.3,1)}
 .panel.on{display:block}
 @keyframes panelIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── Cards ──────────────────────────────────────────────────── */
+/* ── Cards ── */
 .card{background:var(--sur);border:1px solid var(--gb);border-radius:var(--r);padding:18px;margin-bottom:12px;position:relative;overflow:hidden;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .card::before{content:'';position:absolute;inset:0;border-radius:var(--r);background:linear-gradient(135deg,rgba(255,255,255,0.025) 0%,transparent 60%);pointer-events:none}
-.card-sm{padding:14px}
-.card-flush{padding:0;overflow:hidden}
-
-/* ── Section header ─────────────────────────────────────────── */
+.card-sm{padding:14px}.card-flush{padding:0;overflow:hidden}
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .sh-title{font-size:15px;font-weight:700;letter-spacing:-0.2px}
 .badge{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:3px 9px;border-radius:20px}
 
-/* ── Hero card ──────────────────────────────────────────────── */
+/* ── Hero ── */
 .hero{border-radius:var(--r);padding:22px 20px 20px;margin-bottom:12px;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(247,183,49,0.10) 0%,rgba(247,183,49,0.02) 100%);border:1px solid rgba(247,183,49,0.16);border-radius:var(--r)}
 .hero-lbl{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t2);margin-bottom:8px;position:relative}
@@ -108,22 +81,23 @@ button{cursor:pointer;border:none;background:none}
 .hero-val.neu{color:var(--gold);text-shadow:0 0 32px var(--goldglow)}
 .hero-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;position:relative}
 .chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px}
-.chip-g{background:var(--gbg);color:var(--green);border:1px solid rgba(0,212,170,0.2)}
-.chip-r{background:var(--rbg);color:var(--red);border:1px solid rgba(255,92,92,0.2)}
-.chip-a{background:var(--abg);color:var(--amber);border:1px solid rgba(255,179,71,0.2)}
-.chip-t{background:var(--tbg);color:var(--teal);border:1px solid rgba(45,212,191,0.2)}
+.chip-g{background:var(--gbg);color:var(--green);border:1px solid rgba(0,212,170,.2)}
+.chip-r{background:var(--rbg);color:var(--red);border:1px solid rgba(255,92,92,.2)}
+.chip-a{background:var(--abg);color:var(--amber);border:1px solid rgba(255,179,71,.2)}
+.chip-t{background:var(--tbg);color:var(--teal);border:1px solid rgba(45,212,191,.2)}
+.chip-b{background:var(--bbg);color:var(--blue);border:1px solid rgba(77,158,255,.2)}
+.chip-c{background:var(--cbg);color:var(--cyan);border:1px solid rgba(34,211,238,.2)}
 
-/* ── KPI Grid ───────────────────────────────────────────────── */
+/* ── KPIs ── */
 .kgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.kgrid4{grid-template-columns:1fr 1fr 1fr 1fr}
 .kpi{background:var(--sur);border:1px solid var(--gb);border-radius:var(--r2);padding:14px 13px;position:relative;overflow:hidden}
 .kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;background:var(--kc,var(--gold));box-shadow:0 0 10px var(--kc,var(--gold))}
 .kpi-lbl{font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);margin-bottom:7px}
 .kpi-val{font-family:var(--mono);font-size:19px;font-weight:500;color:var(--kc,var(--gold));line-height:1}
 .kpi-sub{font-size:9.5px;color:var(--t3);margin-top:5px;font-family:var(--mono)}
-.kg{--kc:var(--green)}.kr{--kc:var(--red)}.kb{--kc:var(--blue)}.kp{--kc:var(--purple)}.ka{--kc:var(--amber)}.kt{--kc:var(--teal)}
+.kg{--kc:var(--green)}.kr{--kc:var(--red)}.kb{--kc:var(--blue)}.kp{--kc:var(--purple)}.ka{--kc:var(--amber)}.kt{--kc:var(--teal)}.kc{--kc:var(--cyan)}
 
-/* ── Bar chart ──────────────────────────────────────────────── */
+/* ── Bar chart ── */
 .bars{display:flex;align-items:flex-end;gap:5px;height:72px}
 .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px}
 .bar-fill{width:100%;border-radius:5px 5px 0 0;min-height:3px;transition:height .5s cubic-bezier(.34,1.2,.64,1)}
@@ -132,7 +106,7 @@ button{cursor:pointer;border:none;background:none}
 .bar-fill.z{background:var(--t4)}
 .bar-lbl{font-size:8.5px;color:var(--t3);font-family:var(--mono)}
 
-/* ── Data table ─────────────────────────────────────────────── */
+/* ── Tables ── */
 .tbl{width:100%;border-collapse:collapse}
 .tbl th{text-align:left;padding:8px 10px 6px;font-size:8.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--gb)}
 .tbl th:not(:first-child){text-align:right}
@@ -140,15 +114,24 @@ button{cursor:pointer;border:none;background:none}
 .tbl td:first-child{font-family:var(--font);font-weight:600;font-size:13px;color:var(--t1)}
 .tbl td:not(:first-child){text-align:right;color:var(--t2)}
 .tbl tr:last-child td{border-bottom:none}
-.tbl .tot td{font-weight:700;color:var(--gold)!important;border-top:1px solid var(--gb2);background:rgba(247,183,49,0.04);padding-top:12px}
+.tbl .tot td{font-weight:700;color:var(--gold)!important;border-top:1px solid var(--gb2);background:rgba(247,183,49,.04);padding-top:12px}
 .tbl .cy td{color:var(--green)!important;font-weight:700}
-.pos-c{color:var(--green)!important}
-.neg-c{color:var(--red)!important}
-.roi-c{color:var(--teal)!important}
-.inv-c{color:var(--blue)!important}
+.pos-c{color:var(--green)!important}.neg-c{color:var(--red)!important}
+.roi-c{color:var(--teal)!important}.inv-c{color:var(--blue)!important}
+.neu-c{color:var(--amber)!important}
 
-/* ── Trade row ──────────────────────────────────────────────── */
-.trow{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;transition:background .12s}
+/* ── Position card (new) ── */
+.pos-card{background:var(--sur);border:1px solid var(--gb);border-radius:var(--r);padding:16px;margin-bottom:10px;position:relative;overflow:hidden}
+.pos-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--pc,var(--gold));box-shadow:0 0 12px var(--pc,var(--gold))}
+.pos-ticker{font-size:18px;font-weight:800;letter-spacing:.3px}
+.pos-meta{font-size:11px;color:var(--t3);margin-top:2px;font-family:var(--mono)}
+.pos-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.ps{background:rgba(255,255,255,.03);border-radius:var(--r3);padding:8px 10px;border:1px solid var(--gb)}
+.ps-l{font-size:8px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--t3);margin-bottom:4px}
+.ps-v{font-family:var(--mono);font-size:13px;font-weight:500}
+
+/* ── Trade rows ── */
+.trow{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;transition:background .12s}
 .trow:last-child{border-bottom:none}
 .trow:active{background:var(--sur3)}
 .tbadge{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
@@ -159,18 +142,16 @@ button{cursor:pointer;border:none;background:none}
 .tright{text-align:right;flex-shrink:0}
 .tpnl{font-family:var(--mono);font-size:15px;font-weight:600}
 .troi{font-size:10px;font-family:var(--mono);margin-top:3px}
-
-/* Ticker badges */
 .tk-AAPL{background:linear-gradient(135deg,rgba(52,211,153,.15),rgba(52,211,153,.04));border:1px solid rgba(52,211,153,.2)}
 .tk-NVDA{background:linear-gradient(135deg,rgba(129,140,248,.15),rgba(129,140,248,.04));border:1px solid rgba(129,140,248,.2)}
 .tk-TSLA{background:linear-gradient(135deg,rgba(248,113,113,.15),rgba(248,113,113,.04));border:1px solid rgba(248,113,113,.2)}
 .tk-AMZN{background:linear-gradient(135deg,rgba(45,212,191,.15),rgba(45,212,191,.04));border:1px solid rgba(45,212,191,.2)}
 .tk-MSFT{background:linear-gradient(135deg,rgba(96,165,250,.15),rgba(96,165,250,.04));border:1px solid rgba(96,165,250,.2)}
+.tk-OKLO{background:linear-gradient(135deg,rgba(247,183,49,.15),rgba(247,183,49,.04));border:1px solid rgba(247,183,49,.2)}
 .tk-SPY{background:linear-gradient(135deg,rgba(192,132,252,.15),rgba(192,132,252,.04));border:1px solid rgba(192,132,252,.2)}
-.tk-QQQ{background:linear-gradient(135deg,rgba(251,146,60,.15),rgba(251,146,60,.04));border:1px solid rgba(251,146,60,.2)}
 .tk-def{background:var(--sur);border:1px solid var(--gb)}
 
-/* ── Pills ──────────────────────────────────────────────────── */
+/* ── Pills ── */
 .pill{display:inline-block;font-size:8.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2.5px 8px;border-radius:20px}
 .p-g{background:var(--gbg);color:var(--green);border:1px solid rgba(0,212,170,.25)}
 .p-r{background:var(--rbg);color:var(--red);border:1px solid rgba(255,92,92,.25)}
@@ -178,72 +159,74 @@ button{cursor:pointer;border:none;background:none}
 .p-b{background:var(--bbg);color:var(--blue);border:1px solid rgba(77,158,255,.25)}
 .p-p{background:var(--pbg);color:var(--purple);border:1px solid rgba(185,127,255,.25)}
 
-/* ── Form ───────────────────────────────────────────────────── */
+/* ── Forms ── */
 .fg{margin-bottom:14px}
 .fl{display:block;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t2);margin-bottom:7px}
-.fi,.fs{width:100%;padding:13px 15px;background:rgba(255,255,255,0.05);border:1px solid var(--gb2);border-radius:var(--r2);font-size:15px;color:var(--t1);outline:none;transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
+.fl-hint{color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0;font-size:9px}
+.fi,.fs{width:100%;padding:13px 15px;background:rgba(255,255,255,.05);border:1px solid var(--gb2);border-radius:var(--r2);font-size:15px;color:var(--t1);outline:none;transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
 .fi::placeholder{color:var(--t3)}
 .fi:focus,.fs:focus{border-color:rgba(247,183,49,.5);box-shadow:0 0 0 3px rgba(247,183,49,.08);background:rgba(255,255,255,.07)}
+.fi.highlight{border-color:rgba(247,183,49,.4);background:rgba(247,183,49,.04)}
 .fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .sw{position:relative}
 .sw::after{content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none;font-size:13px}
 .sw .fs{padding-right:36px}
+.info-box{background:rgba(45,212,191,.06);border:1px solid rgba(45,212,191,.15);border-radius:var(--r2);padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--teal);line-height:1.6}
+.warn-box{background:rgba(255,179,71,.06);border:1px solid rgba(255,179,71,.15);border-radius:var(--r2);padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--amber);line-height:1.6}
 
-/* ── Buttons ────────────────────────────────────────────────── */
+/* ── Buttons ── */
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:15px 20px;border-radius:var(--r2);font-size:15px;font-weight:700;transition:all .15s;width:100%}
 .btn:active{transform:scale(.97)}
 .btn-p{background:linear-gradient(135deg,var(--gold) 0%,#F09820 100%);color:#0a0a0a;box-shadow:0 4px 20px rgba(247,183,49,.25)}
 .btn-g{background:var(--sur);border:1px solid var(--gb2);color:var(--t2)}
 .btn-d{background:var(--rbg);border:1px solid rgba(255,92,92,.3);color:var(--red)}
 .btn-s{background:var(--gbg);border:1px solid rgba(0,212,170,.3);color:var(--green)}
+.btn-b{background:var(--bbg);border:1px solid rgba(77,158,255,.3);color:var(--blue)}
 .btn-sm{padding:10px 16px;font-size:13px;border-radius:var(--r3)}
 .div-lbl{display:flex;align-items:center;gap:10px;margin:16px 0;font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--t3)}
 .div-lbl::before,.div-lbl::after{content:'';flex:1;height:1px;background:var(--gb)}
 
-/* ── Modal ──────────────────────────────────────────────────── */
+/* ── Modal ── */
 #ov{position:fixed;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:100;display:none;align-items:flex-end}
 #ov.on{display:flex}
 #modal{width:100%;max-height:92vh;overflow-y:auto;background:#0d1424;border:1px solid var(--gb2);border-bottom:none;border-radius:24px 24px 0 0;padding:8px 20px 24px;padding-bottom:calc(24px + var(--safe-b));animation:slideUp .32s cubic-bezier(.16,1,.3,1)}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .mpip{width:36px;height:4px;border-radius:2px;background:var(--gb2);margin:12px auto 20px}
 .mt{font-size:20px;font-weight:800;margin-bottom:4px}
-.ms{font-size:12px;color:var(--t3);margin-bottom:20px}
+.ms{font-size:12px;color:var(--t3);margin-bottom:18px}
 .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .di{background:var(--sur);border:1px solid var(--gb);border-radius:var(--r3);padding:10px 12px}
 .dl{font-size:8.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
 .dv{font-family:var(--mono);font-size:14px;color:var(--t1)}
 
-/* ── Toast ──────────────────────────────────────────────────── */
+/* ── Toast ── */
 #toast{position:fixed;top:calc(var(--safe-t) + var(--hdr-h) + 12px);left:16px;right:16px;z-index:300;background:rgba(13,20,36,.96);border:1px solid var(--gb2);border-radius:var(--r2);padding:13px 16px;font-size:13.5px;font-weight:600;display:none;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,.5);backdrop-filter:blur(20px)}
 #toast.on{display:flex;animation:toastIn .3s cubic-bezier(.16,1,.3,1)}
 @keyframes toastIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── Install bar ────────────────────────────────────────────── */
+/* ── Install bar ── */
 #ibar{margin:0 16px 10px;padding:12px 16px;background:linear-gradient(135deg,rgba(247,183,49,.08),rgba(247,183,49,.02));border:1px solid var(--golddim);border-radius:var(--r2);display:flex;align-items:center;gap:12px}
 #ibar.h{display:none}
-.ib-t{flex:1}
 .ib-t strong{display:block;font-size:13px;color:var(--gold);margin-bottom:2px}
 .ib-t span{font-size:11px;color:var(--t2);line-height:1.4}
 
-/* ── Settings rows ──────────────────────────────────────────── */
+/* ── Settings ── */
 .sr{display:flex;align-items:center;padding:15px 0;border-bottom:1px solid var(--gb);gap:14px}
 .sr:last-child{border-bottom:none}
 .si{font-size:22px;width:38px;text-align:center}
-.sinfo{flex:1}
-.st{font-size:14px;font-weight:600}
-.ss{font-size:11px;color:var(--t3);margin-top:2px}
+.sinfo{flex:1}.st{font-size:14px;font-weight:600}.ss{font-size:11px;color:var(--t3);margin-top:2px}
 
-/* ── Empty state ────────────────────────────────────────────── */
+/* ── Empty ── */
 .empty{text-align:center;padding:52px 24px}
 .ei{font-size:52px;margin-bottom:14px;opacity:.3;filter:grayscale(1)}
 .et{font-size:15px;font-weight:700;color:var(--t2);margin-bottom:6px}
 .es{font-size:12px;color:var(--t3);line-height:1.6}
 
-/* ── Progress ───────────────────────────────────────────────── */
+/* ── Progress ── */
 .pgbar{height:4px;border-radius:2px;background:var(--gb);margin-top:8px;overflow:hidden}
 .pgfill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--green),var(--teal));transition:width .6s cubic-bezier(.34,1.2,.64,1)}
 
-/* ── Stagger ────────────────────────────────────────────────── */
+/* ── Stagger ── */
 .sg>*{animation:sgIn .3s both}
 .sg>*:nth-child(1){animation-delay:.04s}.sg>*:nth-child(2){animation-delay:.08s}
 .sg>*:nth-child(3){animation-delay:.12s}.sg>*:nth-child(4){animation-delay:.16s}
@@ -251,11 +234,13 @@ button{cursor:pointer;border:none;background:none}
 @keyframes sgIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 ::-webkit-scrollbar{width:2px}
 ::-webkit-scrollbar-thumb{background:var(--gb2);border-radius:1px}
+
+/* ── Position tag ── */
+.pos-tag{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--bbg);color:var(--blue);border:1px solid rgba(77,158,255,.25);letter-spacing:.4px}
 </style>
 </head>
 <body>
 <div id="app">
-
   <div id="hdr">
     <div class="hdr-logo">
       <div class="hdr-icon">⚙</div>
@@ -265,8 +250,8 @@ button{cursor:pointer;border:none;background:none}
       </div>
     </div>
     <div class="hdr-btns">
-      <button class="hbtn" onclick="goAdd()">＋</button>
-      <button class="hbtn" onclick="nav('settings')">≡</button>
+      <button class="hbtn" onclick="goAdd()" title="Add Trade">＋</button>
+      <button class="hbtn" onclick="nav('settings')" title="More">≡</button>
     </div>
   </div>
 
@@ -275,7 +260,6 @@ button{cursor:pointer;border:none;background:none}
     <div class="ib-t"><strong>Add to Home Screen</strong><span>Safari → Share → "Add to Home Screen"</span></div>
     <button class="hbtn" onclick="dismissInstall()" style="width:32px;height:32px;font-size:14px;flex-shrink:0">✕</button>
   </div>
-
   <div id="toast"></div>
 
   <div id="content">
@@ -283,9 +267,23 @@ button{cursor:pointer;border:none;background:none}
     <!-- DASHBOARD -->
     <div id="p-dashboard" class="panel on"><div id="db"></div></div>
 
+    <!-- POSITIONS (Stock Holdings) -->
+    <div id="p-positions" class="panel">
+      <div class="sh">
+        <span class="sh-title">Stock Positions</span>
+        <span class="badge" style="background:var(--bbg);color:var(--blue);border:1px solid rgba(77,158,255,.2)">HOLDINGS</span>
+      </div>
+      <div class="info-box">💡 Add your stock holdings here first. Then link your Covered Calls to a position — the ROI is calculated on your <strong>original purchase cost</strong>, not per-trade.</div>
+      <div id="pos-list"></div>
+      <button class="btn btn-b btn-sm" onclick="openAddPosition()">＋  Add Stock Position</button>
+    </div>
+
     <!-- ADD TRADE -->
     <div id="p-add" class="panel">
-      <div class="sh"><span class="sh-title">Log a Trade</span><span class="badge" style="background:var(--goldglow);color:var(--gold);border:1px solid var(--golddim)">NEW</span></div>
+      <div class="sh">
+        <span class="sh-title">Log a Trade</span>
+        <span class="badge" style="background:var(--goldglow);color:var(--gold);border:1px solid var(--golddim)">NEW</span>
+      </div>
       <div class="card">
         <div class="fg">
           <label class="fl">Strategy</label>
@@ -298,24 +296,36 @@ button{cursor:pointer;border:none;background:none}
             <option value="Wheel - Assigned">⚙  Wheel — Assigned</option>
           </select></div>
         </div>
+
+        <!-- CC: link to position -->
+        <div id="g-poslink" class="fg" style="display:none">
+          <label class="fl">Linked Stock Position <span class="fl-hint">— ROI calculated on original buy cost</span></label>
+          <div class="sw"><select class="fs fi highlight" id="f-poslink">
+            <option value="">No position linked (manual ROI)</option>
+          </select></div>
+        </div>
+
         <div class="fr">
-          <div class="fg"><label class="fl">Ticker</label><input class="fi" id="f-ticker" placeholder="AAPL" oninput="this.value=this.value.toUpperCase()"></div>
+          <div class="fg"><label class="fl">Ticker</label><input class="fi" id="f-ticker" placeholder="AAPL" oninput="this.value=this.value.toUpperCase();syncTicker()"></div>
           <div class="fg"><label class="fl">Trade Date</label><input class="fi" type="date" id="f-date"></div>
         </div>
         <div class="fr">
           <div class="fg"><label class="fl">Strike ($)</label><input class="fi" type="number" id="f-strike" placeholder="190.00" step="0.50"></div>
-          <div class="fg"><label class="fl">Premium ($)</label><input class="fi" type="number" id="f-prem" placeholder="2.80" step="0.01"></div>
+          <div class="fg"><label class="fl">Premium ($) <span class="fl-hint">per share</span></label><input class="fi" type="number" id="f-prem" placeholder="2.80" step="0.01"></div>
         </div>
         <div class="fr">
-          <div class="fg"><label class="fl">Contracts</label><input class="fi" type="number" id="f-contracts" value="1" min="1"></div>
-          <div class="fg">
-            <label class="fl">Amount Invested ($) <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">auto if blank</span></label>
-            <input class="fi" type="number" id="f-invested" placeholder="Auto-calc" step="0.01">
-          </div>
+          <div class="fg"><label class="fl">Contracts</label><input class="fi" type="number" id="f-contracts" value="1" min="1" onchange="syncContracts()"></div>
+          <div class="fg"><label class="fl">Expiration Date</label><input class="fi" type="date" id="f-expdate"></div>
         </div>
-        <div class="fg"><label class="fl">Expiration Date</label><input class="fi" type="date" id="f-expdate"></div>
-        <div id="g-cb" class="fg" style="display:none"><label class="fl">Cost Basis / Share ($)</label><input class="fi" type="number" id="f-cb" placeholder="175.00" step="0.01"></div>
-        <div class="div-lbl">Close Info <span style="color:var(--t4);font-weight:400;text-transform:none;letter-spacing:0">optional</span></div>
+
+        <!-- CSP: capital deployed -->
+        <div id="g-csp-inv" class="fg" style="display:none">
+          <label class="fl">Cash Collateral Locked ($) <span class="fl-hint">auto = strike × contracts × 100</span></label>
+          <input class="fi" type="number" id="f-invested" placeholder="Auto-calc" step="0.01">
+          <div id="inv-hint" style="font-size:11px;color:var(--teal);margin-top:6px;font-family:var(--mono)"></div>
+        </div>
+
+        <div class="div-lbl">Close Info <span style="color:var(--t4);font-weight:400;text-transform:none;letter-spacing:0">optional — fill when closed</span></div>
         <div class="fr">
           <div class="fg"><label class="fl">Close Date</label><input class="fi" type="date" id="f-cd"></div>
           <div class="fg"><label class="fl">Close Premium ($)</label><input class="fi" type="number" id="f-cp" placeholder="0.00" step="0.01"></div>
@@ -369,32 +379,32 @@ button{cursor:pointer;border:none;background:none}
       </div>
       <div class="card">
         <div class="sh" style="margin-bottom:8px"><span class="sh-title" style="font-size:13px">Import</span></div>
-        <p style="font-size:12px;color:var(--t3);margin-bottom:12px;line-height:1.7">Restore from a JSON backup. Merges with existing trades — no duplicates.</p>
+        <p style="font-size:12px;color:var(--t3);margin-bottom:12px;line-height:1.7">Restore from a JSON backup. Merges with existing data — no duplicates.</p>
         <label class="btn btn-g btn-sm" style="cursor:pointer">📥  Import JSON Backup<input type="file" accept=".json" id="f-import" style="display:none" onchange="importJSON(this)"></label>
       </div>
       <div class="card">
         <div class="sh" style="margin-bottom:8px"><span class="sh-title" style="font-size:13px">Prior Year Totals</span></div>
-        <p style="font-size:12px;color:var(--t3);margin-bottom:12px;line-height:1.7">Add previous year P&L + capital for year-over-year ROI comparison.</p>
+        <p style="font-size:12px;color:var(--t3);margin-bottom:12px;line-height:1.7">Add previous year totals for year-over-year ROI comparison on dashboard.</p>
         <div id="prior-rows"></div>
         <button class="btn btn-g btn-sm" onclick="addPrior()" style="margin-top:8px">＋  Add Year</button>
       </div>
       <div class="card">
         <div class="sr"><div class="si">📲</div><div class="sinfo"><div class="st">Install as App</div><div class="ss">Safari → Share → Add to Home Screen</div></div><div style="color:var(--t3)">›</div></div>
         <div class="sr"><div class="si">☁️</div><div class="sinfo"><div class="st">Cloud Sync</div><div class="ss">Export JSON → iCloud Drive / Google Drive</div></div><div style="color:var(--t3)">›</div></div>
-        <div class="sr"><div class="si">🔒</div><div class="sinfo"><div class="st">Privacy</div><div class="ss">All data stored locally on your device only</div></div></div>
+        <div class="sr"><div class="si">🔒</div><div class="sinfo"><div class="st">Privacy</div><div class="ss">All data stored locally on device only</div></div></div>
       </div>
-      <div class="card"><button class="btn btn-d btn-sm" onclick="confirmClear()">🗑  Clear All Trades</button></div>
-      <div style="text-align:center;padding:16px 0 4px;font-size:11px;color:var(--t3);font-family:var(--mono)">WheelTracker v2.0 · localStorage</div>
+      <div class="card"><button class="btn btn-d btn-sm" onclick="confirmClear()">🗑  Clear All Data</button></div>
+      <div style="text-align:center;padding:16px 0 4px;font-size:11px;color:var(--t3);font-family:var(--mono)">WheelTracker v3.0 · localStorage</div>
     </div>
 
   </div><!-- /content -->
 
   <div id="tabbar">
-    <div class="tab on" id="tab-dashboard" onclick="nav('dashboard')"><div class="tab-ico">📊</div><div>Dashboard</div></div>
-    <div class="tab" id="tab-cc"        onclick="nav('cc')">         <div class="tab-ico">📈</div><div>Calls</div></div>
-    <div class="tab" id="tab-csp"       onclick="nav('csp')">        <div class="tab-ico">🛡</div><div>Puts</div></div>
-    <div class="tab" id="tab-wheel"     onclick="nav('wheel')">      <div class="tab-ico">⚙</div><div>Wheel</div></div>
-    <div class="tab" id="tab-settings"  onclick="nav('settings')">   <div class="tab-ico">⋮</div><div>More</div></div>
+    <div class="tab on"  id="tab-dashboard"  onclick="nav('dashboard')">  <div class="tab-ico">📊</div><div>Dashboard</div></div>
+    <div class="tab"     id="tab-positions"  onclick="nav('positions')">  <div class="tab-ico">🏦</div><div>Holdings</div></div>
+    <div class="tab"     id="tab-cc"         onclick="nav('cc')">          <div class="tab-ico">📈</div><div>Calls</div></div>
+    <div class="tab"     id="tab-csp"        onclick="nav('csp')">         <div class="tab-ico">🛡</div><div>Puts</div></div>
+    <div class="tab"     id="tab-settings"   onclick="nav('settings')">    <div class="tab-ico">⋮</div><div>More</div></div>
   </div>
 </div>
 
@@ -402,168 +412,292 @@ button{cursor:pointer;border:none;background:none}
 <div id="ov" onclick="closeModal(event)"><div id="modal"><div id="mbody"></div></div></div>
 
 <script>
-/* ═══════════════════════════════════════════
-   DATA LAYER
-═══════════════════════════════════════════ */
-const SK='wt_v2_trades', PK='wt_v2_prior';
-const load  = () => { try{return JSON.parse(localStorage.getItem(SK)||'[]')}catch(e){return[]} };
-const save  = a  => localStorage.setItem(SK,JSON.stringify(a));
-const loadP = () => { try{return JSON.parse(localStorage.getItem(PK)||'[]')}catch(e){return[]} };
-const saveP = a  => localStorage.setItem(PK,JSON.stringify(a));
+/* ══════════════════════════════════════════════════════
+   STORAGE KEYS  (v3 — new key avoids conflict with v2)
+══════════════════════════════════════════════════════ */
+const SK = 'wt_v3_trades';
+const PK = 'wt_v3_positions';  // stock positions (holdings)
+const YK = 'wt_v3_prior';      // prior year totals
 
-function calc(t){
-  const prem=+t.premium||0, close=+t.closePrem||0;
-  const cnt=+t.contracts||1, strike=+t.strike||0, cb=+t.costBasis||0;
-  let inv=+t.invested||0;
-  if(!inv){
-    if(t.strategy==='Cash-Secured Put'||t.strategy==='Wheel - CSP Phase') inv=strike*cnt*100;
-    else if(t.strategy==='Covered Call'||t.strategy==='Wheel - CC Phase') inv=cb>0?cb:strike*cnt*100;
-    else inv=strike*cnt*100;
+const loadTrades    = () => { try{return JSON.parse(localStorage.getItem(SK)||'[]')}catch(e){return[]} };
+const saveTrades    = a  => localStorage.setItem(SK,JSON.stringify(a));
+const loadPositions = () => { try{return JSON.parse(localStorage.getItem(PK)||'[]')}catch(e){return[]} };
+const savePositions = a  => localStorage.setItem(PK,JSON.stringify(a));
+const loadPrior     = () => { try{return JSON.parse(localStorage.getItem(YK)||'[]')}catch(e){return[]} };
+const savePrior     = a  => localStorage.setItem(YK,JSON.stringify(a));
+
+/* ══════════════════════════════════════════════════════
+   CORE ROI LOGIC
+   ─────────────────────────────────────────────────────
+   The key design decision:
+
+   COVERED CALLS linked to a position:
+     → "invested" = position.shares × position.avgCost  (ONE-TIME, not per trade)
+     → ROI per CC = this trade's premium income / position total cost
+     → Cumulative ROI on position = sum(all CC premiums) / position cost
+     → This correctly shows each weekly CC as a % of the same $6,000
+
+   CASH-SECURED PUTS:
+     → "invested" = strike × contracts × 100  (collateral ACTUALLY locked up)
+     → ROI = premium / collateral locked
+
+   WHEEL trades:
+     → CSP phase: same as CSP above
+     → CC phase after assignment: linked to the original CSP collateral cost
+══════════════════════════════════════════════════════ */
+
+function calcTrade(t, positions) {
+  const prem     = +t.premium   || 0;
+  const close    = +t.closePrem || 0;
+  const cnt      = +t.contracts || 1;
+  const strike   = +t.strike    || 0;
+  const netPnl   = (prem - close) * cnt * 100;
+  const premInc  = prem * cnt * 100;
+
+  // ── Determine the "invested capital" base for ROI ──────────────
+  let invested = 0;
+  let roiBase  = 'trade';    // 'position' | 'collateral' | 'trade'
+  let posRef   = null;
+
+  const isCC = t.strategy === 'Covered Call' || t.strategy === 'Wheel - CC Phase';
+  const isCSP = t.strategy === 'Cash-Secured Put' || t.strategy === 'Wheel - CSP Phase';
+
+  if (isCC && t.positionId) {
+    // Linked to a stock position → use original purchase cost
+    posRef = (positions || loadPositions()).find(p => p.id === t.positionId);
+    if (posRef) {
+      invested = posRef.shares * posRef.avgCost;
+      roiBase  = 'position';
+    }
   }
-  const netPnl=(prem-close)*cnt*100;
-  const roi=inv>0?netPnl/inv:0;
-  const premInc=prem*cnt*100;
-  let daysHeld=null;
-  if(t.tradeDate){const s=new Date(t.tradeDate),e=t.closeDate?new Date(t.closeDate):new Date();daysHeld=Math.round((e-s)/86400000)}
-  const d=t.tradeDate?new Date(t.tradeDate):null;
-  const month=d?d.toLocaleString('en-US',{month:'long'}):'';
-  const year=d?d.getFullYear():null;
-  const sg=t.strategy==='Covered Call'||t.strategy==='Wheel - CC Phase'?'CC':
-           t.strategy==='Cash-Secured Put'||t.strategy==='Wheel - CSP Phase'||t.strategy==='Wheel - Assigned'?'CSP':'Wheel';
-  return{...t,netPnl,roi,inv,premInc,daysHeld,month,year,sg};
-}
-const all=()=>load().map(calc);
 
-/* ═══════════════════════════════════════════
+  if (!invested) {
+    if (isCSP || t.strategy === 'Wheel - Assigned') {
+      // Cash actually locked as collateral
+      invested = +t.invested || (strike * cnt * 100);
+      roiBase  = 'collateral';
+    } else {
+      // Fallback: manual invested amount or strike-based
+      invested = +t.invested || (strike * cnt * 100);
+      roiBase  = 'trade';
+    }
+  }
+
+  const roi = invested > 0 ? netPnl / invested : 0;
+
+  // Date fields
+  let daysHeld = null;
+  if (t.tradeDate) {
+    const s = new Date(t.tradeDate);
+    const e = t.closeDate ? new Date(t.closeDate) : new Date();
+    daysHeld = Math.round((e - s) / 86400000);
+  }
+  const d     = t.tradeDate ? new Date(t.tradeDate) : null;
+  const month = d ? d.toLocaleString('en-US',{month:'long'}) : '';
+  const year  = d ? d.getFullYear() : null;
+  const sg    = isCC ? 'CC' : isCSP ? 'CSP' : 'Wheel';
+
+  return { ...t, netPnl, roi, invested, premInc, daysHeld, month, year, sg, roiBase, posRef };
+}
+
+function allCalc() {
+  const positions = loadPositions();
+  return loadTrades().map(t => calcTrade(t, positions));
+}
+
+/* ── Position-level cumulative stats ── */
+function positionStats(posId) {
+  const trades  = allCalc().filter(t => t.positionId === posId);
+  const totalPremium = trades.reduce((s,t) => s + t.netPnl, 0);
+  const openTrades   = trades.filter(t => t.status === 'Open').length;
+  const pos          = loadPositions().find(p => p.id === posId);
+  const posCost      = pos ? pos.shares * pos.avgCost : 0;
+  const cumulROI     = posCost > 0 ? totalPremium / posCost : 0;
+  const currentVal   = pos ? pos.shares * (pos.currentPrice || pos.avgCost) : 0;
+  const stockPnl     = pos ? currentVal - posCost : 0;
+  const totalPnl     = totalPremium + stockPnl;
+  const totalROI     = posCost > 0 ? totalPnl / posCost : 0;
+  return { trades, totalPremium, openTrades, posCost, cumulROI, currentVal, stockPnl, totalPnl, totalROI };
+}
+
+/* ══════════════════════════════════════════════════════
    FORMAT HELPERS
-═══════════════════════════════════════════ */
-const $f=v=>{const n=+v||0;return(n<0?'−$':'$')+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})};
-const $k=v=>{const n=+v||0,a=Math.abs(n),s=a>=1000?(a/1000).toFixed(1)+'k':a.toFixed(0);return(n<0?'−$':'$')+s};
-const pct =v=>((+v||0)*100).toFixed(1)+'%';
-const psgn=v=>{const p=(+v||0)*100;return(p>=0?'+':'')+p.toFixed(1)+'%'};
-const dt  =d=>d?new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'2-digit'}):'—';
+══════════════════════════════════════════════════════ */
+const $f  = v => { const n=+v||0; return (n<0?'−$':'$')+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); };
+const $k  = v => { const n=+v||0,a=Math.abs(n),s=a>=1000?(a/1000).toFixed(1)+'k':a.toFixed(0); return (n<0?'−$':'$')+s; };
+const pct  = v => ((+v||0)*100).toFixed(1)+'%';
+const psgn = v => { const p=(+v||0)*100; return (p>=0?'+':'')+p.toFixed(2)+'%'; };
+const dt   = d => d ? new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'2-digit'}) : '—';
 
-function pill(s){
-  if(!s)return'';
-  if(s.startsWith('Closed'))return`<span class="pill p-g">${s.replace('Closed - ','')}</span>`;
-  if(s==='Assigned')return`<span class="pill p-r">Assigned</span>`;
-  if(s==='Open')return`<span class="pill p-a">Open</span>`;
-  if(s==='Rolled')return`<span class="pill p-b">Rolled</span>`;
-  return`<span class="pill p-p">${s}</span>`;
+function pill(s) {
+  if(!s) return '';
+  if(s.startsWith('Closed')) return `<span class="pill p-g">${s.replace('Closed - ','')}</span>`;
+  if(s==='Assigned')          return `<span class="pill p-r">Assigned</span>`;
+  if(s==='Open')              return `<span class="pill p-a">Open</span>`;
+  if(s==='Rolled')            return `<span class="pill p-b">Rolled</span>`;
+  return `<span class="pill p-p">${s}</span>`;
 }
-function sico(s){if(!s)return'📋';if(s.includes('Covered Call'))return'📈';if(s.includes('Wheel'))return'⚙';return'🛡'}
-function tkc(t){return['AAPL','NVDA','TSLA','AMZN','MSFT','SPY','QQQ'].includes(t)?`tk-${t}`:'tk-def'}
+function sico(s) { if(!s)return'📋'; if(s.includes('Covered Call'))return'📈'; if(s.includes('Wheel'))return'⚙'; return'🛡'; }
+function tkc(t) { return ['AAPL','NVDA','TSLA','AMZN','MSFT','OKLO','SPY'].includes(t)?`tk-${t}`:'tk-def'; }
 
-/* ═══════════════════════════════════════════
-   NAV
-═══════════════════════════════════════════ */
-let cur='dashboard';
-function nav(t){
+function roiLabel(t) {
+  if(t.roiBase === 'position' && t.posRef)
+    return `vs $${(+t.posRef.avgCost).toFixed(0)}×${t.posRef.shares} cost`;
+  if(t.roiBase === 'collateral')
+    return `on collateral`;
+  return `on capital`;
+}
+
+/* ══════════════════════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════════════════════ */
+let cur = 'dashboard';
+function nav(t) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(tb=>tb.classList.remove('on'));
   document.getElementById('p-'+t).classList.add('on');
   document.getElementById('tab-'+t)?.classList.add('on');
-  cur=t; render(t);
+  cur = t; render(t);
 }
-function render(t){
-  if(t==='dashboard')renderDash();
-  else if(t==='cc')  renderStrat('cc');
-  else if(t==='csp') renderStrat('csp');
-  else if(t==='wheel')renderStrat('wheel');
-  else if(t==='settings')renderSettings();
+function render(t) {
+  if(t==='dashboard') renderDash();
+  else if(t==='positions') renderPositions();
+  else if(t==='cc')        renderStrat('cc');
+  else if(t==='csp')       renderStrat('csp');
+  else if(t==='wheel')     renderStrat('wheel');
+  else if(t==='settings')  renderSettings();
 }
-function goAdd(){
+function goAdd() {
   if(!document.getElementById('f-date').value)
-    document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
+    document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
   nav('add');
+  refreshPositionDropdown();
   document.getElementById('content').scrollTo({top:0,behavior:'smooth'});
 }
 
-/* ═══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════
    DASHBOARD
-═══════════════════════════════════════════ */
-function renderDash(){
-  const trades=all(), yr=new Date().getFullYear();
-  const ytd=trades.filter(t=>t.year===yr);
-  const closed=trades.filter(t=>t.status?.startsWith('Closed'));
-  const wr=closed.length?closed.filter(t=>t.netPnl>=0).length/closed.length:0;
-  const ytdPnl=ytd.reduce((s,t)=>s+t.netPnl,0);
-  const ytdInv=ytd.reduce((s,t)=>s+t.inv,0);
-  const ytdROI=ytdInv>0?ytdPnl/ytdInv:0;
-  const ccPnl=ytd.filter(t=>t.sg==='CC').reduce((s,t)=>s+t.netPnl,0);
-  const cspPnl=ytd.filter(t=>t.sg==='CSP').reduce((s,t)=>s+t.netPnl,0);
-  const openN=trades.filter(t=>t.status==='Open').length;
-  const openInv=trades.filter(t=>t.status==='Open').reduce((s,t)=>s+t.inv,0);
+══════════════════════════════════════════════════════ */
+function renderDash() {
+  const trades  = allCalc();
+  const yr      = new Date().getFullYear();
+  const ytd     = trades.filter(t=>t.year===yr);
+  const closed  = trades.filter(t=>t.status?.startsWith('Closed'));
+  const wr      = closed.length ? closed.filter(t=>t.netPnl>=0).length/closed.length : 0;
+  const ytdPnl  = ytd.reduce((s,t)=>s+t.netPnl,0);
+  const openN   = trades.filter(t=>t.status==='Open').length;
 
+  // For YTD ROI: sum position costs + CSP collateral (don't double-count)
+  const positions    = loadPositions();
+  const posCost      = positions.reduce((s,p)=>s+(p.shares*p.avgCost),0);
+  const cspCollateral= ytd.filter(t=>t.sg==='CSP').reduce((s,t)=>s+t.invested,0);
+  const totalCapital = posCost + cspCollateral;
+  const ytdROI       = totalCapital > 0 ? ytdPnl / totalCapital : 0;
+
+  const ccPnl  = ytd.filter(t=>t.sg==='CC').reduce((s,t)=>s+t.netPnl,0);
+  const cspPnl = ytd.filter(t=>t.sg==='CSP').reduce((s,t)=>s+t.netPnl,0);
+
+  // Monthly
   const MOS=['J','F','M','A','M','J','J','A','S','O','N','D'];
   const MOF=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const mo=MOF.map((m,i)=>{
-    const mt=ytd.filter(t=>t.month===m);
-    const pnl=mt.reduce((s,t)=>s+t.netPnl,0);
-    const inv=mt.reduce((s,t)=>s+t.inv,0);
-    return{m,sh:MOS[i],pnl,inv,roi:inv>0?pnl/inv:0,cnt:mt.length};
+  const mo = MOF.map((m,i)=>{
+    const mt  = ytd.filter(t=>t.month===m);
+    const pnl = mt.reduce((s,t)=>s+t.netPnl,0);
+    return {m, sh:MOS[i], pnl, cnt:mt.length};
   });
-  const maxB=Math.max(...mo.map(m=>Math.abs(m.pnl)),1);
+  const maxB = Math.max(...mo.map(m=>Math.abs(m.pnl)),1);
 
-  // Monthly table with ROI
-  let cumPnl=0,cumInv=0,moRows='';
-  mo.forEach(m=>{
-    if(!m.cnt)return;
-    cumPnl+=m.pnl; cumInv+=m.inv;
-    const cROI=cumInv>0?cumPnl/cumInv:0;
-    moRows+=`<tr>
+  let cumPnl=0, moRows='';
+  mo.forEach(m => {
+    if(!m.cnt) return;
+    cumPnl += m.pnl;
+    moRows += `<tr>
       <td>${m.m.substring(0,3)}</td>
       <td style="color:var(--t2)">${m.cnt}</td>
       <td class="${m.pnl>=0?'pos-c':'neg-c'}">${$k(m.pnl)}</td>
-      <td class="inv-c">${$k(m.inv)}</td>
-      <td class="roi-c">${psgn(m.roi)}</td>
       <td class="${cumPnl>=0?'pos-c':'neg-c'}">${$k(cumPnl)}</td>
-      <td class="roi-c">${psgn(cROI)}</td>
     </tr>`;
   });
 
-  // YoY table
-  const prior=loadP().sort((a,b)=>b.year-a.year);
-  let yoyRows=`<tr class="cy">
+  // YoY
+  const prior = loadPrior().sort((a,b)=>b.year-a.year);
+  let yoyRows = `<tr class="cy">
     <td>${yr} ◀</td><td>${ytd.length}</td>
     <td class="${ytdPnl>=0?'pos-c':'neg-c'}">${$k(ytdPnl)}</td>
-    <td class="inv-c">${$k(ytdInv)}</td>
+    <td class="inv-c">${$k(totalCapital)}</td>
     <td class="roi-c">${psgn(ytdROI)}</td>
     <td>${closed.length?pct(wr):'—'}</td>
   </tr>`;
-  prior.forEach(p=>{
-    const roi=p.invested>0?p.pnl/p.invested:0;
-    yoyRows+=`<tr>
+  prior.forEach(p => {
+    const roi = p.capital>0?p.pnl/p.capital:0;
+    yoyRows += `<tr>
       <td>${p.year}</td><td>${p.trades||'—'}</td>
       <td class="pos-c">${$k(p.pnl||0)}</td>
-      <td class="inv-c">${p.invested?$k(p.invested):'—'}</td>
-      <td class="roi-c">${p.invested?psgn(roi):'—'}</td>
+      <td class="inv-c">${p.capital?$k(p.capital):'—'}</td>
+      <td class="roi-c">${p.capital?psgn(roi):'—'}</td>
       <td>${p.winRate?pct(p.winRate):'—'}</td>
     </tr>`;
   });
 
-  if(!trades.length){
-    document.getElementById('db').innerHTML=`<div class="empty sg"><div class="ei">📭</div><div class="et">No trades yet</div><div class="es">Tap ＋ to log your first trade<br>and start tracking your income</div></div><button class="btn btn-p" onclick="goAdd()">＋  Add First Trade</button>`;
+  if(!trades.length && !positions.length) {
+    document.getElementById('db').innerHTML=`<div class="empty sg">
+      <div class="ei">📭</div>
+      <div class="et">No data yet</div>
+      <div class="es">Start by adding a <strong style="color:var(--blue)">stock position</strong> (Holdings tab),<br>then log your covered calls against it.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button class="btn btn-b" onclick="nav('positions')">🏦  Add Stock Position</button>
+      <button class="btn btn-g" onclick="goAdd()">＋  Log a Trade</button>
+    </div>`;
     return;
   }
 
-  document.getElementById('db').innerHTML=`
+  // Position summary cards
+  let posSummary = '';
+  positions.forEach(p => {
+    const st = positionStats(p.id);
+    const breakeven = (+p.avgCost - (st.totalPremium/(+p.shares||1))).toFixed(2);
+    const curPx = +p.currentPrice || +p.avgCost;
+    const unrealised = (curPx - p.avgCost) * p.shares;
+    posSummary += `<div class="pos-card" style="--pc:${unrealised>=0?'var(--green)':'var(--red)'}">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div class="pos-ticker">${p.ticker} <span style="font-size:12px;color:var(--t3);font-weight:400">${p.shares}sh @ $${p.avgCost}</span></div>
+          <div class="pos-meta">Cost $${$k(st.posCost).replace('$','')} · Breakeven $${breakeven}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:var(--mono);font-size:16px;font-weight:600;color:${st.cumulROI>=0?'var(--green)':'var(--red)'}">${psgn(st.cumulROI)}</div>
+          <div style="font-size:10px;color:var(--t3);font-family:var(--mono);margin-top:2px">premium ROI</div>
+        </div>
+      </div>
+      <div class="pos-stats">
+        <div class="ps"><div class="ps-l">Premiums</div><div class="ps-v" style="color:var(--green)">${$k(st.totalPremium)}</div></div>
+        <div class="ps"><div class="ps-l">Stock P&L</div><div class="ps-v" style="color:${unrealised>=0?'var(--green)':'var(--red)'}">${$k(unrealised)}</div></div>
+        <div class="ps"><div class="ps-l">Total P&L</div><div class="ps-v" style="color:${st.totalPnl>=0?'var(--green)':'var(--red)'}">${$k(st.totalPnl)}</div></div>
+        <div class="ps"><div class="ps-l"># Calls</div><div class="ps-v" style="color:var(--blue)">${st.trades.length}</div></div>
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('db').innerHTML = `
     <div class="hero sg"><div class="hero-bg"></div>
       <div class="hero-lbl">YTD Net P&L — ${yr}</div>
       <div class="hero-val ${ytdPnl>=0?'pos':'neg'}">${$f(ytdPnl)}</div>
       <div class="hero-chips">
-        <span class="chip ${ytdROI>=0?'chip-g':'chip-r'}">${psgn(ytdROI)} ROI</span>
-        <span class="chip chip-t">${$k(ytdInv)} invested</span>
+        <span class="chip ${ytdROI>=0?'chip-g':'chip-r'}">${psgn(ytdROI)} total ROI</span>
+        <span class="chip chip-b">${$k(totalCapital)} capital</span>
         <span class="chip ${wr>=0.7?'chip-g':'chip-a'}">${closed.length?pct(wr):'—'} win rate</span>
       </div>
     </div>
 
     <div class="kgrid sg">
-      <div class="kpi kg"><div class="kpi-lbl">📈 Covered Calls</div><div class="kpi-val">${$k(ccPnl)}</div><div class="kpi-sub">YTD income</div></div>
-      <div class="kpi kp"><div class="kpi-lbl">🛡 Cash-Sec Puts</div><div class="kpi-val">${$k(cspPnl)}</div><div class="kpi-sub">YTD income</div></div>
-      <div class="kpi ka"><div class="kpi-lbl">Open Positions</div><div class="kpi-val">${openN}</div><div class="kpi-sub">${$k(openInv)} at risk</div></div>
+      <div class="kpi kg"><div class="kpi-lbl">📈 CC Income</div><div class="kpi-val">${$k(ccPnl)}</div><div class="kpi-sub">YTD premium</div></div>
+      <div class="kpi kp"><div class="kpi-lbl">🛡 CSP Income</div><div class="kpi-val">${$k(cspPnl)}</div><div class="kpi-sub">YTD premium</div></div>
+      <div class="kpi ka"><div class="kpi-lbl">Open Positions</div><div class="kpi-val">${openN}</div><div class="kpi-sub">${positions.length} holdings</div></div>
       <div class="kpi kb"><div class="kpi-lbl">Total Trades</div><div class="kpi-val">${trades.length}</div><div class="kpi-sub">${closed.length} closed</div></div>
     </div>
+
+    ${positions.length ? `<div class="sh" style="margin-top:4px"><span class="sh-title">Position ROI</span><button onclick="nav('positions')" style="font-size:11px;color:var(--t3);font-weight:600">All ›</button></div>${posSummary}` : ''}
 
     <div class="card card-sm">
       <div class="sh" style="margin-bottom:10px"><span class="sh-title" style="font-size:13px">Monthly P&L — ${yr}</span></div>
@@ -573,14 +707,9 @@ function renderDash(){
     </div>
 
     ${moRows?`<div class="card card-flush">
-      <div style="padding:14px 16px 10px" class="sh">
-        <span class="sh-title" style="font-size:13px">Monthly Breakdown</span>
-        <span style="font-size:9px;color:var(--teal);font-family:var(--mono);font-weight:700">+ROI%</span>
-      </div>
-      <table class="tbl">
-        <thead><tr><th>Month</th><th>Trades</th><th>P&L</th><th>Invested</th><th>ROI%</th><th>Cumul P&L</th><th>Cum ROI</th></tr></thead>
-        <tbody>${moRows}</tbody>
-      </table>
+      <div style="padding:14px 16px 10px" class="sh"><span class="sh-title" style="font-size:13px">Monthly Breakdown</span></div>
+      <table class="tbl"><thead><tr><th>Month</th><th>Trades</th><th>P&L</th><th>Cumulative</th></tr></thead>
+      <tbody>${moRows}</tbody></table>
     </div>`:''}
 
     <div class="card card-flush">
@@ -588,147 +717,352 @@ function renderDash(){
         <span class="sh-title" style="font-size:13px">Year-over-Year</span>
         <button onclick="nav('settings')" style="font-size:11px;color:var(--t3);font-weight:600">Edit ›</button>
       </div>
-      <table class="tbl">
-        <thead><tr><th>Year</th><th>Trades</th><th>P&L</th><th>Invested</th><th>ROI%</th><th>Win%</th></tr></thead>
-        <tbody>${yoyRows}</tbody>
-      </table>
+      <table class="tbl"><thead><tr><th>Year</th><th>Trades</th><th>P&L</th><th>Capital</th><th>ROI%</th><th>Win%</th></tr></thead>
+      <tbody>${yoyRows}</tbody></table>
     </div>
 
     <div class="sh" style="margin-top:4px"><span class="sh-title">Recent Trades</span><span style="font-size:12px;color:var(--t3)">${trades.length} total</span></div>
     <div class="card card-flush sg">
-      ${all().slice().reverse().slice(0,10).map(t=>trow(t)).join('')}
+      ${allCalc().slice().reverse().slice(0,10).map(t=>trow(t)).join('')}
     </div>
   `;
 }
 
-/* ═══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════
+   POSITIONS SCREEN
+══════════════════════════════════════════════════════ */
+function renderPositions() {
+  const positions = loadPositions();
+  const el = document.getElementById('pos-list');
+  if(!positions.length) {
+    el.innerHTML=`<div class="empty"><div class="ei">🏦</div><div class="et">No positions yet</div><div class="es">Add the stocks you own here.<br>Then link your covered calls to them<br>for accurate ROI tracking.</div></div>`;
+    return;
+  }
+  el.innerHTML = positions.map(p => {
+    const st = positionStats(p.id);
+    const curPx = +p.currentPrice || +p.avgCost;
+    const unrealised = (curPx - +p.avgCost) * +p.shares;
+    const breakeven = (+p.avgCost - (st.totalPremium/(+p.shares||1))).toFixed(2);
+    return `<div class="pos-card" style="--pc:${unrealised>=0?'var(--green)':'var(--red)'}">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div class="pos-ticker">${p.ticker}</div>
+          <div class="pos-meta">${p.shares} shares · avg $${p.avgCost} · cost $${$k(st.posCost).replace(/[−$]/g,'$')}</div>
+        </div>
+        <div style="text-align:right;display:flex;gap:8px;align-items:center">
+          <button onclick="editPosition('${p.id}')" style="font-size:11px;color:var(--t3);padding:4px 8px;border:1px solid var(--gb);border-radius:6px;background:var(--sur)">Edit</button>
+          <button onclick="deletePosition('${p.id}')" style="font-size:11px;color:var(--red);padding:4px 8px;border:1px solid rgba(255,92,92,.3);border-radius:6px;background:var(--rbg)">✕</button>
+        </div>
+      </div>
+      <div class="pos-stats">
+        <div class="ps"><div class="ps-l">CC Premiums</div><div class="ps-v pos-c">${$f(st.totalPremium)}</div></div>
+        <div class="ps"><div class="ps-l">Stock P&L</div><div class="ps-v" style="color:${unrealised>=0?'var(--green)':'var(--red)'}">${$f(unrealised)}</div></div>
+        <div class="ps"><div class="ps-l">Breakeven</div><div class="ps-v" style="color:var(--amber)">$${breakeven}</div></div>
+        <div class="ps"><div class="ps-l">CC Trades</div><div class="ps-v" style="color:var(--blue)">${st.trades.length}</div></div>
+        <div class="ps"><div class="ps-l">Premium ROI</div><div class="ps-v roi-c">${psgn(st.cumulROI)}</div></div>
+        <div class="ps"><div class="ps-l">Total ROI</div><div class="ps-v" style="color:${st.totalROI>=0?'var(--green)':'var(--red)'}">${psgn(st.totalROI)}</div></div>
+        <div class="ps"><div class="ps-l">Cur Price</div><div class="ps-v">${p.currentPrice?'$'+p.currentPrice:'—'}</div></div>
+        <div class="ps"><div class="ps-l">Open Calls</div><div class="ps-v" style="color:var(--amber)">${st.openTrades}</div></div>
+      </div>
+      ${st.trades.length ? `<div style="margin-top:12px">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Linked Covered Calls</div>
+        ${st.trades.map(t=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--gb)">
+          <div>
+            <span style="font-family:var(--mono);font-size:12px">$${t.strike} strike</span>
+            <span style="font-size:10px;color:var(--t3);margin-left:8px">${dt(t.tradeDate)} · $${t.premium}/sh · ${t.contracts}×</span>
+          </div>
+          <div style="text-align:right">
+            <span style="font-family:var(--mono);font-size:13px;font-weight:600;color:${t.netPnl>=0?'var(--green)':'var(--red)'}">${$f(t.netPnl)}</span>
+            <span style="font-size:10px;font-family:var(--mono);color:var(--teal);margin-left:6px">${psgn(t.roi)}</span>
+            <div style="margin-top:3px">${pill(t.status)}</div>
+          </div>
+        </div>`).join('')}
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;margin-top:2px">
+          <span style="font-size:11px;font-weight:700;color:var(--t2)">Cumulative ROI on $${$k(st.posCost).replace('$','')}</span>
+          <span style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--teal)">${psgn(st.cumulROI)}</span>
+        </div>
+      </div>`:''}
+    </div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════════════════════
+   ADD / EDIT POSITION MODAL
+══════════════════════════════════════════════════════ */
+function openAddPosition(existing) {
+  document.getElementById('mbody').innerHTML = `
+    <div class="mpip"></div>
+    <div class="mt">${existing?'Edit':'Add'} Stock Position</div>
+    <div class="ms">This is your one-time capital investment. All linked CCs use this as the ROI base.</div>
+    <div class="fg"><label class="fl">Ticker</label><input class="fi" id="mp-ticker" placeholder="OKLO" value="${existing?.ticker||''}" oninput="this.value=this.value.toUpperCase()"></div>
+    <div class="fr">
+      <div class="fg"><label class="fl">Shares</label><input class="fi" type="number" id="mp-shares" placeholder="100" value="${existing?.shares||''}"></div>
+      <div class="fg"><label class="fl">Avg Cost / Share ($)</label><input class="fi" type="number" id="mp-cost" placeholder="60.00" step="0.01" value="${existing?.avgCost||''}" oninput="updatePosCostPreview()"></div>
+    </div>
+    <div id="pos-cost-preview" style="font-size:12px;color:var(--teal);font-family:var(--mono);margin-bottom:14px;min-height:18px"></div>
+    <div class="fg"><label class="fl">Current Price ($) <span class="fl-hint">for unrealised P&L</span></label><input class="fi" type="number" id="mp-curpx" placeholder="${existing?.currentPrice||'optional'}" step="0.01" value="${existing?.currentPrice||''}"></div>
+    <div class="fg"><label class="fl">Purchase Date</label><input class="fi" type="date" id="mp-date" value="${existing?.purchaseDate||''}"></div>
+    <div class="fg"><label class="fl">Notes</label><input class="fi" id="mp-notes" placeholder="Optional…" value="${existing?.notes||''}"></div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+      <button class="btn btn-p" onclick="savePosition('${existing?.id||''}')">✓ &nbsp;Save Position</button>
+      <button class="btn btn-g btn-sm" onclick="closeModal({})">Cancel</button>
+    </div>`;
+  document.getElementById('ov').classList.add('on');
+  setTimeout(()=>document.getElementById('mp-ticker').focus(),300);
+}
+
+function updatePosCostPreview() {
+  const sh = +document.getElementById('mp-shares')?.value || 0;
+  const co = +document.getElementById('mp-cost')?.value  || 0;
+  const el = document.getElementById('pos-cost-preview');
+  if(el && sh && co) el.textContent = `Total cost: ${$f(sh*co)}`;
+  else if(el) el.textContent = '';
+}
+
+function savePosition(existingId) {
+  const ticker  = document.getElementById('mp-ticker').value.trim().toUpperCase();
+  const shares  = document.getElementById('mp-shares').value;
+  const avgCost = document.getElementById('mp-cost').value;
+  const curPx   = document.getElementById('mp-curpx').value;
+  const pdate   = document.getElementById('mp-date').value;
+  const notes   = document.getElementById('mp-notes').value.trim();
+  if(!ticker)  { toast('⚠ Enter ticker','var(--amber)'); return; }
+  if(!shares)  { toast('⚠ Enter number of shares','var(--amber)'); return; }
+  if(!avgCost) { toast('⚠ Enter average cost','var(--amber)'); return; }
+  const positions = loadPositions();
+  if(existingId) {
+    const idx = positions.findIndex(p=>p.id===existingId);
+    if(idx>=0) positions[idx] = {...positions[idx], ticker, shares:+shares, avgCost:+avgCost, currentPrice:curPx?+curPx:null, purchaseDate:pdate, notes};
+  } else {
+    positions.push({id:Date.now().toString(), ticker, shares:+shares, avgCost:+avgCost, currentPrice:curPx?+curPx:null, purchaseDate:pdate, notes, createdAt:new Date().toISOString()});
+  }
+  savePositions(positions);
+  document.getElementById('ov').classList.remove('on');
+  toast(`✅ Position ${existingId?'updated':'added'}!`, 'var(--green)');
+  render(cur);
+}
+
+function editPosition(id) {
+  const p = loadPositions().find(x=>x.id===id);
+  if(p) openAddPosition(p);
+}
+function deletePosition(id) {
+  if(!confirm('Delete this position? Linked trades will remain but lose position link.')) return;
+  savePositions(loadPositions().filter(p=>p.id!==id));
+  toast('🗑 Position deleted','var(--red)');
+  render(cur);
+}
+
+/* ══════════════════════════════════════════════════════
    STRATEGY VIEWS
-═══════════════════════════════════════════ */
-const FILT={
-  cc:   t=>t.strategy==='Covered Call'||t.strategy==='Wheel - CC Phase',
-  csp:  t=>t.strategy==='Cash-Secured Put'||t.strategy==='Wheel - CSP Phase'||t.strategy==='Wheel - Assigned',
-  wheel:t=>t.strategy?.startsWith('Wheel'),
+══════════════════════════════════════════════════════ */
+const FILT = {
+  cc:    t => t.strategy==='Covered Call' || t.strategy==='Wheel - CC Phase',
+  csp:   t => t.strategy==='Cash-Secured Put' || t.strategy==='Wheel - CSP Phase' || t.strategy==='Wheel - Assigned',
+  wheel: t => t.strategy?.startsWith('Wheel'),
 };
-const META={
-  cc:   {label:'Covered Calls',   kc:'kg',empty:'📈'},
-  csp:  {label:'Cash-Sec. Puts',  kc:'kp',empty:'🛡'},
-  wheel:{label:'Wheel Strategy',  kc:'ka',empty:'⚙'},
+const META = {
+  cc:    { label:'Covered Calls',   kc:'kg', empty:'📈' },
+  csp:   { label:'Cash-Sec. Puts',  kc:'kp', empty:'🛡' },
+  wheel: { label:'Wheel Strategy',  kc:'ka', empty:'⚙' },
 };
 
-function renderStrat(key){
-  const ts=all().filter(FILT[key]),m=META[key];
-  const pnl=ts.reduce((s,t)=>s+t.netPnl,0);
-  const inv=ts.reduce((s,t)=>s+t.inv,0);
-  const roi=inv>0?pnl/inv:0;
-  const cl=ts.filter(t=>t.status?.startsWith('Closed'));
-  const wr=cl.length?cl.filter(t=>t.netPnl>=0).length/cl.length:0;
-  const open=ts.filter(t=>t.status==='Open').length;
+function renderStrat(key) {
+  const ts  = allCalc().filter(FILT[key]);
+  const m   = META[key];
+  const pnl = ts.reduce((s,t)=>s+t.netPnl,0);
+  const cl  = ts.filter(t=>t.status?.startsWith('Closed'));
+  const wr  = cl.length?cl.filter(t=>t.netPnl>=0).length/cl.length:0;
+  const open= ts.filter(t=>t.status==='Open').length;
+
+  // For CC: total capital across all linked positions
+  const positions = loadPositions();
+  let ccCapital = 0;
+  if(key==='cc') {
+    const linkedPosIds = [...new Set(ts.filter(t=>t.positionId).map(t=>t.positionId))];
+    ccCapital = linkedPosIds.reduce((s,id)=>{ const p=positions.find(x=>x.id===id); return s+(p?p.shares*p.avgCost:0); },0);
+    const unlinked = ts.filter(t=>!t.positionId).reduce((s,t)=>s+t.invested,0);
+    ccCapital += unlinked;
+  }
+  const cspCapital = key==='csp' ? ts.reduce((s,t)=>s+t.invested,0) : 0;
+  const capital = key==='cc'?ccCapital:cspCapital;
+  const roi = capital>0?pnl/capital:0;
 
   document.getElementById(key+'-kpis').innerHTML=`
     <div class="kpi ${m.kc}"><div class="kpi-lbl">Total P&L</div><div class="kpi-val">${$f(pnl)}</div><div class="kpi-sub">${ts.length} trades</div></div>
-    <div class="kpi kt"><div class="kpi-lbl">ROI on Capital</div><div class="kpi-val">${psgn(roi)}</div><div class="kpi-sub">${$k(inv)} deployed</div></div>
+    <div class="kpi kt"><div class="kpi-lbl">ROI on Capital</div><div class="kpi-val">${psgn(roi)}</div><div class="kpi-sub">${$k(capital)} ${key==='cc'?'stock cost':'collateral'}</div></div>
     <div class="kpi ka"><div class="kpi-lbl">Win Rate</div><div class="kpi-val">${cl.length?pct(wr):'—'}</div><div class="kpi-sub">${open} open</div></div>
-    <div class="kpi kb"><div class="kpi-lbl">Avg ROI</div><div class="kpi-val">${ts.length?psgn(roi/ts.length):'—'}</div><div class="kpi-sub">per position</div></div>
+    <div class="kpi kb"><div class="kpi-lbl">Avg / Trade</div><div class="kpi-val">${ts.length?$k(pnl/ts.length):'—'}</div><div class="kpi-sub">per position</div></div>
   `;
-  const list=document.getElementById(key+'-list');
-  if(!ts.length){
-    list.className='';
-    list.innerHTML=`<div class="empty"><div class="ei">${m.empty}</div><div class="et">No ${m.label} yet</div><div class="es">Log a trade with this strategy<br>and it appears here automatically</div></div>`;
-    return;
-  }
+  const list = document.getElementById(key+'-list');
+  if(!ts.length){ list.className=''; list.innerHTML=`<div class="empty"><div class="ei">${m.empty}</div><div class="et">No ${m.label} yet</div><div class="es">Log a trade and it appears here automatically</div></div>`; return; }
   list.className='card card-flush';
-  list.innerHTML=ts.slice().reverse().map(t=>trow(t)).join('');
+  list.innerHTML = ts.slice().reverse().map(t=>trow(t)).join('');
 }
 
-/* ═══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════
    TRADE ROW
-═══════════════════════════════════════════ */
-function trow(t){
-  const isOpen=t.status==='Open';
-  const pC=isOpen?'color:var(--amber)':t.netPnl>=0?'color:var(--green)':'color:var(--red)';
-  const rC=isOpen?'color:var(--t3)':t.roi>=0?'color:var(--teal)':'color:var(--red)';
-  const pVal=isOpen?`${$f(t.premInc)} coll.`:$f(t.netPnl);
-  const rVal=isOpen?`${$k(t.inv)} at risk`:`ROI ${psgn(t.roi)}`;
-  return`<div class="trow" onclick="openDetail('${t.id}')">
+══════════════════════════════════════════════════════ */
+function trow(t) {
+  const isOpen = t.status==='Open';
+  const pC = isOpen?'color:var(--amber)':t.netPnl>=0?'color:var(--green)':'color:var(--red)';
+  const rC = t.roi>=0?'color:var(--teal)':'color:var(--red)';
+  const pV = isOpen?`${$f(t.premInc)} coll.`:$f(t.netPnl);
+  const posTag = t.posRef ? `<span class="pos-tag">📌 ${t.posRef.ticker} pos.</span>` : '';
+  return `<div class="trow" onclick="openDetail('${t.id}')">
     <div class="tbadge ${tkc(t.ticker)}">${sico(t.strategy)}</div>
     <div class="tmain">
-      <div class="tticker">${t.ticker||'—'} <span style="font-size:11px;color:var(--t3);font-weight:400">$${t.strike}</span></div>
+      <div class="tticker">${t.ticker||'—'} <span style="font-size:11px;color:var(--t3);font-weight:400">$${t.strike}</span> ${posTag}</div>
       <div class="tstrat">${t.strategy}</div>
       <div class="tmeta">${dt(t.tradeDate)} · ${t.contracts}× · $${t.premium}/sh</div>
     </div>
     <div class="tright">
-      <div class="tpnl" style="${pC}">${pVal}</div>
-      <div class="troi" style="${rC}">${rVal}</div>
+      <div class="tpnl" style="${pC}">${pV}</div>
+      <div class="troi" style="${rC}">${psgn(t.roi)} <span style="color:var(--t3);font-size:9px">${roiLabel(t)}</span></div>
       <div style="margin-top:4px">${pill(t.status)}</div>
     </div>
   </div>`;
 }
 
-/* ═══════════════════════════════════════════
-   FORM
-═══════════════════════════════════════════ */
-function onSC(){
-  const s=document.getElementById('f-strat').value;
-  document.getElementById('g-cb').style.display=(s==='Covered Call'||s==='Wheel - CC Phase'||s==='Wheel - Assigned')?'block':'none';
+/* ══════════════════════════════════════════════════════
+   ADD TRADE FORM
+══════════════════════════════════════════════════════ */
+function refreshPositionDropdown() {
+  const sel = document.getElementById('f-poslink');
+  const strat = document.getElementById('f-strat').value;
+  const isCC = strat==='Covered Call'||strat==='Wheel - CC Phase';
+  if(!isCC) return;
+  const positions = loadPositions();
+  sel.innerHTML = '<option value="">No position linked (manual ROI)</option>';
+  positions.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.id;
+    opt.textContent = `${p.ticker} — ${p.shares} shares @ $${p.avgCost} (cost $${$k(p.shares*p.avgCost).replace('$','')})`;
+    sel.appendChild(opt);
+  });
+  // Auto-select if ticker matches
+  const ticker = document.getElementById('f-ticker').value;
+  if(ticker) {
+    const match = positions.find(p=>p.ticker===ticker);
+    if(match) sel.value = match.id;
+  }
 }
-function saveTrade(){
-  const strat=document.getElementById('f-strat').value;
-  const ticker=document.getElementById('f-ticker').value.trim().toUpperCase();
-  const date=document.getElementById('f-date').value;
-  const strike=document.getElementById('f-strike').value;
-  const prem=document.getElementById('f-prem').value;
-  const contracts=document.getElementById('f-contracts').value||'1';
-  const invested=document.getElementById('f-invested').value;
-  const expdate=document.getElementById('f-expdate').value;
-  const closedate=document.getElementById('f-cd').value;
-  const closeprem=document.getElementById('f-cp').value;
-  const cb=document.getElementById('f-cb').value;
-  const status=document.getElementById('f-status').value;
-  const notes=document.getElementById('f-notes').value.trim();
-  if(!strat){toast('⚠ Select a strategy','var(--amber)');return}
-  if(!ticker){toast('⚠ Enter a ticker','var(--amber)');return}
-  if(!strike){toast('⚠ Enter strike price','var(--amber)');return}
-  if(!prem)  {toast('⚠ Enter premium','var(--amber)');return}
-  if(!date)  {toast('⚠ Enter trade date','var(--amber)');return}
-  const trades=load();
-  trades.push({id:Date.now().toString(),strategy:strat,ticker,tradeDate:date,strike,premium:prem,contracts,invested,expDate:expdate,closeDate:closedate,closePrem:closeprem,costBasis:cb,status,notes,createdAt:new Date().toISOString()});
-  save(trades);
-  ['f-strat','f-ticker','f-strike','f-prem','f-expdate','f-cd','f-cp','f-cb','f-notes','f-invested'].forEach(id=>document.getElementById(id).value='');
+
+function syncTicker() {
+  const strat = document.getElementById('f-strat').value;
+  if(strat==='Covered Call'||strat==='Wheel - CC Phase') refreshPositionDropdown();
+  // Auto-hint collateral for CSP
+  const ticker = document.getElementById('f-ticker').value;
+  const strike = +document.getElementById('f-strike').value||0;
+  const cnt    = +document.getElementById('f-contracts').value||1;
+  if(strike && cnt) updateInvHint(strike, cnt);
+}
+
+function syncContracts() {
+  const strike = +document.getElementById('f-strike').value||0;
+  const cnt    = +document.getElementById('f-contracts').value||1;
+  if(strike) updateInvHint(strike, cnt);
+}
+
+function updateInvHint(strike, cnt) {
+  const el = document.getElementById('inv-hint');
+  if(el) el.textContent = `Auto: $${$f(strike*cnt*100).replace('$','')} collateral`;
+}
+
+function onSC() {
+  const s = document.getElementById('f-strat').value;
+  const isCC  = s==='Covered Call'||s==='Wheel - CC Phase';
+  const isCSP = s==='Cash-Secured Put'||s==='Wheel - CSP Phase'||s==='Wheel - Assigned';
+  document.getElementById('g-poslink').style.display = isCC  ? 'block' : 'none';
+  document.getElementById('g-csp-inv').style.display = isCSP ? 'block' : 'none';
+  if(isCC) refreshPositionDropdown();
+}
+
+function saveTrade() {
+  const strat    = document.getElementById('f-strat').value;
+  const ticker   = document.getElementById('f-ticker').value.trim().toUpperCase();
+  const date     = document.getElementById('f-date').value;
+  const strike   = document.getElementById('f-strike').value;
+  const prem     = document.getElementById('f-prem').value;
+  const contracts= document.getElementById('f-contracts').value||'1';
+  const expdate  = document.getElementById('f-expdate').value;
+  const closedate= document.getElementById('f-cd').value;
+  const closeprem= document.getElementById('f-cp').value;
+  const status   = document.getElementById('f-status').value;
+  const notes    = document.getElementById('f-notes').value.trim();
+  const positionId = document.getElementById('f-poslink').value || '';
+  const invested = document.getElementById('f-invested').value;
+
+  if(!strat)  { toast('⚠ Select a strategy','var(--amber)'); return; }
+  if(!ticker) { toast('⚠ Enter a ticker','var(--amber)'); return; }
+  if(!strike) { toast('⚠ Enter strike price','var(--amber)'); return; }
+  if(!prem)   { toast('⚠ Enter premium','var(--amber)'); return; }
+  if(!date)   { toast('⚠ Enter trade date','var(--amber)'); return; }
+
+  const trades = loadTrades();
+  trades.push({
+    id:Date.now().toString(), strategy:strat, ticker, tradeDate:date,
+    strike, premium:prem, contracts, invested,
+    expDate:expdate, closeDate:closedate, closePrem:closeprem,
+    status, notes, positionId,
+    createdAt:new Date().toISOString()
+  });
+  saveTrades(trades);
+
+  ['f-strat','f-ticker','f-strike','f-prem','f-expdate','f-cd','f-cp','f-notes','f-invested'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-contracts').value='1';
   document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
-  document.getElementById('g-cb').style.display='none';
+  document.getElementById('g-poslink').style.display='none';
+  document.getElementById('g-csp-inv').style.display='none';
+  document.getElementById('f-poslink').value='';
+
   toast('✅ Trade saved!','var(--green)');
   nav('dashboard');
 }
 
-/* ═══════════════════════════════════════════
-   DETAIL MODAL
-═══════════════════════════════════════════ */
-function openDetail(id){
-  const t=all().find(x=>x.id===id);if(!t)return;
-  const isOpen=t.status==='Open';
-  const pC=isOpen?'color:var(--amber)':t.netPnl>=0?'color:var(--green)':'color:var(--red)';
-  const rC=t.roi>=0?'color:var(--teal)':'color:var(--red)';
+/* ══════════════════════════════════════════════════════
+   TRADE DETAIL MODAL
+══════════════════════════════════════════════════════ */
+function openDetail(id) {
+  const t = allCalc().find(x=>x.id===id);
+  if(!t) return;
+  const isOpen = t.status==='Open';
+  const pC = isOpen?'color:var(--amber)':t.netPnl>=0?'color:var(--green)':'color:var(--red)';
+  const rC = t.roi>=0?'color:var(--teal)':'color:var(--red)';
+
+  const roiExplain = t.roiBase==='position' && t.posRef
+    ? `ROI = ${$f(t.netPnl)} ÷ ${$f(t.posRef.shares*t.posRef.avgCost)} (${t.posRef.ticker} cost)`
+    : t.roiBase==='collateral'
+    ? `ROI = ${$f(t.netPnl)} ÷ ${$f(t.invested)} (collateral locked)`
+    : `ROI = ${$f(t.netPnl)} ÷ ${$f(t.invested)} (capital)`;
+
   document.getElementById('mbody').innerHTML=`
     <div class="mpip"></div>
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
       <div class="tbadge ${tkc(t.ticker)}" style="width:50px;height:50px;font-size:22px;border-radius:16px">${sico(t.strategy)}</div>
-      <div style="flex:1"><div class="mt">${t.ticker}</div><div class="ms">${t.strategy}</div></div>
+      <div style="flex:1">
+        <div class="mt">${t.ticker} ${t.posRef?`<span class="pos-tag">📌 ${t.posRef.ticker}</span>`:''}</div>
+        <div class="ms">${t.strategy}</div>
+      </div>
       <div style="text-align:right">
         <div style="font-family:var(--mono);font-size:22px;font-weight:600;${pC}">${$f(t.netPnl)}</div>
         <div style="font-size:11px;margin-top:3px;font-family:var(--mono);${rC}">ROI ${psgn(t.roi)}</div>
         <div style="margin-top:6px">${pill(t.status)}</div>
       </div>
     </div>
-    <!-- ROI highlight panel -->
-    <div class="card card-sm" style="margin-bottom:12px;background:rgba(45,212,191,.05);border-color:rgba(45,212,191,.15)">
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center">
-        <div><div style="font-size:9px;color:var(--t3);letter-spacing:.7px;text-transform:uppercase;margin-bottom:5px">Invested</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--blue)">${$f(t.inv)}</div></div>
-        <div><div style="font-size:9px;color:var(--t3);letter-spacing:.7px;text-transform:uppercase;margin-bottom:5px">Net P&L</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;${pC}">${$f(t.netPnl)}</div></div>
-        <div><div style="font-size:9px;color:var(--teal);letter-spacing:.7px;text-transform:uppercase;margin-bottom:5px">ROI</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;${rC}">${psgn(t.roi)}</div></div>
+
+    <!-- ROI Explanation panel -->
+    <div style="background:rgba(45,212,191,.05);border:1px solid rgba(45,212,191,.15);border-radius:var(--r2);padding:12px 14px;margin-bottom:14px">
+      <div style="font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--teal);margin-bottom:8px">ROI BREAKDOWN</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center">
+        <div><div style="font-size:9px;color:var(--t3);letter-spacing:.6px;text-transform:uppercase;margin-bottom:4px">${t.roiBase==='position'?'Stock Cost':t.roiBase==='collateral'?'Collateral':'Capital'}</div><div style="font-family:var(--mono);font-size:14px;font-weight:600;color:var(--blue)">${$f(t.invested)}</div></div>
+        <div><div style="font-size:9px;color:var(--t3);letter-spacing:.6px;text-transform:uppercase;margin-bottom:4px">Net P&L</div><div style="font-family:var(--mono);font-size:14px;font-weight:600;${pC}">${$f(t.netPnl)}</div></div>
+        <div><div style="font-size:9px;color:var(--teal);letter-spacing:.6px;text-transform:uppercase;margin-bottom:4px">ROI</div><div style="font-family:var(--mono);font-size:14px;font-weight:600;${rC}">${psgn(t.roi)}</div></div>
       </div>
+      <div style="font-size:10px;color:var(--t3);margin-top:10px;font-family:var(--mono);text-align:center">${roiExplain}</div>
       ${!isOpen?`<div class="pgbar"><div class="pgfill" style="width:${Math.min(Math.abs(t.roi)*100*8,100)}%"></div></div>`:''}
     </div>
+
     <div class="dgrid">
       <div class="di"><div class="dl">Strike</div><div class="dv">$${t.strike}</div></div>
       <div class="di"><div class="dl">Premium</div><div class="dv">$${t.premium}/sh</div></div>
@@ -739,128 +1073,165 @@ function openDetail(id){
       <div class="di"><div class="dl">Close Date</div><div class="dv">${dt(t.closeDate)}</div></div>
       <div class="di"><div class="dl">Days Held</div><div class="dv">${t.daysHeld!=null?t.daysHeld+' d':'—'}</div></div>
       <div class="di"><div class="dl">Close Prem</div><div class="dv">${t.closePrem?'$'+t.closePrem:'—'}</div></div>
-      <div class="di"><div class="dl">Cost Basis</div><div class="dv">${t.costBasis?'$'+t.costBasis:'—'}</div></div>
+      <div class="di"><div class="dl">ROI Basis</div><div class="dv" style="font-size:11px">${t.roiBase}</div></div>
     </div>
-    ${t.notes?`<div class="di" style="margin-top:8px;border-radius:var(--r3);display:block"><div class="dl">Notes</div><div style="font-size:13px;color:var(--t2);margin-top:4px">${t.notes}</div></div>`:''}
+    ${t.notes?`<div class="di" style="margin-top:8px;display:block;border-radius:var(--r3)"><div class="dl">Notes</div><div style="font-size:13px;color:var(--t2);margin-top:4px">${t.notes}</div></div>`:''}
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
       <button class="btn btn-g btn-sm" onclick="editTrade('${t.id}')">✏  Edit Trade</button>
       <button class="btn btn-d btn-sm" onclick="delTrade('${t.id}')">🗑  Delete Trade</button>
     </div>`;
   document.getElementById('ov').classList.add('on');
 }
-function closeModal(e){if(e.target===document.getElementById('ov')||!e)document.getElementById('ov').classList.remove('on')}
-function delTrade(id){save(load().filter(t=>t.id!==id));document.getElementById('ov').classList.remove('on');toast('🗑 Trade deleted','var(--red)');render(cur)}
-function editTrade(id){
-  const t=load().find(x=>x.id===id);if(!t)return;
+
+function closeModal(e) { if(!e||e.target===document.getElementById('ov')) document.getElementById('ov').classList.remove('on'); }
+function delTrade(id) { saveTrades(loadTrades().filter(t=>t.id!==id)); document.getElementById('ov').classList.remove('on'); toast('🗑 Trade deleted','var(--red)'); render(cur); }
+function editTrade(id) {
+  const t = loadTrades().find(x=>x.id===id); if(!t) return;
   document.getElementById('ov').classList.remove('on');
-  document.getElementById('f-strat').value=t.strategy||'';
-  document.getElementById('f-ticker').value=t.ticker||'';
-  document.getElementById('f-date').value=t.tradeDate||'';
-  document.getElementById('f-strike').value=t.strike||'';
-  document.getElementById('f-prem').value=t.premium||'';
-  document.getElementById('f-contracts').value=t.contracts||'1';
-  document.getElementById('f-invested').value=t.invested||'';
-  document.getElementById('f-expdate').value=t.expDate||'';
-  document.getElementById('f-cd').value=t.closeDate||'';
-  document.getElementById('f-cp').value=t.closePrem||'';
-  document.getElementById('f-cb').value=t.costBasis||'';
-  document.getElementById('f-status').value=t.status||'Open';
-  document.getElementById('f-notes').value=t.notes||'';
+  document.getElementById('f-strat').value     = t.strategy||'';
+  document.getElementById('f-ticker').value    = t.ticker||'';
+  document.getElementById('f-date').value      = t.tradeDate||'';
+  document.getElementById('f-strike').value    = t.strike||'';
+  document.getElementById('f-prem').value      = t.premium||'';
+  document.getElementById('f-contracts').value = t.contracts||'1';
+  document.getElementById('f-invested').value  = t.invested||'';
+  document.getElementById('f-expdate').value   = t.expDate||'';
+  document.getElementById('f-cd').value        = t.closeDate||'';
+  document.getElementById('f-cp').value        = t.closePrem||'';
+  document.getElementById('f-status').value    = t.status||'Open';
+  document.getElementById('f-notes').value     = t.notes||'';
   onSC();
-  save(load().filter(x=>x.id!==id));
+  setTimeout(()=>{ if(t.positionId) document.getElementById('f-poslink').value=t.positionId; },100);
+  saveTrades(loadTrades().filter(x=>x.id!==id));
   nav('add');
   toast('✏ Edit mode — update and re-save','var(--blue)');
 }
 
-/* ═══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════
    SETTINGS
-═══════════════════════════════════════════ */
-function renderSettings(){
-  const prior=loadP().sort((a,b)=>a.year-b.year);
+══════════════════════════════════════════════════════ */
+function renderSettings() {
+  const prior = loadPrior().sort((a,b)=>a.year-b.year);
   let rows='';
   prior.forEach((p,i)=>{
     rows+=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
       <input class="fi" type="number" value="${p.year}" placeholder="Year" onchange="updP(${i},'year',this.value)" style="font-family:var(--mono);font-size:13px">
       <input class="fi" type="number" value="${p.pnl||''}" placeholder="P&L ($)" onchange="updP(${i},'pnl',this.value)" style="font-family:var(--mono);font-size:13px">
-      <input class="fi" type="number" value="${p.invested||''}" placeholder="Invested ($)" onchange="updP(${i},'invested',this.value)" style="font-family:var(--mono);font-size:13px">
+      <input class="fi" type="number" value="${p.capital||''}" placeholder="Capital ($)" onchange="updP(${i},'capital',this.value)" style="font-family:var(--mono);font-size:13px">
     </div>`;
   });
   document.getElementById('prior-rows').innerHTML=rows;
 }
-function addPrior(){const p=loadP(),l=p.length?Math.min(...p.map(x=>x.year))-1:new Date().getFullYear()-1;p.push({year:l,pnl:0,invested:0,trades:0,winRate:0});saveP(p);renderSettings()}
-function updP(i,f,v){const p=loadP();if(p[i])p[i][f]=f==='year'?parseInt(v):parseFloat(v);saveP(p)}
+function addPrior(){const p=loadPrior(),l=p.length?Math.min(...p.map(x=>x.year))-1:new Date().getFullYear()-1;p.push({year:l,pnl:0,capital:0,trades:0,winRate:0});savePrior(p);renderSettings()}
+function updP(i,f,v){const p=loadPrior();if(p[i])p[i][f]=f==='year'?parseInt(v):parseFloat(v);savePrior(p)}
 
-/* ═══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════
    IMPORT / EXPORT
-═══════════════════════════════════════════ */
+══════════════════════════════════════════════════════ */
 function exportJSON(){
-  const d={version:2,trades:load(),prior:loadP(),exportedAt:new Date().toISOString()};
+  const d={version:3,trades:loadTrades(),positions:loadPositions(),prior:loadPrior(),exportedAt:new Date().toISOString()};
   const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:'application/json'})),download:`wheeltracker-${new Date().toISOString().split('T')[0]}.json`});
   a.click();URL.revokeObjectURL(a.href);toast('📤 JSON exported!','var(--green)');
 }
 function exportCSV(){
-  const rows=all();
-  const hdr=['Date','Ticker','Strategy','Strike','Premium','Contracts','Invested','NetPnL','ROI_pct','ExpDate','CloseDate','ClosePrem','CostBasis','Status','DaysHeld','Month','Year','Notes'];
-  const csv=[hdr,...rows.map(t=>[t.tradeDate,t.ticker,t.strategy,t.strike,t.premium,t.contracts,t.inv.toFixed(2),t.netPnl.toFixed(2),(t.roi*100).toFixed(2),t.expDate,t.closeDate,t.closePrem,t.costBasis,t.status,t.daysHeld,t.month,t.year,`"${(t.notes||'').replace(/"/g,'""')}"`])].map(r=>r.join(',')).join('\n');
+  const rows=allCalc();
+  const hdr=['Date','Ticker','Strategy','Strike','Premium','Contracts','NetPnL','ROI_pct','ROI_Basis','Invested','PositionId','ExpDate','CloseDate','ClosePrem','Status','DaysHeld','Month','Year','Notes'];
+  const csv=[hdr,...rows.map(t=>[t.tradeDate,t.ticker,t.strategy,t.strike,t.premium,t.contracts,t.netPnl.toFixed(2),(t.roi*100).toFixed(2),t.roiBase,t.invested.toFixed(2),t.positionId||'',t.expDate,t.closeDate,t.closePrem,t.status,t.daysHeld,t.month,t.year,`"${(t.notes||'').replace(/"/g,'""')}"`])].map(r=>r.join(',')).join('\n');
   const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),download:`wheeltracker-${new Date().toISOString().split('T')[0]}.csv`});
   a.click();toast('📊 CSV exported!','var(--green)');
 }
 function importJSON(input){
   const file=input.files[0];if(!file)return;
   const r=new FileReader();
-  r.onload=e=>{try{const d=JSON.parse(e.target.result),inc=d.trades||d,ex=load(),ids=new Set(ex.map(t=>t.id));save([...ex,...inc.filter(t=>!ids.has(t.id))]);if(d.prior)saveP(d.prior);toast(`✅ Imported ${inc.length} trades`,'var(--green)');render(cur)}catch(err){toast('❌ Invalid JSON','var(--red)')}};
+  r.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      const inc=d.trades||d, ex=loadTrades(), ids=new Set(ex.map(t=>t.id));
+      saveTrades([...ex,...inc.filter(t=>!ids.has(t.id))]);
+      if(d.positions){const ep=loadPositions(),pid=new Set(ep.map(p=>p.id));savePositions([...ep,...d.positions.filter(p=>!pid.has(p.id))]);}
+      if(d.prior) savePrior(d.prior);
+      toast(`✅ Imported ${inc.length} trades`,'var(--green)');render(cur);
+    }catch(err){toast('❌ Invalid JSON','var(--red)')}
+  };
   r.readAsText(file);input.value='';
 }
 function confirmClear(){
-  document.getElementById('mbody').innerHTML=`<div class="mpip"></div><div class="mt">⚠ Clear All Data?</div><div class="ms">Permanently deletes ${load().length} trades. Export first!</div><div style="display:flex;flex-direction:column;gap:8px"><button class="btn btn-d" onclick="clearAll()">Yes, Delete Everything</button><button class="btn btn-g" onclick="closeModal({})">Cancel</button></div>`;
+  document.getElementById('mbody').innerHTML=`<div class="mpip"></div><div class="mt">⚠ Clear All Data?</div><div class="ms">Permanently deletes all ${loadTrades().length} trades and ${loadPositions().length} positions.</div><div style="display:flex;flex-direction:column;gap:8px"><button class="btn btn-d" onclick="clearAll()">Yes, Delete Everything</button><button class="btn btn-g" onclick="closeModal({})">Cancel</button></div>`;
   document.getElementById('ov').classList.add('on');
 }
-function clearAll(){save([]);document.getElementById('ov').classList.remove('on');toast('🗑 All trades cleared','var(--red)');render(cur)}
+function clearAll(){saveTrades([]);savePositions([]);document.getElementById('ov').classList.remove('on');toast('🗑 All data cleared','var(--red)');render(cur)}
 
-/* ═══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════
    TOAST
-═══════════════════════════════════════════ */
+══════════════════════════════════════════════════════ */
 let _tt;
-function toast(msg,color='var(--green)'){
-  const el=document.getElementById('toast');
-  el.innerHTML=`<span style="color:${color}">${msg}</span>`;
-  el.classList.add('on');
-  clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('on'),2800);
-}
+function toast(msg,color='var(--green)'){const el=document.getElementById('toast');el.innerHTML=`<span style="color:${color}">${msg}</span>`;el.classList.add('on');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('on'),2800)}
 
-/* ═══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════
    INSTALL BANNER
-═══════════════════════════════════════════ */
-function dismissInstall(){document.getElementById('ibar').classList.add('h');localStorage.setItem('ib2','1')}
-if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.navigator.standalone&&!localStorage.getItem('ib2'))
-  document.getElementById('ibar').classList.remove('h');
+══════════════════════════════════════════════════════ */
+function dismissInstall(){document.getElementById('ibar').classList.add('h');localStorage.setItem('ib3','1')}
+if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.navigator.standalone&&!localStorage.getItem('ib3'))document.getElementById('ibar').classList.remove('h');
 
-/* ═══════════════════════════════════════════
-   SEED DATA (first run)
-═══════════════════════════════════════════ */
-if(!load().length){
-  save([
-    {id:'s1',strategy:'Covered Call',ticker:'AAPL',tradeDate:'2026-01-06',strike:'190',premium:'2.80',contracts:'1',invested:'17500',expDate:'2026-01-31',closeDate:'2026-01-31',closePrem:'0',costBasis:'17500',status:'Closed - Expired',notes:'Expired OTM, full premium kept'},
-    {id:'s2',strategy:'Cash-Secured Put',ticker:'AAPL',tradeDate:'2026-01-08',strike:'175',premium:'2.50',contracts:'1',invested:'17500',expDate:'2026-01-31',closeDate:'2026-01-31',closePrem:'0',costBasis:'',status:'Closed - Expired',notes:'CSP expired worthless'},
-    {id:'s3',strategy:'Covered Call',ticker:'NVDA',tradeDate:'2026-01-10',strike:'620',premium:'9.50',contracts:'1',invested:'62000',expDate:'2026-01-31',closeDate:'2026-01-31',closePrem:'0',costBasis:'60000',status:'Closed - Expired',notes:'NVDA CC expired'},
-    {id:'s4',strategy:'Cash-Secured Put',ticker:'TSLA',tradeDate:'2026-01-15',strike:'350',premium:'6.00',contracts:'2',invested:'70000',expDate:'2026-01-31',closeDate:'2026-01-31',closePrem:'0',costBasis:'',status:'Closed - Expired',notes:'2 contracts, expired'},
-    {id:'s5',strategy:'Wheel - CSP Phase',ticker:'AAPL',tradeDate:'2026-01-20',strike:'180',premium:'3.20',contracts:'1',invested:'18000',expDate:'2026-02-21',closeDate:'2026-02-21',closePrem:'',costBasis:'',status:'Assigned',notes:'Assigned — fell below $180'},
-    {id:'s6',strategy:'Covered Call',ticker:'AAPL',tradeDate:'2026-02-03',strike:'192',premium:'3.10',contracts:'1',invested:'17500',expDate:'2026-02-28',closeDate:'2026-02-28',closePrem:'0',costBasis:'17500',status:'Closed - Called Away',notes:'Called away at $192'},
-    {id:'s7',strategy:'Cash-Secured Put',ticker:'AMZN',tradeDate:'2026-02-05',strike:'205',premium:'3.80',contracts:'1',invested:'20500',expDate:'2026-02-28',closeDate:'2026-02-17',closePrem:'1.90',costBasis:'',status:'Closed - Bought Back',notes:'Closed at 50% profit'},
-    {id:'s8',strategy:'Covered Call',ticker:'MSFT',tradeDate:'2026-02-12',strike:'420',premium:'5.20',contracts:'1',invested:'42000',expDate:'2026-02-28',closeDate:'2026-02-28',closePrem:'0',costBasis:'40000',status:'Closed - Expired',notes:'MSFT flat, kept premium'},
-    {id:'s9',strategy:'Wheel - CC Phase',ticker:'AAPL',tradeDate:'2026-02-24',strike:'185',premium:'2.60',contracts:'1',invested:'18500',expDate:'2026-02-28',closeDate:'2026-02-28',closePrem:'0',costBasis:'18000',status:'Closed - Called Away',notes:'Wheel CC after assignment'},
-    {id:'s10',strategy:'Cash-Secured Put',ticker:'AAPL',tradeDate:'2026-03-01',strike:'210',premium:'3.50',contracts:'1',invested:'21000',expDate:'2026-03-28',closeDate:'',closePrem:'',costBasis:'',status:'Open',notes:'At key support level'},
-    {id:'s11',strategy:'Covered Call',ticker:'NVDA',tradeDate:'2026-03-04',strike:'650',premium:'11.00',contracts:'1',invested:'65000',expDate:'2026-03-28',closeDate:'',closePrem:'',costBasis:'62000',status:'Open',notes:'Monitoring'},
-    {id:'s12',strategy:'Cash-Secured Put',ticker:'TSLA',tradeDate:'2026-03-08',strike:'335',premium:'5.50',contracts:'1',invested:'33500',expDate:'2026-03-28',closeDate:'',closePrem:'',costBasis:'',status:'Open',notes:'$335 support level'},
+/* ══════════════════════════════════════════════════════
+   SEED DATA — mirrors the OKLO example from our chat
+══════════════════════════════════════════════════════ */
+if(!loadPositions().length && !loadTrades().length){
+  // OKLO position: 100 shares at $60
+  const okloId = 'pos_oklo_1';
+  savePositions([
+    { id:okloId, ticker:'OKLO', shares:100, avgCost:60, currentPrice:53,
+      purchaseDate:'2025-12-01', notes:'100 shares @ $60 — running covered call wheel',
+      createdAt:new Date().toISOString() },
+    { id:'pos_aapl_1', ticker:'AAPL', shares:100, avgCost:175, currentPrice:188,
+      purchaseDate:'2025-10-15', notes:'Long-term holding, selling CCs above $185',
+      createdAt:new Date().toISOString() },
+  ]);
+  saveTrades([
+    // OKLO Week 1 CC — exactly the scenario from the conversation
+    { id:'t1', strategy:'Covered Call', ticker:'OKLO', tradeDate:'2026-01-06',
+      strike:'58', premium:'4.00', contracts:'1', positionId:okloId,
+      expDate:'2026-01-10', closeDate:'2026-01-10', closePrem:'0',
+      status:'Closed - Expired',
+      notes:'Week 1 — stock dropped to $55, CC expired worthless, kept $400',
+      createdAt:new Date().toISOString() },
+    // OKLO Week 2 CC
+    { id:'t2', strategy:'Covered Call', ticker:'OKLO', tradeDate:'2026-01-13',
+      strike:'56', premium:'1.40', contracts:'1', positionId:okloId,
+      expDate:'2026-01-17', closeDate:'2026-01-17', closePrem:'0',
+      status:'Closed - Expired',
+      notes:'Week 2 — stock dropped to $53, CC expired worthless, kept $140',
+      createdAt:new Date().toISOString() },
+    // AAPL CC 1
+    { id:'t3', strategy:'Covered Call', ticker:'AAPL', tradeDate:'2026-01-06',
+      strike:'190', premium:'2.80', contracts:'1', positionId:'pos_aapl_1',
+      expDate:'2026-01-31', closeDate:'2026-01-31', closePrem:'0',
+      status:'Closed - Expired', notes:'AAPL CC expired OTM',
+      createdAt:new Date().toISOString() },
+    // CSP — note: invested is collateral, not stock cost
+    { id:'t4', strategy:'Cash-Secured Put', ticker:'TSLA', tradeDate:'2026-01-15',
+      strike:'350', premium:'6.00', contracts:'1', invested:'35000',
+      expDate:'2026-01-31', closeDate:'2026-01-31', closePrem:'0',
+      status:'Closed - Expired', notes:'TSLA CSP — $35,000 collateral locked',
+      createdAt:new Date().toISOString() },
+    // OKLO Week 3 — open
+    { id:'t5', strategy:'Covered Call', ticker:'OKLO', tradeDate:'2026-01-20',
+      strike:'55', premium:'1.10', contracts:'1', positionId:okloId,
+      expDate:'2026-01-24', closeDate:'', closePrem:'',
+      status:'Open', notes:'Week 3 — trying to keep collecting premium',
+      createdAt:new Date().toISOString() },
   ].map(t=>({...t,createdAt:new Date().toISOString()})));
-  saveP([{year:2024,pnl:10100,invested:185000,trades:28,winRate:0.85},{year:2025,pnl:16600,invested:220000,trades:42,winRate:0.88}]);
+  savePrior([
+    {year:2024,pnl:10100,capital:185000,trades:28,winRate:0.85},
+    {year:2025,pnl:16600,capital:220000,trades:42,winRate:0.88}
+  ]);
 }
 
-/* ═══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════
    BOOT
-═══════════════════════════════════════════ */
+══════════════════════════════════════════════════════ */
 renderDash();
-if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
 </html>
